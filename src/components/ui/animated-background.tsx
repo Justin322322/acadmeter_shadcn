@@ -170,24 +170,26 @@ export function AnimatedBackground() {
   const { theme } = useTheme()
   
   return (
-    <div className="fixed inset-0 -z-10 transition-colors duration-700">
+    <div className="fixed inset-0 -z-10 h-[100dvh] overflow-hidden transition-colors duration-700">
       <Canvas
-        camera={{ position: [0, 0, 1.5], fov: 75 }}
+        camera={{ position: [0, 0, 2], fov: 60 }}
         style={{ 
           position: 'absolute',
           width: '100%',
           height: '100%',
           background: theme === 'dark' ? 'transparent' : '#f8fafc',
-          transition: 'background-color 700ms ease-in-out'
+          transition: 'background-color 700ms ease-in-out',
+          opacity: theme === 'dark' ? 0.7 : 0.5
         }}
-        dpr={[1, 2]}
+        dpr={[1, 1.5]}
       >
-        <Stars count={3000} depth={2} speed={0.8} mouseInfluence={0.03} />
-        <Stars count={2000} depth={3} size={0.002} speed={0.5} mouseInfluence={0.01} />
-        <Stars count={1000} depth={1} size={0.004} speed={1.2} mouseInfluence={0.05} />
+        {/* Reduced number of stars and adjusted depth for better mobile performance */}
+        <Stars count={800} depth={1.5} size={0.003} speed={0.3} mouseInfluence={0.01} />
+        <Stars count={500} depth={2} size={0.002} speed={0.2} mouseInfluence={0.01} />
+        <Stars count={400} depth={1} size={0.003} speed={0.4} mouseInfluence={0.02} />
         
-        {Array.from({ length: 3 }).map((_, i) => (
-          <ShootingStar key={i} speed={0.03 + Math.random() * 0.08} />
+        {Array.from({ length: 1 }).map((_, i) => (
+          <ShootingStar key={i} speed={0.03 + Math.random() * 0.06} />
         ))}
       </Canvas>
     </div>

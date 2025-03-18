@@ -36,12 +36,12 @@ export default function Home() {
         {/* Hero Section */}
         <section className="relative min-h-[80vh] flex items-center">
           <AnimatedBackground />
-          <div className="container mx-auto px-4 py-20 md:py-32 relative z-10">
-            <div className="flex flex-col-reverse md:flex-row items-center gap-12">
+          <div className="container mx-auto px-4 py-12 md:py-32 relative z-10">
+            <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12">
               <motion.div 
-                className="flex-1 text-center md:text-left"
-                initial={{ opacity: 0, x: -30 }}
-                animate={{ opacity: 1, x: 0 }}
+                className="flex-1 text-center md:text-left max-w-2xl mx-auto md:mx-0"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8 }}
               >
                 <span className="inline-block mb-4 px-3 py-1 rounded-full bg-blue-100/90 dark:bg-blue-900/90 backdrop-blur-sm text-blue-600 dark:text-blue-300 text-sm font-medium">
@@ -74,12 +74,12 @@ export default function Home() {
                 </div>
               </motion.div>
               <motion.div 
-                className="flex-1"
-                initial={{ opacity: 0, x: 30 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.8 }}
+                className="w-full md:flex-1 mt-8 md:mt-0 px-4 sm:px-8 md:px-0"
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.2 }}
               >
-                <div className="relative">
+                <div className="relative max-w-2xl mx-auto md:max-w-none">
                   <DashboardMockup />
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-900/10 to-transparent pointer-events-none" />
                 </div>
