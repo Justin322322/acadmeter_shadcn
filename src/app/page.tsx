@@ -51,7 +51,7 @@ export default function Home() {
                   Transform Education Through Smart Analytics
                 </h1>
                 <p className="text-xl mb-8 max-w-2xl backdrop-blur-[2px] text-slate-700 dark:text-slate-200">
-                  Revolutionize your institution's academic performance monitoring with AI-powered insights and real-time analytics for better learning outcomes.
+                  Revolutionize your institution&apos;s academic performance monitoring with AI-powered insights and real-time analytics for better learning outcomes.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
                   <Button size="lg" className="bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800 text-white">

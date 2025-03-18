@@ -1,10 +1,10 @@
 "use client"
 
-import { useRef, useEffect, useMemo } from "react"
+import { useRef, useEffect, useMemo, useCallback } from "react"
 import { Canvas, useFrame, useThree } from "@react-three/fiber"
 import { Points, PointMaterial } from "@react-three/drei"
 import * as random from "maath/random"
-import { Points as ThreePoints, Mesh, Object3D } from "three"
+import { Points as ThreePoints, Mesh } from "three"
 import { useTheme } from "@/components/theme-provider"
 
 function Stars({ count = 5000, depth = 2, size = 0.003, speed = 1, mouseInfluence = 0.02, ...props }) {
@@ -117,7 +117,7 @@ function ShootingStar({ speed = 0.05 }) {
     z: (Math.random() - 0.5) * 3
   }), [])
   
-  const resetStar = () => {
+  const resetStar = useCallback(() => {
     if (ref.current) {
       ref.current.position.set(startPosition.x, startPosition.y, startPosition.z)
       ref.current.userData.direction = {
@@ -129,11 +129,11 @@ function ShootingStar({ speed = 0.05 }) {
       ref.current.userData.maxLifetime = Math.random() * 3 + 1
       ref.current.userData.active = Math.random() > 0.7
     }
-  }
+  }, [startPosition])
   
   useEffect(() => {
     resetStar()
-  }, [])
+  }, [resetStar])
   
   useFrame((state, delta) => {
     if (ref.current) {

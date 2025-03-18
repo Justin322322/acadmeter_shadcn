@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion"
 import { UserIcon } from "@heroicons/react/24/solid"
+import Image from 'next/image'
 
 interface TestimonialProps {
   quote: string;
@@ -34,9 +35,11 @@ export function Testimonial({ quote, author, role, company, imgUrl }: Testimonia
       <div className="mt-6 flex items-center gap-4">
         <div className="flex-shrink-0">
           {imgUrl ? (
-            <img 
+            <Image 
               src={imgUrl} 
               alt={author} 
+              width={40}
+              height={40}
               className="h-10 w-10 rounded-full object-cover"
             />
           ) : (
