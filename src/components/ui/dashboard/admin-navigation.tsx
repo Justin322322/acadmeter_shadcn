@@ -89,36 +89,32 @@ export function AdminNavigation({ onToggleSidebar }: AdminNavigationProps) {
             <div className="relative" ref={profileRef}>
               <Button 
                 variant="ghost" 
-                size="sm" 
-                className="relative flex items-center gap-3 px-3 py-2 hover:bg-slate-100 dark:hover:bg-slate-800 focus:ring-2 focus:ring-slate-400 dark:focus:ring-slate-500"
+                className="relative h-9 px-2 flex items-center gap-2 text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full transition-colors"
                 aria-label="Open user menu"
                 onClick={() => setIsProfileOpen(!isProfileOpen)}
               >
-                <div className="flex-shrink-0 w-8 h-8 rounded-full bg-slate-900 dark:bg-slate-800 flex items-center justify-center text-white font-semibold text-sm relative">
+                <div className="w-8 h-8 shrink-0 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-700 dark:text-slate-300 font-medium text-sm">
                   A
                 </div>
-                <div className="hidden sm:flex flex-col items-start">
-                  <span className="text-sm font-medium text-slate-900 dark:text-white truncate">Admin User</span>
-                  <span className="text-xs text-slate-500 dark:text-slate-400 truncate">Administrator</span>
-                </div>
+                <span className="hidden md:inline-flex text-sm font-medium">Admin User</span>
               </Button>
               {isProfileOpen && (
-                <div className="absolute right-0 top-full mt-2 w-64 max-w-[90vw] bg-white dark:bg-slate-900 rounded-lg shadow-lg border border-slate-200 dark:border-slate-800 transition-all duration-200 ease-out z-[60] max-h-[calc(100vh-200px)] overflow-y-auto">
-                  <div className="sticky top-0 p-3 border-b border-slate-200 dark:border-slate-800 bg-inherit">
+                <div className="absolute right-0 top-full mt-2 w-64 max-w-[90vw] bg-white dark:bg-slate-900 rounded-lg shadow-lg border border-slate-200 dark:border-slate-800 transition-all duration-200 ease-out z-[60]">
+                  <div className="p-4 border-b border-slate-200 dark:border-slate-800">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-full bg-slate-900 dark:bg-slate-800 flex items-center justify-center text-white font-semibold text-base shadow-sm">
+                      <div className="w-10 h-10 shrink-0 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-700 dark:text-slate-300 font-medium text-base">
                         A
                       </div>
-                      <div className="flex flex-col">
-                        <span className="text-base font-medium text-slate-900 dark:text-white">Admin User</span>
-                        <span className="text-sm text-slate-500 dark:text-slate-400">Administrator</span>
+                      <div className="flex flex-col min-w-0">
+                        <span className="text-sm font-semibold text-slate-900 dark:text-white truncate">Admin User</span>
+                        <span className="text-xs text-slate-500 dark:text-slate-400">Administrator</span>
                       </div>
                     </div>
                   </div>
-                  <div className="p-2 space-y-1">
+                  <div className="p-2">
                     <Button
                       variant="ghost"
-                      className="w-full justify-start text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800"
+                      className="w-full justify-start h-9 px-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-md transition-colors"
                       onClick={() => {
                         setIsProfileOpen(false)
                       }}
@@ -130,7 +126,7 @@ export function AdminNavigation({ onToggleSidebar }: AdminNavigationProps) {
                     </Button>
                     <Button
                       variant="ghost"
-                      className="w-full justify-start text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800"
+                      className="w-full justify-start h-9 px-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-md transition-colors"
                       onClick={() => {
                         setIsProfileOpen(false)
                         // Add logout logic here
