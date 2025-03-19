@@ -1,20 +1,7 @@
 "use client"
 
-import { motion } from "framer-motion"
 import { useTheme } from "@/components/theme-provider"
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
-
-const item = {
-  hidden: { opacity: 0, y: 20 },
-  show: { 
-    opacity: 1, 
-    y: 0,
-    transition: {
-      duration: 0.3,
-      ease: "easeOut"
-    }
-  }
-}
 
 export function DashboardChart() {
   const { theme } = useTheme()

@@ -1,7 +1,6 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { useTheme } from "@/components/theme-provider"
 import { ArrowTrendingUpIcon } from "@heroicons/react/24/outline"
 
 const item = {
@@ -17,9 +16,6 @@ const item = {
 }
 
 export function PerformanceBreakdown() {
-  const { theme } = useTheme()
-  const isDark = theme === 'dark'
-
   const performanceData = [
     {
       subject: "Mathematics",

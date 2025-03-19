@@ -8,12 +8,8 @@ import {
   DocumentPlusIcon, 
   UserGroupIcon 
 } from "@heroicons/react/24/outline"
-import { useTheme } from "@/components/theme-provider"
 
 export function RecentActivity() {
-  const { theme } = useTheme()
-  const isDark = theme === 'dark'
-
   const activities = [
     {
       title: "Grade Report Submitted",

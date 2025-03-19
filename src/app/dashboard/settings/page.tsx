@@ -1,10 +1,9 @@
 "use client"
 
 import { useState } from "react"
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
+import { Card, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import {
-  Cog6ToothIcon,
   BellIcon,
   ShieldCheckIcon,
   PaintBrushIcon,
