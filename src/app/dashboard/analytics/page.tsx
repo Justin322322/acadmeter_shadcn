@@ -77,7 +77,12 @@ export default function AnalyticsPage() {
 
       <Card className="border-slate-200 dark:border-slate-800">
         <CardHeader className="p-4 border-b border-slate-200 dark:border-slate-800">
-          <CardTitle className="text-base font-semibold">Performance Analysis</CardTitle>
+          <div className="flex items-center gap-2">
+            <div className="p-2 rounded-lg bg-blue-50 dark:bg-blue-950/50">
+              <ChartBarIcon className="w-5 h-5 text-blue-600 dark:text-blue-500" />
+            </div>
+            <CardTitle className="text-base font-semibold">Performance Analysis</CardTitle>
+          </div>
         </CardHeader>
         <CardContent className="p-4">
           <DashboardChart />

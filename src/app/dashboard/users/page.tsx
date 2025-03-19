@@ -66,7 +66,6 @@ const mockUsers: User[] = [
 
 export default function UsersPage() {
   const [users, setUsers] = useState<User[]>(mockUsers)
-  const [selectedUsers, setSelectedUsers] = useState<Set<string>>(new Set())
   const [searchQuery, setSearchQuery] = useState("")
 
   const activeUsers = users.filter(user => user.status !== 'suspended')
@@ -99,43 +98,125 @@ export default function UsersPage() {
     }
   }
 
-  const UserTable = ({ users, showActions = true }: { users: User[], showActions?: boolean }) => (
-    <table className="w-full border-collapse">
-      <thead>
-        <tr className="border-b border-slate-200 dark:border-slate-700">
-          <th className="px-4 py-3 text-left text-sm font-medium text-slate-500 dark:text-slate-400">Name</th>
-          <th className="px-4 py-3 text-left text-sm font-medium text-slate-500 dark:text-slate-400">Email</th>
-          <th className="px-4 py-3 text-left text-sm font-medium text-slate-500 dark:text-slate-400">Role</th>
-          <th className="px-4 py-3 text-left text-sm font-medium text-slate-500 dark:text-slate-400">Status</th>
-          <th className="px-4 py-3 text-left text-sm font-medium text-slate-500 dark:text-slate-400">Last Active</th>
-          <th className="px-4 py-3 text-right text-sm font-medium text-slate-500 dark:text-slate-400">Actions</th>
-        </tr>
-      </thead>
-      <tbody>
+  const UserTable = ({ users }: { users: User[] }) => (
+    <div>
+      {/* Desktop View */}
+      <div className="hidden md:block">
+        <table className="w-full border-collapse">
+          <thead>
+            <tr className="border-b border-slate-200 dark:border-slate-700">
+              <th className="px-4 py-3 text-left text-sm font-medium text-slate-500 dark:text-slate-400">Name</th>
+              <th className="px-4 py-3 text-left text-sm font-medium text-slate-500 dark:text-slate-400">Email</th>
+              <th className="px-4 py-3 text-left text-sm font-medium text-slate-500 dark:text-slate-400">Role</th>
+              <th className="px-4 py-3 text-left text-sm font-medium text-slate-500 dark:text-slate-400">Status</th>
+              <th className="px-4 py-3 text-left text-sm font-medium text-slate-500 dark:text-slate-400">Last Active</th>
+              <th className="px-4 py-3 text-right text-sm font-medium text-slate-500 dark:text-slate-400">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {users.map((user) => (
+              <tr
+                key={user.id}
+                className="border-b border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800/50"
+              >
+                <td className="px-4 py-3">
+                  <div className="font-medium text-slate-900 dark:text-slate-100">{user.name}</div>
+                </td>
+                <td className="px-4 py-3 text-slate-500 dark:text-slate-400">{user.email}</td>
+                <td className="px-4 py-3 text-slate-500 dark:text-slate-400">{user.role}</td>
+                <td className="px-4 py-3">
+                  <span className={`inline-flex items-center rounded-full px-2 py-1 text-xs font-medium ${getStatusColor(user.status)}`}>
+                    {user.status.charAt(0).toUpperCase() + user.status.slice(1)}
+                  </span>
+                </td>
+                <td className="px-4 py-3 text-slate-500 dark:text-slate-400">{user.lastActive}</td>
+                <td className="px-4 py-3">
+                  <div className="flex justify-end gap-2">
+                    {user.status === 'pending' && (
+                      <>
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          className="gap-1 text-green-600 hover:text-green-700 hover:bg-green-50 dark:text-green-400 dark:hover:bg-green-900/30"
+                          onClick={() => handleStatusChange(user.id, 'active')}
+                        >
+                          <CheckCircleIcon className="h-4 w-4" />
+                          Approve
+                        </Button>
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          className="gap-1 text-red-600 hover:text-red-700 hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-900/30"
+                          onClick={() => handleStatusChange(user.id, 'suspended')}
+                        >
+                          <XMarkIcon className="h-4 w-4" />
+                          Reject
+                        </Button>
+                      </>
+                    )}
+                    {user.status === 'active' && (
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        className="gap-1 text-red-600 hover:text-red-700 hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-900/30"
+                        onClick={() => handleStatusChange(user.id, 'suspended')}
+                      >
+                        <ShieldExclamationIcon className="h-4 w-4" />
+                        Suspend
+                      </Button>
+                    )}
+                    {user.status === 'suspended' && (
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        className="gap-1 text-green-600 hover:text-green-700 hover:bg-green-50 dark:text-green-400 dark:hover:bg-green-900/30"
+                        onClick={() => handleStatusChange(user.id, 'active')}
+                      >
+                        <ArrowPathIcon className="h-4 w-4" />
+                        Reactivate
+                      </Button>
+                    )}
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      {/* Mobile View */}
+      <div className="grid gap-4 md:hidden">
         {users.map((user) => (
-          <tr
-            key={user.id}
-            className="border-b border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800/50"
-          >
-            <td className="px-4 py-3">
-              <div className="font-medium text-slate-900 dark:text-slate-100">{user.name}</div>
-            </td>
-            <td className="px-4 py-3 text-slate-500 dark:text-slate-400">{user.email}</td>
-            <td className="px-4 py-3 text-slate-500 dark:text-slate-400">{user.role}</td>
-            <td className="px-4 py-3">
-              <span className={`inline-flex items-center rounded-full px-2 py-1 text-xs font-medium ${getStatusColor(user.status)}`}>
-                {user.status.charAt(0).toUpperCase() + user.status.slice(1)}
-              </span>
-            </td>
-            <td className="px-4 py-3 text-slate-500 dark:text-slate-400">{user.lastActive}</td>
-            <td className="px-4 py-3">
-              <div className="flex justify-end gap-2">
+          <Card key={user.id} className="overflow-hidden">
+            <CardContent className="p-4 space-y-4">
+              <div className="flex justify-between items-start">
+                <div>
+                  <h3 className="font-medium text-slate-900 dark:text-slate-100">{user.name}</h3>
+                  <p className="text-sm text-slate-500 dark:text-slate-400">{user.email}</p>
+                </div>
+                <span className={`inline-flex items-center rounded-full px-2 py-1 text-xs font-medium ${getStatusColor(user.status)}`}>
+                  {user.status.charAt(0).toUpperCase() + user.status.slice(1)}
+                </span>
+              </div>
+              
+              <div className="space-y-2">
+                <div className="flex justify-between text-sm">
+                  <span className="text-slate-500 dark:text-slate-400">Role</span>
+                  <span className="font-medium text-slate-900 dark:text-slate-100">{user.role}</span>
+                </div>
+                <div className="flex justify-between text-sm">
+                  <span className="text-slate-500 dark:text-slate-400">Last Active</span>
+                  <span className="font-medium text-slate-900 dark:text-slate-100">{user.lastActive}</span>
+                </div>
+              </div>
+
+              <div className="flex flex-wrap gap-2 pt-2">
                 {user.status === 'pending' && (
                   <>
                     <Button
                       size="sm"
                       variant="outline"
-                      className="gap-1 text-green-600 hover:text-green-700 hover:bg-green-50 dark:text-green-400 dark:hover:bg-green-900/30"
+                      className="flex-1 gap-1 text-green-600 hover:text-green-700 hover:bg-green-50 dark:text-green-400 dark:hover:bg-green-900/30"
                       onClick={() => handleStatusChange(user.id, 'active')}
                     >
                       <CheckCircleIcon className="h-4 w-4" />
@@ -144,7 +225,7 @@ export default function UsersPage() {
                     <Button
                       size="sm"
                       variant="outline"
-                      className="gap-1 text-red-600 hover:text-red-700 hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-900/30"
+                      className="flex-1 gap-1 text-red-600 hover:text-red-700 hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-900/30"
                       onClick={() => handleStatusChange(user.id, 'suspended')}
                     >
                       <XMarkIcon className="h-4 w-4" />
@@ -156,7 +237,7 @@ export default function UsersPage() {
                   <Button
                     size="sm"
                     variant="outline"
-                    className="gap-1 text-red-600 hover:text-red-700 hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-900/30"
+                    className="w-full gap-1 text-red-600 hover:text-red-700 hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-900/30"
                     onClick={() => handleStatusChange(user.id, 'suspended')}
                   >
                     <ShieldExclamationIcon className="h-4 w-4" />
@@ -167,7 +248,7 @@ export default function UsersPage() {
                   <Button
                     size="sm"
                     variant="outline"
-                    className="gap-1 text-green-600 hover:text-green-700 hover:bg-green-50 dark:text-green-400 dark:hover:bg-green-900/30"
+                    className="w-full gap-1 text-green-600 hover:text-green-700 hover:bg-green-50 dark:text-green-400 dark:hover:bg-green-900/30"
                     onClick={() => handleStatusChange(user.id, 'active')}
                   >
                     <ArrowPathIcon className="h-4 w-4" />
@@ -175,11 +256,11 @@ export default function UsersPage() {
                   </Button>
                 )}
               </div>
-            </td>
-          </tr>
+            </CardContent>
+          </Card>
         ))}
-      </tbody>
-    </table>
+      </div>
+    </div>
   )
 
   return (

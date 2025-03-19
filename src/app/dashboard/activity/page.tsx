@@ -93,12 +93,12 @@ export default function ActivityPage() {
 
   return (
     <div className="space-y-6">
-      <div className="flex justify-between items-start">
+      <div className="flex flex-col sm:flex-row justify-between items-start">
         <div>
           <h1 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-slate-100">Activity Logs</h1>
           <p className="text-slate-500 dark:text-slate-400">Monitor system activity and user actions</p>
         </div>
-        <div className="flex gap-2">
+        <div className="flex gap-2 mt-4 sm:mt-0">
           <Button variant="outline" className="gap-2">
             <FunnelIcon className="h-4 w-4" />
             Filter
@@ -112,9 +112,9 @@ export default function ActivityPage() {
 
       <Card>
         <CardHeader className="border-b border-slate-200 dark:border-slate-700">
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col space-y-4 sm:space-y-0 sm:flex-row sm:items-center sm:justify-between">
             <CardTitle>System Events</CardTitle>
-            <div className="flex items-center gap-4">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
               <select
                 value={filterSeverity}
                 onChange={(e) => setFilterSeverity(e.target.value)}
@@ -143,13 +143,13 @@ export default function ActivityPage() {
               return (
                 <div
                   key={log.id}
-                  className="flex items-start gap-4 rounded-lg border border-slate-200 p-4 dark:border-slate-700"
+                  className="flex flex-col sm:flex-row items-start gap-4 rounded-lg border border-slate-200 p-4 dark:border-slate-700"
                 >
                   <div className={`p-2 rounded-full ${getSeverityColor(log.severity)}`}>
                     <IconComponent className="h-5 w-5" />
                   </div>
-                  <div className="flex-1 space-y-1">
-                    <div className="flex items-center justify-between">
+                  <div className="flex-1 space-y-1 w-full">
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
                       <p className="font-medium text-slate-900 dark:text-slate-100">
                         {log.type}
                       </p>
@@ -159,7 +159,7 @@ export default function ActivityPage() {
                     </div>
                     <p className="text-slate-600 dark:text-slate-300">{log.message}</p>
                     {(log.user || log.ipAddress) && (
-                      <div className="flex gap-4 text-sm text-slate-500 dark:text-slate-400">
+                      <div className="flex flex-col sm:flex-row gap-2 sm:gap-4 text-sm text-slate-500 dark:text-slate-400">
                         {log.user && <span>User: {log.user}</span>}
                         {log.ipAddress && <span>IP: {log.ipAddress}</span>}
                       </div>

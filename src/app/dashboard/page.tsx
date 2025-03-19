@@ -1,6 +1,6 @@
 "use client"
 
-import { Card, CardContent } from "@/components/ui/card"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { DashboardChart } from "@/components/ui/dashboard"
 import { RecentActivity } from "@/components/ui/dashboard/recent-activity"
 import { 
@@ -8,6 +8,7 @@ import {
   CheckCircleIcon, 
   ExclamationTriangleIcon,
   ArrowTrendingUpIcon,
+  ChartBarIcon,
 } from "@heroicons/react/24/outline"
 
 export default function DashboardPage() {
@@ -43,54 +44,56 @@ export default function DashboardPage() {
 
   return (
     <div>
-      {/* Dashboard Header */}
       <div className="mb-6">
         <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-100">Dashboard Overview</h1>
         <p className="mt-2 text-slate-500 dark:text-slate-400">Monitor overall performance and key metrics</p>
       </div>
 
-      {/* Main Content with proper grid layout */}
       <div className="grid grid-cols-1 gap-6">
-        {/* Stats Cards - improved responsive layout */}
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 xl:gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {stats.map((stat, index) => (
             <Card 
               key={index} 
-              className="overflow-hidden hover:shadow-md transition-shadow duration-200 border-slate-200 dark:border-slate-800"
+              className="overflow-hidden hover:shadow-lg transition-shadow duration-200 border-slate-200 dark:border-slate-800"
             >
-              <CardContent className="p-5">
-                <div className="flex items-center justify-between">
-                  <div className={`p-3 rounded-lg ${stat.background}`}>
-                    <stat.icon className={`w-6 h-6 ${stat.color}`} />
-                  </div>
-                  <div className={`flex items-center gap-1 ${
-                    stat.trend === 'up' ? 'text-green-600 dark:text-green-500' : 'text-red-600 dark:text-red-500'
-                  }`}>
-                    <ArrowTrendingUpIcon className={`w-4 h-4 ${
-                      stat.trend === 'down' ? 'rotate-180' : ''
-                    }`} />
+              <CardContent className="p-6">
+                <div className={`p-3 rounded-lg ${stat.background} w-fit mb-4`}>
+                  <stat.icon className={`w-6 h-6 ${stat.color}`} />
+                </div>
+                <div className="flex items-center justify-between mb-2">
+                  <p className="text-4xl font-bold text-slate-900 dark:text-white">
+                    {stat.value}
+                  </p>
+                  <div className={`flex items-center gap-1 ${stat.trend === 'up' ? 'text-green-600 dark:text-green-500' : 'text-red-600 dark:text-red-500'}`}>
+                    <ArrowTrendingUpIcon className={`w-4 h-4 ${stat.trend === 'down' ? 'rotate-180' : ''}`} />
                     <span className="text-sm font-medium">{stat.change}</span>
                   </div>
                 </div>
-                <div className="mt-3">
-                  <h3 className="text-sm font-medium text-slate-600 dark:text-slate-400">
-                    {stat.title}
-                  </h3>
-                  <p className="mt-1.5 text-2xl xl:text-3xl font-bold text-slate-900 dark:text-white">
-                    {stat.value}
-                  </p>
-                </div>
+                <h3 className="text-sm font-medium text-slate-600 dark:text-slate-400">
+                  {stat.title}
+                </h3>
               </CardContent>
             </Card>
           ))}
         </div>
 
-        {/* Chart and Activity Section - improved layout */}
         <div className="grid grid-cols-1 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           <div className="lg:col-span-2 xl:col-span-3">
-            <DashboardChart />
+            <Card className="border-slate-200 dark:border-slate-800">
+              <CardHeader className="p-4 border-b border-slate-200 dark:border-slate-800">
+                <div className="flex items-center gap-2">
+                  <div className="p-2 rounded-lg bg-blue-50 dark:bg-blue-950/50">
+                    <ChartBarIcon className="w-5 h-5 text-blue-600 dark:text-blue-500" />
+                  </div>
+                  <CardTitle className="text-base font-semibold">Performance Analysis</CardTitle>
+                </div>
+              </CardHeader>
+              <CardContent className="p-4">
+                <DashboardChart />
+              </CardContent>
+            </Card>
           </div>
-          <div className="lg:col-span-1">
+          <div className="lg:col-span-1 w-full">
             <RecentActivity />
           </div>
         </div>
