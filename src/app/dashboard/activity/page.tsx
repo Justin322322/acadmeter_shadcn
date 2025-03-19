@@ -29,7 +29,7 @@ const mockLogs: ActivityLog[] = [
     type: "USER_LOGIN",
     message: "Successful login",
     timestamp: "2024-01-20 15:30:25",
-    user: "sarah.j@school.edu",
+    user: "tanggol@school.edu",
     ipAddress: "192.168.1.100",
     severity: "info"
   },

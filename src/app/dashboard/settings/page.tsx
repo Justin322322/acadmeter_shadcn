@@ -148,7 +148,7 @@ export default function SettingsPage() {
                       <input
                         type="text"
                         className="w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-sm outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 dark:border-slate-700 dark:bg-slate-800"
-                        placeholder="John Doe"
+                        placeholder="Justin Sibonga"
                       />
                     </div>
                     <div>
@@ -158,7 +158,7 @@ export default function SettingsPage() {
                       <input
                         type="email"
                         className="w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-sm outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 dark:border-slate-700 dark:bg-slate-800"
-                        placeholder="john@example.com"
+                        placeholder="justinsibonga@acadmeter.com"
                       />
                     </div>
                     <div>

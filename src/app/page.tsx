@@ -34,9 +34,9 @@ export default function Home() {
       <Navigation />
       <main className="min-h-screen relative pt-16 text-slate-800 dark:text-slate-100">
         {/* Hero Section */}
-        <section className="relative min-h-[80vh] flex items-center">
+        <section className="relative min-h-[calc(100vh-4rem)] flex items-center">
           <AnimatedBackground />
-          <div className="container mx-auto px-4 py-12 md:py-32 relative z-10">
+          <div className="container mx-auto px-4 py-8 sm:py-12 md:py-32 relative z-10">
             <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12">
               <motion.div 
                 className="flex-1 text-center md:text-left max-w-2xl mx-auto md:mx-0"
@@ -44,25 +44,25 @@ export default function Home() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8 }}
               >
-                <span className="inline-block mb-4 px-3 py-1 rounded-full bg-blue-100/90 dark:bg-blue-900/90 backdrop-blur-sm text-blue-600 dark:text-blue-300 text-sm font-medium">
+                <span className="inline-block mb-3 sm:mb-4 px-3 py-1 rounded-full bg-blue-100/90 dark:bg-blue-900/90 backdrop-blur-sm text-blue-600 dark:text-blue-300 text-xs sm:text-sm font-medium">
                   Academic Excellence Platform
                 </span>
-                <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-violet-600 dark:from-blue-400 dark:to-violet-400 [text-shadow:_0_1px_12px_rgb(0_0_0_/_10%)]">
+                <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-violet-600 dark:from-blue-400 dark:to-violet-400 [text-shadow:_0_1px_12px_rgb(0_0_0_/_10%)]">
                   Transform Education Through Smart Analytics
                 </h1>
-                <p className="text-xl mb-8 max-w-2xl backdrop-blur-[2px] text-slate-700 dark:text-slate-200">
-                  Revolutionize your institution&apos;s academic performance monitoring with AI-powered insights and real-time analytics for better learning outcomes.
+                <p className="text-base sm:text-lg md:text-xl mb-6 sm:mb-8 max-w-2xl backdrop-blur-[2px] text-slate-700 dark:text-slate-200">
+                  Revolutionize your institution&apos;s academic performance monitoring with AI-powered insights and real-time analytics.
                 </p>
-                <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
-                  <Button size="lg" className="bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800 text-white">
+                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 justify-center md:justify-start">
+                  <Button size="lg" className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800 text-white">
                     Start Free Trial
                   </Button>
-                  <Button size="lg" variant="outline" className="group">
+                  <Button size="lg" variant="outline" className="w-full sm:w-auto group">
                     Watch Demo
                     <ArrowRightIcon className="h-4 w-4 ml-2 group-hover:translate-x-1 transition-transform" />
                   </Button>
                 </div>
-                <div className="mt-8 flex items-center justify-center md:justify-start gap-4">
+                <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row items-center justify-center md:justify-start gap-3 sm:gap-4">
                   <p className="text-sm text-slate-600 dark:text-slate-400">Trusted by 500+ institutions</p>
                   <div className="flex -space-x-2">
                     {[1,2,3,4].map((i) => (
@@ -74,32 +74,30 @@ export default function Home() {
                 </div>
               </motion.div>
               <motion.div 
-                className="w-full md:flex-1 mt-8 md:mt-0 px-4 sm:px-8 md:px-0"
+                className="w-full md:flex-1 px-0 sm:px-4 md:px-0"
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.2 }}
               >
-                <div className="relative max-w-2xl mx-auto md:max-w-none">
+                <div className="relative max-w-xl mx-auto md:max-w-none md:ml-[50px]">
                   <DashboardMockup />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-900/10 to-transparent pointer-events-none" />
                 </div>
               </motion.div>
             </div>
           </div>
-          {/* Light gradient overlay for better text readability */}
           <div className="absolute inset-0 bg-gradient-to-b from-white/50 via-white/30 to-white/50 dark:from-slate-950/50 dark:via-slate-950/30 dark:to-slate-950/50 pointer-events-none" />
         </section>
 
         {/* Stats Section */}
         <motion.section 
-          className="bg-white dark:bg-slate-800 py-12 shadow-sm relative overflow-hidden"
+          className="bg-white dark:bg-slate-800 py-8 sm:py-12 shadow-sm relative overflow-hidden"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
           variants={staggerContainer}
         >
           <div className="container mx-auto px-4">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center relative z-10">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8 text-center relative z-10">
               {[
                 { stat: "98%", label: "User Satisfaction", icon: <ShieldCheckIcon className="h-8 w-8 mb-3 mx-auto text-blue-500" /> },
                 { stat: "50k+", label: "Students Tracked", icon: <BoltIcon className="h-8 w-8 mb-3 mx-auto text-violet-500" /> },
@@ -113,7 +111,6 @@ export default function Home() {
               ))}
             </div>
           </div>
-          {/* Background decoration */}
           <div className="hidden lg:block absolute top-0 right-0 w-1/3 h-full bg-gradient-to-l from-blue-50 dark:from-blue-900/20 to-transparent"></div>
           <div className="hidden lg:block absolute top-0 left-0 w-1/3 h-full bg-gradient-to-r from-violet-50 dark:from-violet-900/20 to-transparent"></div>
         </motion.section>
@@ -121,23 +118,23 @@ export default function Home() {
         {/* Features Section */}
         <motion.section
           id="features"
-          className="container mx-auto px-4 py-16 md:py-24"
+          className="container mx-auto px-4 py-12 sm:py-16 md:py-24"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
           variants={staggerContainer}
         >
-          <motion.div variants={fadeIn} className="text-center mb-16">
-            <span className="inline-block mb-4 px-3 py-1 rounded-full bg-violet-100 dark:bg-violet-900 text-violet-600 dark:text-violet-300 text-sm font-medium">
+          <motion.div variants={fadeIn} className="text-center mb-12 sm:mb-16">
+            <span className="inline-block mb-3 sm:mb-4 px-3 py-1 rounded-full bg-violet-100 dark:bg-violet-900 text-violet-600 dark:text-violet-300 text-xs sm:text-sm font-medium">
               POWERFUL FEATURES
             </span>
-            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-slate-800 dark:text-white">Everything You Need in One Place</h2>
-            <p className="text-slate-600 dark:text-slate-300 max-w-2xl mx-auto">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 sm:mb-6 text-slate-800 dark:text-white">Everything You Need in One Place</h2>
+            <p className="text-slate-600 dark:text-slate-300 max-w-2xl mx-auto text-sm sm:text-base">
               AcadMeter combines powerful analytics with easy-to-use tools, giving you everything you need to transform academic performance monitoring.
             </p>
           </motion.div>
 
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 md:gap-8">
             {[
               {
                 icon: <ChartBarIcon className="w-8 h-8 text-blue-600 dark:text-blue-400 mb-2" />,
@@ -177,7 +174,7 @@ export default function Home() {
         </motion.section>
 
         {/* Benefits Section */}
-        <section id="benefits" className="py-16 md:py-24 bg-slate-50 dark:bg-slate-900/50">
+        <section id="benefits" className="py-12 sm:py-16 md:py-24 bg-slate-50 dark:bg-slate-900/50">
           <motion.div 
             className="container mx-auto px-4"
             initial="hidden"
@@ -245,7 +242,7 @@ export default function Home() {
         </section>
 
         {/* Testimonials Section */}
-        <section id="testimonials" className="container mx-auto px-4 py-16 md:py-24">
+        <section id="testimonials" className="container mx-auto px-4 py-12 sm:py-16 md:py-24">
           <motion.div
             className="text-center mb-16"
             initial={{ opacity: 0, y: 20 }}
@@ -264,13 +261,13 @@ export default function Home() {
           <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
             <Testimonial
               quote="AcadMeter has completely transformed how we track student performance. The insights are invaluable and have helped us improve our institution's academic outcomes by 25%."
-              author="Dr. Sarah Johnson"
+              author="Dr. Coco Martin"
               role="Academic Director"
               company="International School of Excellence"
             />
             <Testimonial
               quote="The automated grading system has saved our teachers countless hours. It's a game-changer for us and lets our staff focus more on teaching than administrative tasks."
-              author="Michael Chen"
+              author="Michael V."
               role="Principal"
               company="Valley High School"
             />
@@ -278,7 +275,7 @@ export default function Home() {
         </section>
 
         {/* CTA Section */}
-        <section className="bg-gradient-to-r from-blue-600 to-violet-600 text-white py-16 md:py-24">
+        <section className="bg-gradient-to-r from-blue-600 to-violet-600 text-white py-12 sm:py-16 md:py-24">
           <motion.div 
             className="container mx-auto px-4 text-center"
             initial={{ opacity: 0, scale: 0.95 }}
@@ -286,27 +283,27 @@ export default function Home() {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <h2 className="text-3xl md:text-4xl font-bold mb-6">Ready to Transform Your Institution?</h2>
-            <p className="text-xl text-white/80 mb-8 max-w-2xl mx-auto">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 sm:mb-6">Ready to Transform Your Institution?</h2>
+            <p className="text-base sm:text-lg md:text-xl text-white/80 mb-6 sm:mb-8 max-w-2xl mx-auto">
               Join the growing number of institutions using AcadMeter to enhance their academic management.
             </p>
-            <div className="max-w-md mx-auto bg-white/10 backdrop-blur-sm p-8 rounded-xl">
-              <form className="space-y-4">
+            <div className="max-w-md mx-auto bg-white/10 backdrop-blur-sm p-6 sm:p-8 rounded-xl">
+              <form className="space-y-3 sm:space-y-4">
                 <input
                   type="text"
                   placeholder="Institution Name"
-                  className="w-full p-3 bg-white/80 border border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-white/50 text-slate-800 placeholder-slate-500"
+                  className="w-full p-2.5 sm:p-3 bg-white/80 border border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-white/50 text-slate-800 placeholder-slate-500 text-sm sm:text-base"
                 />
                 <input
                   type="email"
                   placeholder="Work Email"
-                  className="w-full p-3 bg-white/80 border border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-white/50 text-slate-800 placeholder-slate-500"
+                  className="w-full p-2.5 sm:p-3 bg-white/80 border border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-white/50 text-slate-800 placeholder-slate-500 text-sm sm:text-base"
                 />
-                <Button size="lg" className="w-full bg-white text-blue-600 hover:bg-white/90">
+                <Button size="lg" className="w-full bg-white text-blue-600 hover:bg-white/90 text-sm sm:text-base">
                   Request Demo
                 </Button>
               </form>
-              <p className="mt-4 text-sm text-white/60">
+              <p className="mt-3 sm:mt-4 text-xs sm:text-sm text-white/60">
                 No credit card required. Free 14-day trial.
               </p>
             </div>
@@ -314,9 +311,9 @@ export default function Home() {
         </section>
 
         {/* Footer */}
-        <footer className="bg-slate-900 text-slate-400 py-12 border-t border-slate-800">
+        <footer className="bg-slate-900 text-slate-400 py-8 sm:py-12 border-t border-slate-800">
           <div className="container mx-auto px-4">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8">
               <div>
                 <h3 className="font-semibold text-white mb-4">Product</h3>
                 <ul className="space-y-2">
@@ -350,9 +347,9 @@ export default function Home() {
                 </ul>
               </div>
             </div>
-            <div className="border-t border-slate-800 mt-12 pt-8 flex flex-col md:flex-row items-center justify-between">
-              <p>&copy; 2024 AcadMeter. All rights reserved.</p>
-              <div className="mt-4 md:mt-0 flex space-x-4">
+            <div className="border-t border-slate-800 mt-8 sm:mt-12 pt-6 sm:pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 sm:gap-0">
+              <p className="text-sm">&copy; 2024 AcadMeter. All rights reserved.</p>
+              <div className="flex space-x-4">
                 <a href="#" className="text-slate-400 hover:text-white">
                   <span className="sr-only">Twitter</span>
                   <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
