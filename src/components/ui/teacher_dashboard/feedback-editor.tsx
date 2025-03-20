@@ -1,6 +1,6 @@
 "use client"
 
-import { type Dispatch, type SetStateAction, useState } from 'react'
+import { useState } from 'react'
 import { Button } from "@/components/ui/button"
 import {
   SparklesIcon,
@@ -10,18 +10,16 @@ import {
 } from "@heroicons/react/24/outline"
 
 interface FeedbackEditorProps {
-  initialValue: string;
-  onChange: Dispatch<SetStateAction<string>>;
   studentName?: string;
   initialFeedback?: string;
+  initialValue?: string;
   onSave?: (feedback: string) => void;
   onClose?: () => void;
   suggestions?: boolean;
+  onChange?: (value: string) => void;
 }
 
 export function FeedbackEditor({
-  initialValue,
-  onChange,
   studentName = "",
   initialFeedback = "",
   onSave,

@@ -4,7 +4,6 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Button } from "@/components/ui/button"
 import { DashboardChart } from "@/components/ui/dashboard/dashboard-chart"
 import {
-  UserGroupIcon,
   ChartBarIcon,
   ArrowUpIcon,
   ArrowDownIcon,

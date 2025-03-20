@@ -7,7 +7,6 @@ import {
   HomeIcon,
   UserGroupIcon,
   DocumentChartBarIcon,
-  ClockIcon,
   ChartBarIcon,
   AcademicCapIcon,
   Cog6ToothIcon,

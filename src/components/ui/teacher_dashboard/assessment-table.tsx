@@ -12,11 +12,13 @@ interface Assessment {
   name: string
   totalItems: number
   date: string
-  scores: {
-    studentId: string
-    studentName: string
-    score: number
-  }[]
+  scores: Score[]
+}
+
+interface Score {
+  studentId: string
+  studentName: string
+  score: number
 }
 
 interface AssessmentGroup {
@@ -61,16 +63,27 @@ export function AssessmentTable() {
     return groups
   }, [])
 
-  const handleSubmitGrades = (data: any) => {
+  interface GradeSubmission {
+    type: "quiz" | "project" | "exam" | "homework"
+    name: string
+    totalPoints: number
+    date: string
+    grades: Array<{
+      studentId: string
+      score: number
+    }>
+  }
+  
+  const handleSubmitGrades = (data: GradeSubmission) => {
     const newAssessment: Assessment = {
       id: Date.now().toString(),
       type: data.type,
       name: data.name,
       totalItems: data.totalPoints,
       date: data.date,
-      scores: data.grades.map((g: any) => ({
+      scores: data.grades.map((g) => ({
         studentId: g.studentId,
-        studentName: "Student Name", // This would come from your student data
+        studentName: "Student Name",
         score: g.score
       }))
     }

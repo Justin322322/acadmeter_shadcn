@@ -5,19 +5,25 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { XMarkIcon } from "@heroicons/react/24/outline"
 
-interface Student {
-  id: string
-  name: string
-}
+type AssessmentType = "quiz" | "project" | "exam" | "homework"
 
 interface GradeFormProps {
   onClose: () => void
-  onSubmit: (data: any) => void
+  onSubmit: (data: {
+    type: AssessmentType
+    name: string
+    totalPoints: number
+    date: string
+    grades: Array<{
+      studentId: string
+      score: number
+    }>
+  }) => void
 }
 
 export function BatchGradeForm({ onClose, onSubmit }: GradeFormProps) {
   const [formData, setFormData] = useState({
-    type: "quiz" as "quiz" | "project" | "exam" | "homework",
+    type: "quiz" as AssessmentType,
     name: "",
     totalPoints: 10,
     date: new Date().toISOString().split('T')[0]
@@ -60,7 +66,7 @@ export function BatchGradeForm({ onClose, onSubmit }: GradeFormProps) {
                 </label>
                 <select
                   value={formData.type}
-                  onChange={e => setFormData({ ...formData, type: e.target.value as any })}
+                  onChange={e => setFormData({ ...formData, type: e.target.value as AssessmentType })}
                   className="w-full rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 px-3 py-2 text-sm"
                 >
                   <option value="quiz">Quiz</option>
