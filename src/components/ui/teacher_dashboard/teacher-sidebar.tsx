@@ -5,29 +5,34 @@ import Link from "next/link"
 import { motion } from "framer-motion"
 import {
   HomeIcon,
-  UsersIcon,
+  UserGroupIcon,
   DocumentChartBarIcon,
-  Cog6ToothIcon,
   ClockIcon,
   ChartBarIcon,
   AcademicCapIcon,
+  Cog6ToothIcon,
+  DocumentTextIcon,
+  ChatBubbleLeftRightIcon,
+  DocumentDuplicateIcon,
 } from "@heroicons/react/24/outline"
 
 const navigation = [
-  { name: "Overview", href: "/dashboard", icon: HomeIcon },
-  { name: "Users", href: "/dashboard/users", icon: UsersIcon },
-  { name: "Reports", href: "/dashboard/reports", icon: DocumentChartBarIcon },
-  { name: "Activity", href: "/dashboard/activity", icon: ClockIcon },
-  { name: "Analytics", href: "/dashboard/analytics", icon: ChartBarIcon },
-  { name: "Settings", href: "/dashboard/settings", icon: Cog6ToothIcon },
+  { name: "Overview", href: "/teacher-dashboard", icon: HomeIcon },
+  { name: "My Classes", href: "/teacher-dashboard/classes", icon: UserGroupIcon },
+  { name: "Grades", href: "/teacher-dashboard/grades", icon: DocumentChartBarIcon },
+  { name: "Assignments", href: "/teacher-dashboard/assignments", icon: DocumentTextIcon },
+  { name: "Student Reports", href: "/teacher-dashboard/reports", icon: DocumentDuplicateIcon },
+  { name: "Analytics", href: "/teacher-dashboard/analytics", icon: ChartBarIcon },
+  { name: "Student Feedback", href: "/teacher-dashboard/feedback", icon: ChatBubbleLeftRightIcon },
+  { name: "Settings", href: "/teacher-dashboard/settings", icon: Cog6ToothIcon },
 ]
 
-interface SidebarProps {
+interface TeacherSidebarProps {
   isOpen: boolean
   onClose: () => void
 }
 
-export function Sidebar({ isOpen, onClose }: SidebarProps) {
+export function TeacherSidebar({ isOpen, onClose }: TeacherSidebarProps) {
   const pathname = usePathname()
 
   return (
@@ -53,15 +58,15 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
           <div className="flex items-center px-3 py-3 mb-3 rounded-lg bg-gradient-to-r from-blue-50 to-violet-50 dark:from-blue-950/50 dark:to-violet-950/50">
             <div className="flex-shrink-0">
               <div className="w-10 h-10 rounded-full bg-gradient-to-r from-blue-500 to-violet-500 flex items-center justify-center">
-                <Cog6ToothIcon className="w-6 h-6 text-white" />
+                <AcademicCapIcon className="w-6 h-6 text-white" />
               </div>
             </div>
             <div className="ml-3">
               <p className="text-sm font-semibold text-slate-900 dark:text-white">
-                Admin Portal
+                Teacher Portal
               </p>
               <p className="text-xs text-slate-500 dark:text-slate-400">
-                Manage system & users
+                Manage your classes & students
               </p>
             </div>
           </div>
@@ -69,16 +74,22 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
           <ul className="space-y-1 font-medium">
             {navigation.map((item) => {
               const isActive = pathname === item.href || 
-                (item.href !== '/dashboard' && pathname.startsWith(item.href))
+                (item.href !== '/teacher-dashboard' && pathname.startsWith(item.href))
               
               return (
                 <li key={item.name}>
                   <Link
                     href={item.href}
                     onClick={() => onClose()}
-                    className={`flex items-center gap-3 p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 group ${isActive ? 'bg-slate-100 text-blue-600 dark:bg-slate-800 dark:text-blue-500' : 'text-slate-900 dark:text-slate-300'}`}
+                    className={`flex items-center gap-3 p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 group ${
+                      isActive ? 'bg-slate-100 text-blue-600 dark:bg-slate-800 dark:text-blue-500' : 'text-slate-900 dark:text-slate-300'
+                    }`}
                   >
-                    <item.icon className={`w-5 h-5 transition-colors ${isActive ? 'text-blue-600 dark:text-blue-500' : 'text-slate-500 group-hover:text-slate-900 dark:text-slate-400 dark:group-hover:text-white'}`} />
+                    <item.icon className={`w-5 h-5 transition-colors ${
+                      isActive 
+                        ? 'text-blue-600 dark:text-blue-500' 
+                        : 'text-slate-500 group-hover:text-slate-900 dark:text-slate-400 dark:group-hover:text-white'
+                    }`} />
                     <span className={`text-sm ${isActive ? 'font-semibold' : 'font-medium'}`}>
                       {item.name}
                     </span>
@@ -94,17 +105,17 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
               <div className="flex-shrink-0">
                 <div className="relative">
                   <div className="w-10 h-10 rounded-full bg-gradient-to-r from-blue-500 to-violet-500 flex items-center justify-center text-white font-semibold text-sm">
-                    A
+                    T
                   </div>
-                  <span className="bottom-0 left-7 absolute w-3 h-3 bg-emerald-500 border-2 border-background rounded-full"></span>
+                  <span className="bottom-0 left-7 absolute w-3 h-3 bg-green-500 border-2 border-white dark:border-slate-950 rounded-full"></span>
                 </div>
               </div>
               <div className="flex-1 min-w-0">
                 <p className="text-sm font-medium text-slate-900 truncate dark:text-white">
-                  Admin User
+                  Mr. Thompson
                 </p>
                 <p className="text-xs text-slate-500 truncate dark:text-slate-400">
-                  admin@acadmeter.com
+                  Mathematics Teacher
                 </p>
               </div>
             </div>

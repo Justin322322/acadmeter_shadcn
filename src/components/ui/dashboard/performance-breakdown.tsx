@@ -57,15 +57,15 @@ export function PerformanceBreakdown() {
       variants={item}
       initial="hidden"
       animate="show"
-      className="space-y-4 h-[350px] overflow-y-auto scrollbar-thin scrollbar-thumb-slate-200 dark:scrollbar-thumb-slate-800 scrollbar-track-transparent hover:scrollbar-thumb-slate-300 dark:hover:scrollbar-thumb-slate-700"
+      className="space-y-4 h-[350px] overflow-y-auto scrollbar-thin scrollbar-thumb-muted scrollbar-track-transparent hover:scrollbar-thumb-accent"
     >
       {performanceData.map((subject) => (
         <div key={subject.subject} className="space-y-4">
           <div>
-            <h3 className="text-base font-medium text-slate-900 dark:text-white">{subject.subject}</h3>
+            <h3 className="text-base font-medium text-foreground">{subject.subject}</h3>
             <div className="flex items-center gap-2 mt-1.5">
-              <span className="text-2xl font-bold text-slate-900 dark:text-white">{subject.currentScore}%</span>
-              <div className="flex items-center gap-1 text-sm text-green-500 dark:text-green-400">
+              <span className="text-2xl font-bold text-foreground">{subject.currentScore}%</span>
+              <div className="flex items-center gap-1 text-sm text-emerald-500">
                 <ArrowTrendingUpIcon className="w-4 h-4" />
                 <span>{subject.change}% increase</span>
               </div>
@@ -73,9 +73,9 @@ export function PerformanceBreakdown() {
           </div>
           <div className="grid grid-cols-2 gap-3">
             {Object.entries(subject.breakdown).map(([category, score]) => (
-              <div key={category} className="bg-slate-50 dark:bg-slate-800/50 rounded-lg p-3">
-                <div className="text-xs text-slate-500 dark:text-slate-400 capitalize">{category}</div>
-                <div className="text-lg font-semibold text-slate-900 dark:text-white mt-1">{score}%</div>
+              <div key={category} className="bg-muted rounded-lg p-3">
+                <div className="text-xs text-muted-foreground capitalize">{category}</div>
+                <div className="text-lg font-semibold text-foreground mt-1">{score}%</div>
               </div>
             ))}
           </div>
