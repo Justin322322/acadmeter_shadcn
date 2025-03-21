@@ -61,10 +61,10 @@ export default function TeacherSettingsPage() {
   const closeModal = () => setSelectedSection(null)
 
   return (
-    <div className="space-y-6 container mx-auto px-4 py-6">
+    <div className="space-y-6">
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-slate-100">Settings</h1>
+          <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-100">Settings</h1>
           <p className="text-slate-500 dark:text-slate-400">Manage your account and teaching preferences</p>
         </div>
       </div>
