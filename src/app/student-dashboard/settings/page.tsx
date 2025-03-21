@@ -8,15 +8,14 @@ import {
   ShieldCheckIcon,
   PaintBrushIcon,
   UserCircleIcon,
-  XMarkIcon,
-  AcademicCapIcon
+  XMarkIcon
 } from "@heroicons/react/24/outline"
 
 const settingsSections = [
   {
     id: 'profile',
     title: 'Profile Settings',
-    description: 'Manage your account details and teaching preferences',
+    description: 'Manage your account details and preferences',
     icon: UserCircleIcon,
     color: 'text-blue-500 dark:text-blue-400',
     bgColor: 'bg-blue-50 dark:bg-blue-900/20'
@@ -44,18 +43,10 @@ const settingsSections = [
     icon: PaintBrushIcon,
     color: 'text-pink-500 dark:text-pink-400',
     bgColor: 'bg-pink-50 dark:bg-pink-900/20'
-  },
-  {
-    id: 'teaching',
-    title: 'Teaching Preferences',
-    description: 'Configure your classroom and grading settings',
-    icon: AcademicCapIcon,
-    color: 'text-purple-500 dark:text-purple-400',
-    bgColor: 'bg-purple-50 dark:bg-purple-900/20'
   }
 ]
 
-export default function TeacherSettingsPage() {
+export default function StudentSettingsPage() {
   const [selectedSection, setSelectedSection] = useState<string | null>(null)
 
   const closeModal = () => setSelectedSection(null)
@@ -65,7 +56,7 @@ export default function TeacherSettingsPage() {
       <div className="flex justify-between items-center">
         <div>
           <h1 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-slate-100">Settings</h1>
-          <p className="text-slate-500 dark:text-slate-400">Manage your account and teaching preferences</p>
+          <p className="text-slate-500 dark:text-slate-400">Manage your account and learning preferences</p>
         </div>
       </div>
 
@@ -143,12 +134,12 @@ export default function TeacherSettingsPage() {
                     </div>
                     <div>
                       <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-                        Teacher ID
+                        Student ID
                       </label>
                       <input
                         type="text"
                         className="w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-sm outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 dark:border-slate-700 dark:bg-slate-800"
-                        placeholder="Your teacher ID"
+                        placeholder="Your student ID"
                         disabled
                       />
                     </div>
@@ -162,16 +153,6 @@ export default function TeacherSettingsPage() {
                         placeholder="your.email@example.com"
                       />
                     </div>
-                    <div>
-                      <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-                        Department
-                      </label>
-                      <input
-                        type="text"
-                        className="w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-sm outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 dark:border-slate-700 dark:bg-slate-800"
-                        placeholder="Enter your department"
-                      />
-                    </div>
                   </div>
                 </div>
               )}
@@ -183,8 +164,8 @@ export default function TeacherSettingsPage() {
                     <div className="space-y-4">
                       <div className="flex items-center justify-between">
                         <div>
-                          <p className="text-sm font-medium text-slate-700 dark:text-slate-300">Assignment Submissions</p>
-                          <p className="text-sm text-slate-500">Get notified when students submit assignments</p>
+                          <p className="text-sm font-medium text-slate-700 dark:text-slate-300">Assignment Reminders</p>
+                          <p className="text-sm text-slate-500">Get notified about upcoming assignments</p>
                         </div>
                         <label className="relative inline-flex items-center cursor-pointer">
                           <input type="checkbox" className="sr-only peer" defaultChecked />
@@ -193,8 +174,8 @@ export default function TeacherSettingsPage() {
                       </div>
                       <div className="flex items-center justify-between">
                         <div>
-                          <p className="text-sm font-medium text-slate-700 dark:text-slate-300">Student Messages</p>
-                          <p className="text-sm text-slate-500">Get notified when students send messages</p>
+                          <p className="text-sm font-medium text-slate-700 dark:text-slate-300">Grade Notifications</p>
+                          <p className="text-sm text-slate-500">Get notified when grades are posted</p>
                         </div>
                         <label className="relative inline-flex items-center cursor-pointer">
                           <input type="checkbox" className="sr-only peer" defaultChecked />
@@ -203,8 +184,8 @@ export default function TeacherSettingsPage() {
                       </div>
                       <div className="flex items-center justify-between">
                         <div>
-                          <p className="text-sm font-medium text-slate-700 dark:text-slate-300">Class Updates</p>
-                          <p className="text-sm text-slate-500">Get notified about class schedule changes</p>
+                          <p className="text-sm font-medium text-slate-700 dark:text-slate-300">Course Updates</p>
+                          <p className="text-sm text-slate-500">Get notified about course announcements</p>
                         </div>
                         <label className="relative inline-flex items-center cursor-pointer">
                           <input type="checkbox" className="sr-only peer" defaultChecked />
@@ -282,72 +263,6 @@ export default function TeacherSettingsPage() {
                           <PaintBrushIcon className="h-8 w-8 text-slate-400" />
                         </div>
                         <p className="text-sm font-medium text-center">System</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              {selectedSection === 'teaching' && (
-                <div className="space-y-6">
-                  <div>
-                    <h3 className="text-lg font-medium text-slate-900 dark:text-slate-100 mb-4">Grading Preferences</h3>
-                    <div className="space-y-4">
-                      <div className="flex items-center justify-between">
-                        <div>
-                          <p className="text-sm font-medium text-slate-700 dark:text-slate-300">Auto-grade Assignments</p>
-                          <p className="text-sm text-slate-500">Enable automatic grading for compatible assignments</p>
-                        </div>
-                        <label className="relative inline-flex items-center cursor-pointer">
-                          <input type="checkbox" className="sr-only peer" />
-                          <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-green-300 dark:peer-focus:ring-green-800 rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-slate-600 peer-checked:bg-green-500 dark:peer-checked:bg-green-500"></div>
-                        </label>
-                      </div>
-                      <div>
-                        <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-                          Default Grade Scale
-                        </label>
-                        <select className="w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-sm outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 dark:border-slate-700 dark:bg-slate-800">
-                          <option>Percentage (0-100)</option>
-                          <option>Letter Grade (A-F)</option>
-                          <option>Points Based</option>
-                        </select>
-                      </div>
-                      <div>
-                        <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-                          Late Submission Policy
-                        </label>
-                        <select className="w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-sm outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 dark:border-slate-700 dark:bg-slate-800">
-                          <option>No late submissions</option>
-                          <option>Accept with penalty</option>
-                          <option>Accept without penalty</option>
-                        </select>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="border-t border-slate-200 dark:border-slate-700 pt-6">
-                    <h3 className="text-lg font-medium text-slate-900 dark:text-slate-100 mb-4">Class Display Settings</h3>
-                    <div className="space-y-4">
-                      <div className="flex items-center justify-between">
-                        <div>
-                          <p className="text-sm font-medium text-slate-700 dark:text-slate-300">Show Class Average</p>
-                          <p className="text-sm text-slate-500">Display class average to students</p>
-                        </div>
-                        <label className="relative inline-flex items-center cursor-pointer">
-                          <input type="checkbox" className="sr-only peer" defaultChecked />
-                          <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-green-300 dark:peer-focus:ring-green-800 rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-slate-600 peer-checked:bg-green-500 dark:peer-checked:bg-green-500"></div>
-                        </label>
-                      </div>
-                      <div className="flex items-center justify-between">
-                        <div>
-                          <p className="text-sm font-medium text-slate-700 dark:text-slate-300">Show Grade Distribution</p>
-                          <p className="text-sm text-slate-500">Display grade distribution charts</p>
-                        </div>
-                        <label className="relative inline-flex items-center cursor-pointer">
-                          <input type="checkbox" className="sr-only peer" defaultChecked />
-                          <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-green-300 dark:peer-focus:ring-green-800 rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-slate-600 peer-checked:bg-green-500 dark:peer-checked:bg-green-500"></div>
-                        </label>
                       </div>
                     </div>
                   </div>
