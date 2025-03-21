@@ -38,6 +38,21 @@
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
+  --shadow: var(--shadow-base);
+  --shadow-sm: var(--shadow-small);
+  --shadow-lg: var(--shadow-large);
+  --transition: var(--transition-base);
+  --font-size-xs: var(--text-xs);
+  --font-size-sm: var(--text-sm);
+  --font-size-base: var(--text-base);
+  --font-size-lg: var(--text-lg);
+  --font-size-xl: var(--text-xl);
+  --spacing-xs: var(--space-xs);
+  --spacing-sm: var(--space-sm);
+  --spacing-md: var(--space-md);
+  --spacing-lg: var(--space-lg);
+  --spacing-xl: var(--space-xl);
+  --radius-xs: calc(var(--radius) - 6px);
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -46,6 +61,22 @@
 
 :root {
   --radius: 0.625rem;
+  --font-geist-sans: "Geist Sans", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-geist-mono: "Geist Mono", ui-monospace, SFMono-Regular, monospace;
+  --shadow-base: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  --shadow-small: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-large: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --transition-base: all 0.2s ease-in-out;
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
   --background: oklch(1 0 0);
   --foreground: oklch(0.129 0.042 264.695);
   --card: oklch(1 0 0);
@@ -115,9 +146,103 @@
 
 @layer base {
   * {
-    @apply border-border outline-ring/50;
+    @apply border-border;
+    outline: var(--ring) / 50%;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-sans antialiased;
   }
+  input, button, textarea, select {
+    @apply focus:outline-none focus:ring-2 focus:ring-ring;
+  }
+}
+
+@layer utilities {
+  .shadow-sm {
+    box-shadow: var(--shadow-sm);
+  }
+  .shadow {
+    box-shadow: var(--shadow);
+  }
+  .shadow-lg {
+    box-shadow: var(--shadow-lg);
+  }
+}
+
+
+.hero-gradient-dark {
+  background: radial-gradient(circle at center, rgba(15,23,42,0) 0%, rgba(15,23,42,0.8) 70%, rgba(15,23,42,1) 100%);
+}
+
+/* Feature card animations */
+@keyframes float1 {
+  0% { transform: translateY(0) scale(1.5); }
+  50% { transform: translateY(-15px) scale(1.5); }
+  100% { transform: translateY(0) scale(1.5); }
+}
+
+@keyframes float2 {
+  0% { transform: translateY(0) rotate(5deg) scale(1.5); }
+  50% { transform: translateY(-10px) rotate(0deg) scale(1.5); }
+  100% { transform: translateY(0) rotate(5deg) scale(1.5); }
+}
+
+@keyframes float3 {
+  0% { transform: translateY(0) rotate(-5deg) scale(1.5); }
+  50% { transform: translateY(-20px) rotate(0deg) scale(1.5); }
+  100% { transform: translateY(0) rotate(-5deg) scale(1.5); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Feature glow effects */
+.glow-blue {
+  box-shadow: 0 0 30px 5px rgba(59, 130, 246, 0.2);
+}
+
+.glow-violet {
+  box-shadow: 0 0 30px 5px rgba(139, 92, 246, 0.2);
+}
+
+.glow-emerald {
+  box-shadow: 0 0 30px 5px rgba(16, 185, 129, 0.2);
+}
+
+.dark .glow-blue {
+  box-shadow: 0 0 30px 5px rgba(59, 130, 246, 0.3);
+}
+
+.dark .glow-violet {
+  box-shadow: 0 0 30px 5px rgba(139, 92, 246, 0.3);
+}
+
+.dark .glow-emerald {
+  box-shadow: 0 0 30px 5px rgba(16, 185, 129, 0.3);
+}
+
+/* Statistic counters */
+.stat-counter {
+  counter-reset: stat var(--stat-value);
+}
+
+.stat-counter::after {
+  content: counter(stat);
+}
+
+@property --stat-value {
+  syntax: "<integer>";
+  initial-value: 0;
+  inherits: false;
+}
+
+.count-animation {
+  animation: count-up 2s forwards;
+}
+
+@keyframes count-up {
+  from { --stat-value: 0; }
+  to { --stat-value: var(--target-value); }
 }
