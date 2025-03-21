@@ -9,7 +9,6 @@ import {
   StarIcon,
   PaperAirplaneIcon,
   DocumentTextIcon,
-  ArrowPathIcon,
   XMarkIcon,
   UserIcon
 } from "@heroicons/react/24/outline"

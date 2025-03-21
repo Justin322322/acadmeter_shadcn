@@ -137,11 +137,21 @@ export default function StudentDashboardPage() {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-100">Student Dashboard</h1>
-          <p className="mt-2 text-slate-500 dark:text-slate-400">Welcome back! Here's an overview of your academic progress</p>
+          <p className="mt-2 text-slate-500 dark:text-slate-400">Welcome back! Here&apos;s an overview of your academic progress</p>
         </div>
         <div className="flex items-center gap-2">
           <span className="text-sm text-slate-500">Viewing:</span>
-          <Button variant="outline" className="gap-2">
+          <Button 
+            variant="outline" 
+            className="gap-2"
+            onClick={() => {
+              // Cycle through timeframes: semester -> month -> week -> semester
+              setSelectedTimeframe(current => 
+                current === "semester" ? "month" : 
+                current === "month" ? "week" : "semester"
+              )
+            }}
+          >
             {selectedTimeframe.charAt(0).toUpperCase() + selectedTimeframe.slice(1)}
             <ChevronDownIcon className="w-4 h-4" />
           </Button>
