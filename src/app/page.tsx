@@ -2,18 +2,13 @@
 
 import { Button } from "@/components/ui/button"
 import { 
-  ChartBarIcon, 
-  AcademicCapIcon, 
-  ArrowRightIcon, 
   CheckCircleIcon,
   ClipboardDocumentCheckIcon,
   ChartPieIcon,
   UserGroupIcon,
-  WrenchScrewdriverIcon,
   DocumentChartBarIcon,
-  UserIcon,
   PresentationChartLineIcon,
-  ClipboardDocumentListIcon
+  ArrowRightIcon,
 } from "@heroicons/react/24/outline"
 import { motion } from "framer-motion"
 import { Navigation } from "@/components/ui/navigation"
@@ -416,7 +411,7 @@ export default function Home() {
                     <path d="M9.352 4C4.456 7.456 1 13.12 1 19.36c0 5.088 3.072 8.064 6.624 8.064 3.36 0 5.856-2.688 5.856-5.856 0-3.168-2.208-5.472-5.088-5.472-.576 0-1.344.096-1.536.192.48-3.264 3.552-7.104 6.624-9.024L9.352 4zm16.512 0c-4.8 3.456-8.256 9.12-8.256 15.36 0 5.088 3.072 8.064 6.624 8.064 3.264 0 5.856-2.688 5.856-5.856 0-3.168-2.304-5.472-5.184-5.472-.576 0-1.248.096-1.44.192.48-3.264 3.456-7.104 6.528-9.024L25.864 4z" />
                   </svg>
                   <blockquote className="text-xl text-slate-700 dark:text-slate-300 italic mb-8 leading-relaxed">
-                    "AcadMeter has completely transformed how we track student performance. The insights are invaluable and have helped us improve our institution's academic outcomes by 25%."
+                    &ldquo;AcadMeter has completely transformed how we track student performance. The insights are invaluable and have helped us improve our institution&apos;s academic outcomes by 25%.&rdquo;
                   </blockquote>
                   <footer className="mt-auto">
                     <div className="flex items-center gap-4">
@@ -445,7 +440,7 @@ export default function Home() {
                     <path d="M9.352 4C4.456 7.456 1 13.12 1 19.36c0 5.088 3.072 8.064 6.624 8.064 3.36 0 5.856-2.688 5.856-5.856 0-3.168-2.208-5.472-5.088-5.472-.576 0-1.344.096-1.536.192.48-3.264 3.552-7.104 6.624-9.024L9.352 4zm16.512 0c-4.8 3.456-8.256 9.12-8.256 15.36 0 5.088 3.072 8.064 6.624 8.064 3.264 0 5.856-2.688 5.856-5.856 0-3.168-2.304-5.472-5.184-5.472-.576 0-1.248.096-1.44.192.48-3.264 3.456-7.104 6.528-9.024L25.864 4z" />
                   </svg>
                   <blockquote className="text-xl text-slate-700 dark:text-slate-300 italic mb-8 leading-relaxed">
-                    "The automated grading system has saved our teachers countless hours. It's a game-changer for us and lets our staff focus more on teaching than administrative tasks."
+                    &ldquo;The automated grading system has saved our teachers countless hours. It&apos;s a game-changer for us and lets our staff focus more on teaching than administrative tasks.&rdquo;
                   </blockquote>
                   <footer className="mt-auto">
                     <div className="flex items-center gap-4">
