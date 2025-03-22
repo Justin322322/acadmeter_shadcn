@@ -147,13 +147,26 @@
 @layer base {
   * {
     @apply border-border;
-    outline: var(--ring) / 50%;
   }
+  
   body {
     @apply bg-background text-foreground font-sans antialiased;
   }
-  input, button, textarea, select {
-    @apply focus:outline-none focus:ring-2 focus:ring-ring;
+  
+  /* Only show focus styles when using keyboard navigation */
+  *:focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
+  
+  /* Hide focus outline when clicking with mouse */
+  *:focus:not(:focus-visible) {
+    outline: none;
+  }
+  
+  /* Style focus for form elements while preserving accessibility */
+  input:focus, button:focus, textarea:focus, select:focus {
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring;
   }
 }
 

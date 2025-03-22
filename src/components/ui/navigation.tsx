@@ -3,13 +3,17 @@
 import { useState } from "react"
 import { Button } from "./button"
 import { ThemeToggle } from "./theme-toggle"
+import { LoginModal } from "./login-modal"
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline"
 import Link from "next/link"
 
 export function Navigation() {
   const [isOpen, setIsOpen] = useState(false)
+  const [showLoginModal, setShowLoginModal] = useState(false)
 
   const toggleMenu = () => setIsOpen(!isOpen)
+  const handleOpenLogin = () => setShowLoginModal(true)
+  const handleCloseLogin = () => setShowLoginModal(false)
   
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id)
@@ -61,7 +65,7 @@ export function Navigation() {
             </div>
             <div className="flex items-center gap-3 pl-3 lg:pl-5 border-l border-slate-200 dark:border-slate-700">
               <ThemeToggle />
-              <Button variant="outline" size="sm" className="px-3 lg:px-4">Sign In</Button>
+              <Button variant="outline" size="sm" className="px-3 lg:px-4" onClick={handleOpenLogin}>Sign In</Button>
               <Button size="sm" className="px-3 lg:px-4 bg-gradient-to-r from-blue-600 to-violet-600 hover:from-blue-700 hover:to-violet-700 dark:from-blue-500 dark:to-violet-500 text-white">
                 Get Started
               </Button>
@@ -115,7 +119,7 @@ export function Navigation() {
               Testimonials
             </button>
             <div className="flex flex-col gap-2 pt-2 mt-2 border-t border-slate-200 dark:border-slate-700">
-              <Button variant="outline" size="sm" onClick={toggleMenu} className="w-full justify-center py-2.5">
+              <Button variant="outline" size="sm" onClick={handleOpenLogin} className="w-full justify-center py-2.5">
                 Sign In
               </Button>
               <Button 
@@ -129,6 +133,7 @@ export function Navigation() {
           </div>
         </div>
       </div>
+      <LoginModal isOpen={showLoginModal} onClose={handleCloseLogin} />
     </nav>
   )
 }
