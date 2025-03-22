@@ -6,9 +6,7 @@ import { Button } from "@/components/ui/button"
 import { 
   DocumentDuplicateIcon, 
   ArrowDownTrayIcon,
-  DocumentArrowDownIcon,
-  ChartBarIcon,
-  AcademicCapIcon 
+  DocumentArrowDownIcon
 } from "@heroicons/react/24/outline"
 import { Calendar } from "@/components/ui/calendar"
 

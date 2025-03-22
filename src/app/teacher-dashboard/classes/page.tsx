@@ -137,9 +137,13 @@ export default function ClassesPage() {
                   <CardDescription>View and manage your current classes</CardDescription>
                 </div>
                 <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
-                  <Button variant="outline" className="gap-2">
+                  <Button 
+                    variant="outline" 
+                    className="gap-2"
+                    onClick={() => setSelectedSection(current => current ? null : 'A')}
+                  >
                     <FunnelIcon className="w-4 h-4" />
-                    Filter
+                    {selectedSection ? `Section ${selectedSection}` : 'All Sections'}
                   </Button>
                   <div className="relative flex-1">
                     <MagnifyingGlassIcon className="absolute left-2.5 top-2.5 h-4 w-4 text-slate-500" />

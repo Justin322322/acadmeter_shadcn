@@ -4,10 +4,8 @@ import { useState } from "react"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import {
-  DocumentChartBarIcon,
   ArrowDownTrayIcon,
   CalendarIcon,
-  BookOpenIcon,
   ClockIcon,
   UserGroupIcon,
   CheckCircleIcon,
@@ -132,7 +130,7 @@ export default function ReportsPage() {
                 : 'hover:bg-slate-50 dark:hover:bg-slate-800/50'
             }`}
           >
-            <DocumentChartBarIcon className="w-5 h-5" />
+            <ChartBarIcon className="w-5 h-5" />
             <span className={`whitespace-nowrap font-medium ${
               currentSubject?.id === subject.id
                 ? getGradeColor(subject.percentage)

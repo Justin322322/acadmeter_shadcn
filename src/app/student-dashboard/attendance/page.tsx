@@ -1,14 +1,13 @@
 "use client"
 
 import { useState } from "react"
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
-import { Calendar } from "@/components/ui/calendar"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Calendar } from "@/components/ui/calendar"
 import {
   ClockIcon,
   CalendarIcon,
   CheckCircleIcon,
-  ExclamationCircleIcon,
   XCircleIcon,
 } from "@heroicons/react/24/outline"
 

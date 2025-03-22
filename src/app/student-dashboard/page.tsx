@@ -304,10 +304,15 @@ export default function StudentDashboardPage() {
                 { subject: "Science", score: 92 },
                 { subject: "English", score: 78 },
                 { subject: "History", score: 88 }
-              ].map((subject) => (
+              ]
+              .filter(subject => selectedSubject === 'all' || subject.subject.toLowerCase() === selectedSubject.toLowerCase())
+              .map((subject) => (
                 <div key={subject.subject} className="bg-slate-50 dark:bg-slate-800 p-4 rounded-lg">
                   <div className="flex flex-col">
-                    <span className="text-sm font-medium text-slate-500 dark:text-slate-400">{subject.subject}</span>
+                    <span className="text-sm font-medium text-slate-500 dark:text-slate-400">
+                      {subject.subject}
+                      {selectedPeriod && <span className="ml-1 text-xs">({selectedPeriod})</span>}
+                    </span>
                     <span className="text-2xl font-bold text-slate-900 dark:text-slate-100">{subject.score}%</span>
                     <div className="mt-2 w-full bg-slate-200 dark:bg-slate-700 rounded-full h-2">
                       <div
