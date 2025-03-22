@@ -4,7 +4,6 @@ import { useState } from 'react'
 import { Button } from "@/components/ui/button"
 import {
   SparklesIcon,
-  PlusIcon,
   XMarkIcon,
   CheckIcon
 } from "@heroicons/react/24/outline"
@@ -28,10 +27,10 @@ export function FeedbackEditor({
 }: FeedbackEditorProps) {
   const [feedback, setFeedback] = useState(initialFeedback)
   const [showSuggestions, setShowSuggestions] = useState(false)
-  const [selectedTemplate, setSelectedTemplate] = useState("")
 
   const handleTemplateFill = (template: string) => {
-    setSelectedTemplate(template)
+    // Directly append the template to the feedback
+    setFeedback(prev => prev ? `${prev}\n${template}` : template)
     setShowSuggestions(false)
   }
 
@@ -98,43 +97,18 @@ export function FeedbackEditor({
                   </h5>
                   <div className="space-y-2">
                     {category.templates.map((template, index) => (
-                      <div
+                      <button
                         key={index}
-                        className="p-2 rounded hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer text-sm text-slate-600 dark:text-slate-300"
+                        className="w-full p-2 text-left rounded hover:bg-slate-100 dark:hover:bg-slate-800 text-sm text-slate-600 dark:text-slate-300"
                         onClick={() => handleTemplateFill(template)}
                       >
                         {template}
-                      </div>
+                      </button>
                     ))}
                   </div>
                 </div>
               ))}
             </div>
-          </div>
-        </div>
-      )}
-
-      {selectedTemplate && (
-        <div className="p-3 rounded-lg bg-blue-50 dark:bg-blue-950/50 text-sm text-blue-900 dark:text-blue-100">
-          <div className="flex items-start gap-2">
-            <div className="p-1 rounded-full bg-blue-100 dark:bg-blue-900/50">
-              <SparklesIcon className="w-4 h-4 text-blue-600 dark:text-blue-400" />
-            </div>
-            <div className="flex-1">
-              <p className="font-medium mb-1">Suggestion</p>
-              <p>{selectedTemplate}</p>
-            </div>
-            <Button
-              variant="ghost"
-              size="sm"
-              className="shrink-0"
-              onClick={() => {
-                setFeedback(feedback ? `${feedback}\n${selectedTemplate}` : selectedTemplate)
-                setSelectedTemplate("")
-              }}
-            >
-              <PlusIcon className="w-4 h-4" />
-            </Button>
           </div>
         </div>
       )}

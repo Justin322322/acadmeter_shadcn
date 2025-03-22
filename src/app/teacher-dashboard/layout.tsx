@@ -1,7 +1,8 @@
 "use client"
 
 import { useState } from "react"
-import { TeacherNavigation, TeacherSidebar } from "@/components/ui/teacher_dashboard"
+import { TeacherNavigation } from "@/components/ui/teacher_dashboard/teacher-navigation"
+import { TeacherSidebar } from "@/components/ui/teacher_dashboard/teacher-sidebar"
 
 export default function TeacherDashboardLayout({
   children,

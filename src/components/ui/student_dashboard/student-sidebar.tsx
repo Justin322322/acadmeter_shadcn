@@ -10,12 +10,14 @@ import {
   ChatBubbleLeftRightIcon,
   ChartBarIcon,
   Cog6ToothIcon,
+  ClockIcon,
 } from "@heroicons/react/24/outline"
 
 const navigation = [
   { name: "Overview", href: "/student-dashboard", icon: HomeIcon },
   { name: "Grades", href: "/student-dashboard/grades", icon: DocumentChartBarIcon },
   { name: "Analytics", href: "/student-dashboard/analytics", icon: ChartBarIcon },
+  { name: "Attendance", href: "/student-dashboard/attendance", icon: ClockIcon },
   { name: "Feedback", href: "/student-dashboard/feedback", icon: ChatBubbleLeftRightIcon },
   { name: "Settings", href: "/student-dashboard/settings", icon: Cog6ToothIcon },
 ]

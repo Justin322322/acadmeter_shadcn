@@ -70,6 +70,8 @@ const upcomingDeadlines = [
 
 export default function StudentDashboardPage() {
   const [selectedTimeframe, setSelectedTimeframe] = useState("semester")
+  const [selectedSubject, setSelectedSubject] = useState("all")
+  const [selectedPeriod, setSelectedPeriod] = useState("week")
   
   const stats = [
     {
@@ -266,6 +268,58 @@ export default function StudentDashboardPage() {
               </div>
             </CardContent>
           </Card>
+
+          {/* Performance Trends */}
+          <div className="space-y-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-100">Performance Trends</h3>
+                <p className="text-sm text-slate-500">Weekly subject performance</p>
+              </div>
+              <div className="flex gap-2">
+                <select
+                  className="bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm rounded-lg p-2"
+                  onChange={(e) => setSelectedSubject(e.target.value)}
+                >
+                  <option value="all">All Subjects</option>
+                  <option value="mathematics">Mathematics</option>
+                  <option value="science">Science</option>
+                  <option value="english">English</option>
+                  <option value="history">History</option>
+                </select>
+                <select
+                  className="bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm rounded-lg p-2"
+                  onChange={(e) => setSelectedPeriod(e.target.value)}
+                >
+                  <option value="week">Weekly</option>
+                  <option value="month">Monthly</option>
+                  <option value="semester">Semester</option>
+                </select>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              {[
+                { subject: "Mathematics", score: 85 },
+                { subject: "Science", score: 92 },
+                { subject: "English", score: 78 },
+                { subject: "History", score: 88 }
+              ].map((subject) => (
+                <div key={subject.subject} className="bg-slate-50 dark:bg-slate-800 p-4 rounded-lg">
+                  <div className="flex flex-col">
+                    <span className="text-sm font-medium text-slate-500 dark:text-slate-400">{subject.subject}</span>
+                    <span className="text-2xl font-bold text-slate-900 dark:text-slate-100">{subject.score}%</span>
+                    <div className="mt-2 w-full bg-slate-200 dark:bg-slate-700 rounded-full h-2">
+                      <div
+                        className="bg-blue-600 dark:bg-blue-500 h-2 rounded-full"
+                        style={{ width: `${subject.score}%` }}
+                      />
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
 
           {/* Upcoming Deadlines */}
           <Card className="border-slate-200 dark:border-slate-800">

@@ -10,6 +10,7 @@ import {
   ChartBarIcon,
   AcademicCapIcon 
 } from "@heroicons/react/24/outline"
+import { Calendar } from "@/components/ui/calendar"
 
 export default function StudentReportsPage() {
   const [selectedStudent, setSelectedStudent] = useState<string | null>(null)
@@ -138,128 +139,282 @@ export default function StudentReportsPage() {
                 <CardContent className="p-6">
                   {activeTab === 'progress' && (
                     <div className="space-y-6">
-                      <div className="flex items-center justify-between">
-                        <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-100">Academic Performance</h3>
-                        <span className="text-sm py-1 px-2 rounded-full bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400">
-                          Current Grade: B+
-                        </span>
+                      <div className="flex items-center justify-between mb-4">
+                        <div>
+                          <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-100">Performance Trends</h3>
+                          <p className="text-sm text-slate-500">Weekly subject performance</p>
+                        </div>
+                        <div className="flex gap-2">
+                          <select
+                            className="bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm rounded-lg p-2"
+                          >
+                            <option value="all">All Subjects</option>
+                            <option value="mathematics">Mathematics</option>
+                            <option value="science">Science</option>
+                            <option value="english">English</option>
+                            <option value="history">History</option>
+                          </select>
+                          <select
+                            className="bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm rounded-lg p-2"
+                          >
+                            <option value="week">This Week</option>
+                            <option value="month">This Month</option>
+                            <option value="semester">This Semester</option>
+                          </select>
+                        </div>
                       </div>
 
-                      {/* Subject Breakdown */}
-                      <div className="space-y-4">
-                        {['Mathematics', 'Science', 'English', 'History'].map((subject, index) => (
-                          <div key={subject} className="space-y-2">
-                            <div className="flex justify-between">
-                              <span className="text-sm font-medium text-slate-900 dark:text-slate-100">{subject}</span>
-                              <span className="text-sm font-medium text-slate-900 dark:text-slate-100">
-                                {[85, 92, 78, 88][index]}%
-                              </span>
+                      <div className="grid grid-cols-2 gap-4">
+                        {[
+                          { subject: 'Mathematics', score: 85 },
+                          { subject: 'Science', score: 92 },
+                          { subject: 'English', score: 78 },
+                          { subject: 'History', score: 88 }
+                        ].map((subject) => (
+                          <div key={subject.subject} className="bg-slate-50 dark:bg-slate-800 p-4 rounded-lg">
+                            <div className="flex justify-between items-center mb-2">
+                              <span className="font-medium">{subject.subject}</span>
+                              <span className="text-sm font-semibold">{subject.score}%</span>
                             </div>
                             <div className="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-2">
                               <div
-                                className={`h-2 rounded-full ${
-                                  [
-                                    'bg-blue-600 dark:bg-blue-500',
-                                    'bg-green-600 dark:bg-green-500',
-                                    'bg-amber-600 dark:bg-amber-500',
-                                    'bg-violet-600 dark:bg-violet-500',
-                                  ][index]
-                                }`}
-                                style={{ width: `${[85, 92, 78, 88][index]}%` }}
+                                className="bg-blue-600 dark:bg-blue-500 h-2 rounded-full"
+                                style={{ width: `${subject.score}%` }}
                               />
                             </div>
                           </div>
                         ))}
                       </div>
 
-                      {/* Improvement Areas */}
-                      <div>
-                        <h4 className="text-sm font-semibold text-slate-900 dark:text-slate-100 mb-3">Areas for Improvement</h4>
-                        <ul className="space-y-2">
-                          <li className="flex gap-2 text-sm text-slate-700 dark:text-slate-300">
-                            <ChartBarIcon className="w-5 h-5 text-amber-500 shrink-0" />
-                            <span>English essay structure needs more development</span>
-                          </li>
-                          <li className="flex gap-2 text-sm text-slate-700 dark:text-slate-300">
-                            <ChartBarIcon className="w-5 h-5 text-amber-500 shrink-0" />
-                            <span>Practice needed on algebra word problems</span>
-                          </li>
-                        </ul>
+                      {/* Areas for Improvement and Strengths Tables */}
+                      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <div>
+                          <h4 className="text-sm font-semibold text-slate-900 dark:text-slate-100 mb-3">Areas for Improvement</h4>
+                          <div className="bg-slate-50 dark:bg-slate-800 rounded-lg overflow-hidden">
+                            <table className="w-full">
+                              <tbody>
+                                <tr className="border-b border-slate-200 dark:border-slate-700">
+                                  <td className="py-3 px-4 text-sm">English essay structure needs more development</td>
+                                </tr>
+                                <tr>
+                                  <td className="py-3 px-4 text-sm">Practice needed on algebra word problems</td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+
+                        <div>
+                          <h4 className="text-sm font-semibold text-slate-900 dark:text-slate-100 mb-3">Strengths</h4>
+                          <div className="bg-slate-50 dark:bg-slate-800 rounded-lg overflow-hidden">
+                            <table className="w-full">
+                              <tbody>
+                                <tr className="border-b border-slate-200 dark:border-slate-700">
+                                  <td className="py-3 px-4 text-sm">Excellent at science lab experiments and reports</td>
+                                </tr>
+                                <tr>
+                                  <td className="py-3 px-4 text-sm">Strong analytical skills in mathematics</td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
                       </div>
 
-                      {/* Strengths */}
+                      {/* Behavior Assessment Table */}
                       <div>
-                        <h4 className="text-sm font-semibold text-slate-900 dark:text-slate-100 mb-3">Strengths</h4>
-                        <ul className="space-y-2">
-                          <li className="flex gap-2 text-sm text-slate-700 dark:text-slate-300">
-                            <AcademicCapIcon className="w-5 h-5 text-green-500 shrink-0" />
-                            <span>Excellent at science lab experiments and reports</span>
-                          </li>
-                          <li className="flex gap-2 text-sm text-slate-700 dark:text-slate-300">
-                            <AcademicCapIcon className="w-5 h-5 text-green-500 shrink-0" />
-                            <span>Strong analytical skills in mathematics</span>
-                          </li>
-                        </ul>
+                        <h4 className="text-sm font-semibold text-slate-900 dark:text-slate-100 mb-3">Behavior Assessment</h4>
+                        <div className="bg-slate-50 dark:bg-slate-800 rounded-lg overflow-hidden">
+                          <table className="w-full">
+                            <thead className="bg-slate-100 dark:bg-slate-700">
+                              <tr>
+                                <th className="py-3 px-4 text-left text-sm font-medium">Category</th>
+                                <th className="py-3 px-4 text-left text-sm font-medium">Rating</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {[
+                                { category: 'Classroom Participation', rating: 'Good' },
+                                { category: 'Teamwork', rating: 'Excellent' },
+                                { category: 'Following Instructions', rating: 'Good' },
+                                { category: 'Respect for Others', rating: 'Excellent' },
+                                { category: 'Work Habits', rating: 'Good' }
+                              ].map((item, index) => (
+                                <tr key={item.category} className={index !== 4 ? 'border-b border-slate-200 dark:border-slate-700' : ''}>
+                                  <td className="py-3 px-4 text-sm">{item.category}</td>
+                                  <td className="py-3 px-4 text-sm">{item.rating}</td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                      
+                      {/* Teacher Comments */}
+                      <div>
+                        <h4 className="text-sm font-semibold text-slate-900 dark:text-slate-100 mb-3">Teacher Comments</h4>
+                        <div className="bg-slate-50 dark:bg-slate-800 rounded-lg p-4">
+                          <p className="text-sm text-slate-700 dark:text-slate-300">
+                            The student shows excellent teamwork skills and respectful behavior. Could improve on organization and completing assignments on time. Participates actively in class discussions.
+                          </p>
+                        </div>
                       </div>
                     </div>
                   )}
 
                   {activeTab === 'attendance' && (
-                    <div className="space-y-6">
+                    <div className="space-y-8">
+                      {/* Header with attendance rate */}
                       <div className="flex items-center justify-between">
-                        <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-100">Attendance Record</h3>
-                        <span className="text-sm py-1 px-2 rounded-full bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400">
-                          95% Present
-                        </span>
-                      </div>
-
-                      {/* Attendance Summary */}
-                      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-                        <div className="bg-slate-50 dark:bg-slate-800 p-4 rounded-lg">
-                          <div className="text-2xl font-bold text-slate-900 dark:text-slate-100">95%</div>
-                          <div className="text-sm text-slate-500 dark:text-slate-400">Attendance Rate</div>
+                        <div>
+                          <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-100">Attendance Overview</h3>
+                          <p className="text-sm text-slate-500">Student attendance record for current semester</p>
                         </div>
-                        <div className="bg-slate-50 dark:bg-slate-800 p-4 rounded-lg">
-                          <div className="text-2xl font-bold text-slate-900 dark:text-slate-100">3</div>
-                          <div className="text-sm text-slate-500 dark:text-slate-400">Absences</div>
-                        </div>
-                        <div className="bg-slate-50 dark:bg-slate-800 p-4 rounded-lg">
-                          <div className="text-2xl font-bold text-slate-900 dark:text-slate-100">2</div>
-                          <div className="text-sm text-slate-500 dark:text-slate-400">Late Arrivals</div>
-                        </div>
-                        <div className="bg-slate-50 dark:bg-slate-800 p-4 rounded-lg">
-                          <div className="text-2xl font-bold text-slate-900 dark:text-slate-100">1</div>
-                          <div className="text-sm text-slate-500 dark:text-slate-400">Early Dismissals</div>
+                        <div className="flex items-center gap-2">
+                          <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                          <span className="text-sm font-medium text-slate-900 dark:text-slate-100">95% Present</span>
                         </div>
                       </div>
 
-                      {/* Recent Attendance */}
-                      <div>
-                        <h4 className="text-sm font-semibold text-slate-900 dark:text-slate-100 mb-3">Recent Attendance</h4>
-                        <div className="space-y-2">
-                          {[
-                            { date: '2023-05-15', status: 'present' },
-                            { date: '2023-05-14', status: 'present' },
-                            { date: '2023-05-13', status: 'late' },
-                            { date: '2023-05-12', status: 'present' },
-                            { date: '2023-05-11', status: 'absent' },
-                          ].map((day) => (
-                            <div key={day.date} className="flex items-center justify-between p-2 border-b border-slate-100 dark:border-slate-800">
-                              <span className="text-sm text-slate-900 dark:text-slate-100">
-                                {new Date(day.date).toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' })}
-                              </span>
-                              <span className={`text-xs py-1 px-2 rounded-full ${
-                                day.status === 'present' 
-                                  ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400'
-                                  : day.status === 'late'
-                                  ? 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400'
-                                  : 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400'
-                              }`}>
-                                {day.status.charAt(0).toUpperCase() + day.status.slice(1)}
-                              </span>
+                      {/* Attendance Stats Cards */}
+                      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                        {[
+                          { label: 'Present Days', value: '57', color: 'text-green-600 dark:text-green-500', bg: 'bg-green-50 dark:bg-green-900/20' },
+                          { label: 'Absences', value: '3', color: 'text-red-600 dark:text-red-500', bg: 'bg-red-50 dark:bg-red-900/20' },
+                          { label: 'Late Arrivals', value: '2', color: 'text-amber-600 dark:text-amber-500', bg: 'bg-amber-50 dark:bg-amber-900/20' },
+                          { label: 'Early Dismissals', value: '1', color: 'text-blue-600 dark:text-blue-500', bg: 'bg-blue-50 dark:bg-blue-900/20' }
+                        ].map((stat, index) => (
+                          <div key={index} className={`${stat.bg} p-4 rounded-lg`}>
+                            <div className={`text-2xl font-bold ${stat.color}`}>{stat.value}</div>
+                            <div className="text-sm text-slate-600 dark:text-slate-400">{stat.label}</div>
+                          </div>
+                        ))}
+                      </div>
+
+                      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        {/* Calendar View */}
+                        <div className="space-y-4">
+                          <div className="flex items-center justify-between">
+                            <h4 className="text-sm font-semibold text-slate-900 dark:text-slate-100">Attendance Calendar</h4>
+                            <select className="text-sm border border-slate-200 dark:border-slate-700 rounded-md px-2 py-1 bg-transparent">
+                              <option>March 2025</option>
+                              <option>February 2025</option>
+                              <option>January 2025</option>
+                            </select>
+                          </div>
+                          <div className="bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 flex-1">
+                            <Calendar
+                              mode="single"
+                              selected={new Date()}
+                              className="rounded-lg w-full h-full"
+                            />
+                          </div>
+                        </div>
+
+                        {/* Recent Attendance List */}
+                        <div className="space-y-4">
+                          <div className="flex items-center justify-between">
+                            <h4 className="text-sm font-semibold text-slate-900 dark:text-slate-100">Recent Activity</h4>
+                            <Button variant="outline" size="sm" className="gap-2">
+                              <ArrowDownTrayIcon className="w-4 h-4" />
+                              Export Log
+                            </Button>
+                          </div>
+                          <div className="bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 divide-y divide-slate-200 dark:divide-slate-700">
+                            {[
+                              { date: '2025-03-22', status: 'present' },
+                              { date: '2025-03-21', status: 'present' },
+                              { date: '2025-03-20', status: 'late', note: 'Arrived 10 minutes late' },
+                              { date: '2025-03-19', status: 'present' },
+                              { date: '2025-03-18', status: 'absent', note: 'Medical appointment' }
+                            ].map((day, index) => (
+                              <div key={index} className="p-4 flex items-center justify-between hover:bg-slate-50 dark:hover:bg-slate-800/50">
+                                <div className="flex items-center gap-3">
+                                  <div className={`w-2 h-2 rounded-full ${
+                                    day.status === 'present' 
+                                      ? 'bg-green-500' 
+                                      : day.status === 'late'
+                                      ? 'bg-amber-500'
+                                      : 'bg-red-500'
+                                  }`} />
+                                  <div>
+                                    <p className="text-sm font-medium text-slate-900 dark:text-slate-100">
+                                      {new Date(day.date).toLocaleDateString('en-US', { 
+                                        weekday: 'long',
+                                        month: 'short',
+                                        day: 'numeric'
+                                      })}
+                                    </p>
+                                    {day.note && (
+                                      <p className="text-xs text-slate-500">{day.note}</p>
+                                    )}
+                                  </div>
+                                </div>
+                                <span className={`text-xs px-2 py-1 rounded-full ${
+                                  day.status === 'present'
+                                    ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400'
+                                    : day.status === 'late'
+                                    ? 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400'
+                                    : 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400'
+                                }`}>
+                                  {day.status.charAt(0).toUpperCase() + day.status.slice(1)}
+                                </span>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Additional Analysis */}
+                      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <Card>
+                          <CardHeader>
+                            <CardTitle className="text-sm">Monthly Trend</CardTitle>
+                          </CardHeader>
+                          <CardContent>
+                            <div className="h-[200px] flex items-end gap-2">
+                              {[95, 92, 97, 94, 96].map((percentage, index) => (
+                                <div key={index} className="flex-1 flex flex-col items-center gap-2">
+                                  <div 
+                                    className="w-full bg-blue-500 dark:bg-blue-600 rounded-t"
+                                    style={{ height: `${percentage}%` }}
+                                  />
+                                  <span className="text-xs text-slate-500">Week {index + 1}</span>
+                                </div>
+                              ))}
                             </div>
-                          ))}
-                        </div>
+                          </CardContent>
+                        </Card>
+
+                        <Card>
+                          <CardHeader>
+                            <CardTitle className="text-sm">Attendance Pattern</CardTitle>
+                          </CardHeader>
+                          <CardContent>
+                            <div className="space-y-4">
+                              {[
+                                { day: 'Monday', rate: '98%', color: 'bg-green-500' },
+                                { day: 'Tuesday', rate: '95%', color: 'bg-green-500' },
+                                { day: 'Wednesday', rate: '92%', color: 'bg-amber-500' },
+                                { day: 'Thursday', rate: '97%', color: 'bg-green-500' },
+                                { day: 'Friday', rate: '94%', color: 'bg-green-500' }
+                              ].map((day, index) => (
+                                <div key={index} className="space-y-2">
+                                  <div className="flex items-center justify-between text-sm">
+                                    <span className="text-slate-600 dark:text-slate-400">{day.day}</span>
+                                    <span className="font-medium text-slate-900 dark:text-slate-100">{day.rate}</span>
+                                  </div>
+                                  <div className="h-2 rounded-full bg-slate-100 dark:bg-slate-700">
+                                    <div 
+                                      className={`h-2 rounded-full ${day.color}`}
+                                      style={{ width: day.rate }}
+                                    />
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          </CardContent>
+                        </Card>
                       </div>
                     </div>
                   )}

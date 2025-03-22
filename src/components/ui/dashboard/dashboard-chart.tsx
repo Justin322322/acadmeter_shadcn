@@ -1,99 +1,104 @@
 "use client"
 
+import { useState } from 'react'
 import { useTheme } from "@/components/theme-provider"
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
+import { Button } from "@/components/ui/button"
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer
+} from 'recharts'
+
+const trendData = [
+  { month: 'Jan', Mathematics: 65, Science: 70, English: 60, History: 68, Physics: 72 },
+  { month: 'Feb', Mathematics: 68, Science: 75, English: 65, History: 70, Physics: 75 },
+  { month: 'Mar', Mathematics: 72, Science: 78, English: 70, History: 73, Physics: 77 },
+  { month: 'Apr', Mathematics: 75, Science: 80, English: 73, History: 75, Physics: 80 },
+  { month: 'May', Mathematics: 78, Science: 82, English: 75, History: 78, Physics: 82 },
+  { month: 'Jun', Mathematics: 82, Science: 85, English: 78, History: 80, Physics: 85 }
+]
+
+const subjects = {
+  Mathematics: '#2563eb', // blue
+  Science: '#16a34a', // green
+  English: '#9333ea', // purple
+  History: '#eab308', // yellow
+  Physics: '#dc2626' // red
+}
 
 export function DashboardChart() {
   const { theme } = useTheme()
-  const isDark = theme === 'dark'
+  const isDark = theme === "dark"
+  const [selectedSubjects, setSelectedSubjects] = useState<string[]>(["Mathematics", "Science", "English"])
 
-  const data = [
-    { name: "Mon", math: 65, science: 70, english: 60 },
-    { name: "Tue", math: 78, science: 75, english: 82 },
-    { name: "Wed", math: 72, science: 68, english: 77 },
-    { name: "Thu", math: 85, science: 80, english: 79 },
-    { name: "Fri", math: 82, science: 85, english: 83 },
-    { name: "Sat", math: 90, science: 87, english: 88 },
-    { name: "Sun", math: 88, science: 91, english: 86 }
-  ]
+  const toggleSubject = (subject: string) => {
+    setSelectedSubjects(current => 
+      current.includes(subject) 
+        ? current.filter(s => s !== subject)
+        : [...current, subject]
+    )
+  }
 
   return (
-    <div className="h-[350px] w-full">
-      <ResponsiveContainer width="100%" height="100%">
-        <LineChart 
-          data={data}
-          margin={{ top: 10, right: 20, bottom: 10, left: 10 }}
-        >
-          <CartesianGrid 
-            strokeDasharray="3" 
-            stroke={isDark ? 'rgba(51, 65, 85, 0.5)' : 'rgba(148, 163, 184, 0.3)'} 
-            horizontal={true}
-            vertical={true}
-            strokeWidth={1.2}
-          />
-          <XAxis 
-            dataKey="name" 
-            stroke={isDark ? '#94a3b8' : '#64748b'}
-            fontSize={12}
-            tickMargin={8}
-            axisLine={{ stroke: isDark ? '#475569' : '#cbd5e1', strokeWidth: 2 }}
-            tickLine={{ stroke: isDark ? '#475569' : '#cbd5e1', strokeWidth: 2 }}
-          />
-          <YAxis 
-            stroke={isDark ? '#94a3b8' : '#64748b'}
-            fontSize={12}
-            tickMargin={12}
-            axisLine={{ stroke: isDark ? '#475569' : '#cbd5e1', strokeWidth: 2 }}
-            tickLine={{ stroke: isDark ? '#475569' : '#cbd5e1', strokeWidth: 2 }}
-            width={40}
-            domain={[0, 100]}
-            ticks={[0, 25, 50, 75, 100]}
-          />
-          <Tooltip 
-            contentStyle={{
-              backgroundColor: isDark ? '#1e293b' : '#ffffff',
-              border: `1px solid ${isDark ? '#334155' : '#e2e8f0'}`,
-              borderRadius: '6px',
-              padding: '8px 12px',
-              boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)'
-            }}
-            labelStyle={{ 
-              color: isDark ? '#e2e8f0' : '#1e293b',
-              fontWeight: 500,
-              marginBottom: '4px'
-            }}
-            itemStyle={{
-              color: isDark ? '#e2e8f0' : '#1e293b',
-              fontSize: '12px',
-              padding: '2px 0'
-            }}
-          />
-          <Line 
-            type="monotone" 
-            dataKey="math" 
-            stroke={isDark ? '#60a5fa' : '#2563eb'}
-            strokeWidth={2}
-            dot={{ fill: isDark ? '#60a5fa' : '#2563eb', r: 3 }}
-            activeDot={{ r: 5, strokeWidth: 2 }}
-          />
-          <Line 
-            type="monotone" 
-            dataKey="science" 
-            stroke={isDark ? '#4ade80' : '#16a34a'}
-            strokeWidth={2}
-            dot={{ fill: isDark ? '#4ade80' : '#16a34a', r: 3 }}
-            activeDot={{ r: 5, strokeWidth: 2 }}
-          />
-          <Line 
-            type="monotone" 
-            dataKey="english" 
-            stroke={isDark ? '#c084fc' : '#7c3aed'}
-            strokeWidth={2}
-            dot={{ fill: isDark ? '#c084fc' : '#7c3aed', r: 3 }}
-            activeDot={{ r: 5, strokeWidth: 2 }}
-          />
-        </LineChart>
-      </ResponsiveContainer>
+    <div className="space-y-4">
+      <div className="flex flex-wrap gap-2">
+        {Object.entries(subjects).map(([subject, color]) => (
+          <Button
+            key={subject}
+            size="sm"
+            variant={selectedSubjects.includes(subject) ? 'default' : 'outline'}
+            className="gap-2"
+            onClick={() => toggleSubject(subject)}
+          >
+            <div className="w-2 h-2 rounded-full" style={{ backgroundColor: color }} />
+            {subject}
+          </Button>
+        ))}
+      </div>
+
+      <div className="h-[350px]">
+        <ResponsiveContainer width="100%" height="100%">
+          <LineChart
+            data={trendData}
+            margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+          >
+            <CartesianGrid strokeDasharray="3 3" stroke={isDark ? '#334155' : '#e2e8f0'} />
+            <XAxis
+              dataKey="month"
+              stroke={isDark ? '#94a3b8' : '#64748b'}
+              fontSize={12}
+            />
+            <YAxis
+              stroke={isDark ? '#94a3b8' : '#64748b'}
+              fontSize={12}
+              tickFormatter={(value) => `${value}%`}
+            />
+            <Tooltip
+              contentStyle={{
+                backgroundColor: isDark ? '#1e293b' : '#ffffff',
+                border: `1px solid ${isDark ? '#334155' : '#e2e8f0'}`,
+                borderRadius: '6px',
+                fontSize: '12px'
+              }}
+            />
+            {selectedSubjects.map((subject) => (
+              <Line
+                key={subject}
+                type="monotone"
+                dataKey={subject}
+                name={subject}
+                stroke={subjects[subject as keyof typeof subjects]}
+                strokeWidth={2}
+                dot={{ fill: subjects[subject as keyof typeof subjects], r: 4 }}
+              />
+            ))}
+          </LineChart>
+        </ResponsiveContainer>
+      </div>
     </div>
   )
 }
