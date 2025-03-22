@@ -9,6 +9,7 @@ import {
   DocumentChartBarIcon,
   PresentationChartLineIcon,
   ArrowRightIcon,
+  AcademicCapIcon,
 } from "@heroicons/react/24/outline"
 import { motion } from "framer-motion"
 import { Navigation } from "@/components/ui/navigation"
@@ -38,7 +39,7 @@ export default function Home() {
     <div>
       <Navigation />
       <main className="relative text-slate-800 dark:text-slate-100 overflow-x-hidden">
-        <section className="pt-20 pb-16 sm:pt-24 sm:pb-20 md:pt-32 md:pb-24 lg:min-h-screen overflow-hidden relative px-4 sm:px-6">
+        <section className="min-h-[50vh] sm:min-h-[60vh] flex items-center pt-24 pb-16 sm:pt-32 sm:pb-20 md:pt-40 md:pb-24 lg:min-h-screen overflow-hidden relative px-4 sm:px-6">
           <div className="absolute inset-0">
             <div className="bg-gradient-to-br from-slate-50 via-white to-blue-50/30 dark:from-slate-950 dark:via-slate-900 dark:to-blue-950/20 h-full w-full" />
             <div className="absolute inset-0 bg-[linear-gradient(to_right,#8080801a_1px,transparent_1px),linear-gradient(to_bottom,#8080801a_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,#ffffff0d_1px,transparent_1px),linear-gradient(to_bottom,#ffffff0d_1px,transparent_1px)] bg-[size:24px_24px]" />
@@ -48,51 +49,56 @@ export default function Home() {
           <div className="container mx-auto relative z-10">
             <div className="lg:grid lg:grid-cols-2 lg:gap-16 xl:gap-24 items-center">
               {/* Hero Content */}
-              <div className="text-center lg:text-left mb-12 lg:mb-0">
-                <div className="relative inline-block mb-6">
+              <div className="text-center lg:text-left">
+                <div className="relative inline-block mb-6 sm:mb-8">
                   <motion.div
                     className="absolute inset-0 bg-blue-100 dark:bg-blue-900/30 rounded-full blur-2xl"
                     initial={{ scale: 0.8 }}
                     animate={{ scale: 1.2 }}
                     transition={{ duration: 2, repeat: Infinity, repeatType: "reverse" }}
                   />
-                  <span className="relative px-3 py-1.5 sm:px-4 sm:py-2 rounded-full bg-blue-100/90 dark:bg-blue-900/90 text-blue-600 dark:text-blue-300 text-xs sm:text-sm font-medium">
-                    Next-Gen Education Platform
-                  </span>
+                  <div className="relative flex items-center gap-3">
+                    <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-blue-500 to-violet-500 flex items-center justify-center text-white">
+                      <AcademicCapIcon className="w-7 h-7" />
+                    </div>
+                    <span className="relative px-4 py-2 rounded-full bg-blue-100/90 dark:bg-blue-900/90 text-blue-600 dark:text-blue-300 text-base font-medium">
+                      Next-Gen Education Platform
+                    </span>
+                  </div>
                 </div>
                 
-                <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 leading-tight tracking-tight">
-                  <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-violet-600 dark:from-blue-400 dark:to-violet-400">
+                <h1 className="text-[2.75rem] leading-[1.1] sm:text-5xl md:text-6xl lg:text-6xl font-bold mb-5 sm:mb-6">
+                  <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-violet-600 dark:from-blue-400 dark:to-violet-400 inline">
                     Transform Education
                   </span>
                   <br />
-                  Through Smart Analytics
+                  <span className="mt-2 sm:mt-3 inline-block">Through Smart Analytics</span>
                 </h1>
 
-                <p className="text-base sm:text-lg lg:text-xl mb-6 sm:mb-8 text-slate-600 dark:text-slate-300 max-w-2xl mx-auto lg:mx-0">
+                <p className="text-xl sm:text-2xl lg:text-2xl mb-8 sm:mb-10 text-slate-600 dark:text-slate-300 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
                   Revolutionize your institution&apos;s academic performance with AI-powered insights and real-time analytics.
                 </p>
 
-                <div className="flex flex-col sm:flex-row items-center gap-4 justify-center lg:justify-start w-full sm:w-auto">
+                <div className="flex flex-col sm:flex-row items-center gap-5 justify-center lg:justify-start">
                   <Button 
                     size="lg" 
-                    className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 dark:bg-blue-600/90 text-white px-8 py-3 text-base min-w-[200px] sm:min-w-0"
+                    className="w-full sm:w-auto bg-gradient-to-r from-blue-600 to-violet-600 hover:from-blue-700 hover:to-violet-700 text-white px-8 py-7 text-lg sm:py-3 sm:text-base rounded-2xl sm:rounded-lg min-w-[240px] sm:min-w-0"
                   >
                     Start Free Trial
                   </Button>
                   <Button 
                     size="lg" 
                     variant="outline" 
-                    className="w-full sm:w-auto group px-8 py-3 text-base min-w-[200px] sm:min-w-0"
+                    className="w-full sm:w-auto group px-8 py-7 text-lg sm:py-3 sm:text-base rounded-2xl sm:rounded-lg min-w-[240px] sm:min-w-0"
                   >
                     Watch Demo
-                    <ArrowRightIcon className="h-4 w-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                    <ArrowRightIcon className="h-5 w-5 sm:h-4 sm:w-4 ml-2 group-hover:translate-x-1 transition-transform" />
                   </Button>
                 </div>
 
-                {/* Stats Grid - Modified for mobile */}
-                <div className="mt-8 sm:mt-12 lg:mt-16">
-                  <div className="grid grid-cols-3 gap-3 sm:gap-4">
+                {/* Stats Grid - Mobile Optimized */}
+                <div className="mt-12 sm:mt-16 lg:mt-16 overflow-hidden">
+                  <div className="grid grid-cols-3 gap-3 sm:gap-4 -mx-4 sm:mx-0 px-4 sm:px-0">
                     <motion.div 
                       className="bg-white dark:bg-slate-800/50 rounded-xl p-3 sm:p-6 shadow-sm border border-slate-200 dark:border-slate-700 relative overflow-hidden group"
                       whileHover={{ y: -5 }}

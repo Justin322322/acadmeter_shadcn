@@ -4,22 +4,29 @@ import { useState } from "react"
 import { Button } from "./button"
 import { ThemeToggle } from "./theme-toggle"
 import { LoginModal } from "./login-modal"
-import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline"
+import { SignupModal } from "./signup-modal"
+import { Bars3Icon, XMarkIcon, AcademicCapIcon } from "@heroicons/react/24/outline"
 import Link from "next/link"
 
 export function Navigation() {
-  const [isOpen, setIsOpen] = useState(false)
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [showLoginModal, setShowLoginModal] = useState(false)
+  const [showSignupModal, setShowSignupModal] = useState(false)
 
-  const toggleMenu = () => setIsOpen(!isOpen)
+  const toggleMenu = () => setIsMenuOpen(!isMenuOpen)
   const handleOpenLogin = () => setShowLoginModal(true)
   const handleCloseLogin = () => setShowLoginModal(false)
+  const handleOpenSignup = () => {
+    setShowSignupModal(true)
+    setIsMenuOpen(false)
+  }
+  const handleCloseSignup = () => setShowSignupModal(false)
   
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id)
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' })
-      setIsOpen(false)
+      setIsMenuOpen(false)
     }
   }
 
@@ -29,11 +36,8 @@ export function Navigation() {
         <div className="relative flex justify-between items-center h-16 sm:h-20">
           <div className="flex items-center">
             <Link href="/" className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-r from-blue-500 to-violet-500 flex items-center justify-center">
-                <svg className="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M12 6L3 12L12 18L21 12L12 6Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  <path d="M3 12L12 18L21 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
+              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-violet-500 flex items-center justify-center text-white">
+                <AcademicCapIcon className="w-5 h-5" />
               </div>
               <span className="text-lg sm:text-xl font-bold bg-gradient-to-r from-blue-600 to-violet-600 dark:from-blue-400 dark:to-violet-400 text-transparent bg-clip-text">
                 AcadMeter
@@ -66,7 +70,11 @@ export function Navigation() {
             <div className="flex items-center gap-3 pl-3 lg:pl-5 border-l border-slate-200 dark:border-slate-700">
               <ThemeToggle />
               <Button variant="outline" size="sm" className="px-3 lg:px-4" onClick={handleOpenLogin}>Sign In</Button>
-              <Button size="sm" className="px-3 lg:px-4 bg-gradient-to-r from-blue-600 to-violet-600 hover:from-blue-700 hover:to-violet-700 dark:from-blue-500 dark:to-violet-500 text-white">
+              <Button 
+                size="sm" 
+                className="px-3 lg:px-4 bg-gradient-to-r from-blue-600 to-violet-600 hover:from-blue-700 hover:to-violet-700 dark:from-blue-500 dark:to-violet-500 text-white"
+                onClick={handleOpenSignup}
+              >
                 Get Started
               </Button>
             </div>
@@ -82,7 +90,7 @@ export function Navigation() {
               aria-label="Toggle menu"
               className="p-1.5"
             >
-              {isOpen ? (
+              {isMenuOpen ? (
                 <XMarkIcon className="h-5 w-5" />
               ) : (
                 <Bars3Icon className="h-5 w-5" />
@@ -94,7 +102,7 @@ export function Navigation() {
         {/* Mobile Navigation */}
         <div 
           className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out ${
-            isOpen 
+            isMenuOpen 
               ? 'max-h-[400px] opacity-100 pb-4' 
               : 'max-h-0 opacity-0'
           }`}
@@ -124,7 +132,7 @@ export function Navigation() {
               </Button>
               <Button 
                 size="sm"
-                onClick={toggleMenu} 
+                onClick={handleOpenSignup}
                 className="w-full justify-center py-2.5 bg-gradient-to-r from-blue-600 to-violet-600 hover:from-blue-700 hover:to-violet-700 dark:from-blue-500 dark:to-violet-500 text-white"
               >
                 Get Started
@@ -134,6 +142,7 @@ export function Navigation() {
         </div>
       </div>
       <LoginModal isOpen={showLoginModal} onClose={handleCloseLogin} />
+      <SignupModal isOpen={showSignupModal} onClose={handleCloseSignup} />
     </nav>
   )
 }

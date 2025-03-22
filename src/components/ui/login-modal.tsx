@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "./dialog"
 import { Button } from "./button"
 import { SignupModal } from "./signup-modal"
+import { ForgotPasswordModal } from "./forgot-password-modal"
 import { motion } from "framer-motion"
 import { 
   ArrowRightIcon, 
@@ -26,6 +27,7 @@ export function LoginModal({
   const [showPassword, setShowPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [showSignup, setShowSignup] = useState(false)
+  const [showForgotPassword, setShowForgotPassword] = useState(false)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -39,6 +41,14 @@ export function LoginModal({
 
   if (showSignup) {
     return <SignupModal isOpen={true} onClose={() => setShowSignup(false)} />
+  }
+
+  if (showForgotPassword) {
+    return <ForgotPasswordModal 
+      isOpen={true} 
+      onClose={() => setShowForgotPassword(false)} 
+      onBackToLogin={() => setShowForgotPassword(false)} 
+    />
   }
 
   return (
@@ -167,6 +177,7 @@ export function LoginModal({
                   </div>
                   <button 
                     type="button" 
+                    onClick={() => setShowForgotPassword(true)}
                     className="text-sm font-medium text-blue-600 hover:text-blue-500 dark:text-blue-400 dark:hover:text-blue-300 transition-colors"
                   >
                     Forgot password?
