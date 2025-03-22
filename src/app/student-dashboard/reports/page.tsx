@@ -11,30 +11,160 @@ import {
   CheckCircleIcon,
   ChartBarIcon
 } from "@heroicons/react/24/outline"
+import { ComponentType } from "react"
+
+interface Assessment {
+  name: string
+  completed: number
+  total: number
+  score: number
+}
+
+interface Topic {
+  name: string
+  score: number
+}
+
+interface TeacherComment {
+  date: string
+  comment: string
+}
+
+interface Subject {
+  id: string
+  name: string
+  grade: string
+  percentage: number
+  attendance: number
+  rank: string
+  submissionRate: number
+  assessments: Assessment[]
+  topics: Topic[]
+  recentGrades: number[]
+  teacherComments: TeacherComment[]
+}
+
+const getGradeColor = (score: number) => {
+  if (score >= 80) return 'text-green-600 dark:text-green-500'
+  if (score >= 75) return 'text-yellow-600 dark:text-yellow-500'
+  return 'text-red-600 dark:text-red-500'
+}
+
+const getGradeBackgroundColor = (score: number) => {
+  if (score >= 80) return 'bg-green-50 dark:bg-green-900/20'
+  if (score >= 75) return 'bg-yellow-50 dark:bg-yellow-900/20'
+  return 'bg-red-50 dark:bg-red-900/20'
+}
+
+const getProgressBarColor = (score: number) => {
+  if (score >= 80) return 'bg-green-500'
+  if (score >= 75) return 'bg-yellow-500'
+  return 'bg-red-500'
+}
+
+interface StatCardProps {
+  icon: ComponentType<{ className?: string }>
+  label: string
+  value: number | string
+  colorClass?: string
+}
+
+const StatCard = ({ icon: Icon, label, value, colorClass = '' }: StatCardProps) => (
+  <Card>
+    <CardContent className="pt-6">
+      <div className="flex items-center gap-4">
+        <div className={`p-3 rounded-lg ${colorClass || 'bg-slate-100 dark:bg-slate-800'}`}>
+          <Icon className={`w-6 h-6 ${colorClass ? getGradeColor(typeof value === 'number' ? value : 0) : 'text-slate-600 dark:text-slate-400'}`} />
+        </div>
+        <div>
+          <p className="text-sm text-slate-500">{label}</p>
+          <p className={`text-2xl font-bold ${colorClass ? getGradeColor(typeof value === 'number' ? value : 0) : 'text-slate-900 dark:text-slate-100'}`}>
+            {value}
+          </p>
+        </div>
+      </div>
+    </CardContent>
+  </Card>
+)
+
+interface AssessmentSectionProps {
+  assessments?: Assessment[]
+}
+
+const AssessmentSection = ({ assessments }: AssessmentSectionProps) => (
+  <Card>
+    <CardHeader>
+      <CardTitle>Assessment Breakdown</CardTitle>
+      <CardDescription>Performance in different types of assessments</CardDescription>
+    </CardHeader>
+    <CardContent>
+      <div className="space-y-6">
+        {assessments?.map((assessment) => (
+          <div key={assessment.name} className="space-y-2">
+            <div className="flex items-center justify-between">
+              <span className="text-sm font-medium text-slate-700 dark:text-slate-300">
+                {assessment.name}
+              </span>
+              <span className={`text-sm font-medium ${getGradeColor(assessment.score)}`}>
+                {assessment.score}%
+              </span>
+            </div>
+            <div className="w-full bg-slate-100 dark:bg-slate-800 rounded-full h-2">
+              <div 
+                className={`h-2 rounded-full ${getProgressBarColor(assessment.score)}`}
+                style={{ width: `${assessment.score}%` }}
+              />
+            </div>
+            <div className="flex justify-between text-xs text-slate-500">
+              <span>{assessment.completed}/{assessment.total} Completed</span>
+            </div>
+          </div>
+        ))}
+      </div>
+    </CardContent>
+  </Card>
+)
+
+interface TopicPerformanceProps {
+  topics?: Topic[]
+}
+
+const TopicPerformance = ({ topics }: TopicPerformanceProps) => (
+  <Card>
+    <CardHeader>
+      <CardTitle>Topic Performance</CardTitle>
+      <CardDescription>Understanding of key subject areas</CardDescription>
+    </CardHeader>
+    <CardContent>
+      <div className="space-y-6">
+        {topics?.map((topic) => (
+          <div key={topic.name} className="space-y-2">
+            <div className="flex items-center justify-between">
+              <span className="text-sm font-medium text-slate-700 dark:text-slate-300">
+                {topic.name}
+              </span>
+              <span className={`text-sm font-medium ${getGradeColor(topic.score)}`}>
+                {topic.score}%
+              </span>
+            </div>
+            <div className="w-full bg-slate-100 dark:bg-slate-800 rounded-full h-2">
+              <div 
+                className={`h-2 rounded-full ${getProgressBarColor(topic.score)}`}
+                style={{ width: `${topic.score}%` }}
+              />
+            </div>
+          </div>
+        ))}
+      </div>
+    </CardContent>
+  </Card>
+)
 
 export default function ReportsPage() {
   const [selectedTimeframe, setSelectedTimeframe] = useState<'semester' | 'year'>('semester')
   const [selectedSubject, setSelectedSubject] = useState<string | null>(null)
 
-  const getGradeColor = (score: number) => {
-    if (score >= 80) return 'text-green-600 dark:text-green-500'
-    if (score >= 75) return 'text-yellow-600 dark:text-yellow-500'
-    return 'text-red-600 dark:text-red-500'
-  }
-
-  const getGradeBackgroundColor = (score: number) => {
-    if (score >= 80) return 'bg-green-50 dark:bg-green-900/20'
-    if (score >= 75) return 'bg-yellow-50 dark:bg-yellow-900/20'
-    return 'bg-red-50 dark:bg-red-900/20'
-  }
-
-  const getProgressBarColor = (score: number) => {
-    if (score >= 80) return 'bg-green-500'
-    if (score >= 75) return 'bg-yellow-500'
-    return 'bg-red-500'
-  }
-
-  const subjects = [
+  const subjects: Subject[] = [
     {
       id: "math",
       name: "Mathematics",
@@ -143,135 +273,32 @@ export default function ReportsPage() {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        {/* Key Stats */}
-        <Card>
-          <CardContent className="pt-6">
-            <div className="flex items-center gap-4">
-              <div className={`p-3 rounded-lg ${getGradeBackgroundColor(currentSubject?.percentage || 0)}`}>
-                <ChartBarIcon className={`w-6 h-6 ${getGradeColor(currentSubject?.percentage || 0)}`} />
-              </div>
-              <div>
-                <p className="text-sm text-slate-500">Overall Grade</p>
-                <p className={`text-2xl font-bold ${getGradeColor(currentSubject?.percentage || 0)}`}>
-                  {currentSubject?.percentage}%
-                </p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardContent className="pt-6">
-            <div className="flex items-center gap-4">
-              <div className="p-3 rounded-lg bg-slate-100 dark:bg-slate-800">
-                <ClockIcon className="w-6 h-6 text-slate-600 dark:text-slate-400" />
-              </div>
-              <div>
-                <p className="text-sm text-slate-500">Attendance</p>
-                <p className="text-2xl font-bold text-slate-900 dark:text-slate-100">
-                  {currentSubject?.attendance}%
-                </p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardContent className="pt-6">
-            <div className="flex items-center gap-4">
-              <div className="p-3 rounded-lg bg-slate-100 dark:bg-slate-800">
-                <UserGroupIcon className="w-6 h-6 text-slate-600 dark:text-slate-400" />
-              </div>
-              <div>
-                <p className="text-sm text-slate-500">Class Rank</p>
-                <p className="text-2xl font-bold text-slate-900 dark:text-slate-100">
-                  {currentSubject?.rank}
-                </p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardContent className="pt-6">
-            <div className="flex items-center gap-4">
-              <div className="p-3 rounded-lg bg-slate-100 dark:bg-slate-800">
-                <CheckCircleIcon className="w-6 h-6 text-slate-600 dark:text-slate-400" />
-              </div>
-              <div>
-                <p className="text-sm text-slate-500">Submission Rate</p>
-                <p className="text-2xl font-bold text-slate-900 dark:text-slate-100">
-                  {currentSubject?.submissionRate}%
-                </p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+        <StatCard 
+          icon={ChartBarIcon}
+          label="Overall Grade"
+          value={currentSubject?.percentage || 0}
+          colorClass={getGradeBackgroundColor(currentSubject?.percentage || 0)}
+        />
+        <StatCard 
+          icon={ClockIcon}
+          label="Attendance"
+          value={currentSubject?.attendance || 0}
+        />
+        <StatCard 
+          icon={UserGroupIcon}
+          label="Class Rank"
+          value={currentSubject?.rank || '0/0'}
+        />
+        <StatCard 
+          icon={CheckCircleIcon}
+          label="Submission Rate"
+          value={currentSubject?.submissionRate || 0}
+        />
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Assessments */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Assessment Breakdown</CardTitle>
-            <CardDescription>Performance in different types of assessments</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-6">
-              {currentSubject?.assessments.map((assessment) => (
-                <div key={assessment.name} className="space-y-2">
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm font-medium text-slate-700 dark:text-slate-300">
-                      {assessment.name}
-                    </span>
-                    <span className={`text-sm font-medium ${getGradeColor(assessment.score)}`}>
-                      {assessment.score}%
-                    </span>
-                  </div>
-                  <div className="w-full bg-slate-100 dark:bg-slate-800 rounded-full h-2">
-                    <div 
-                      className={`h-2 rounded-full ${getProgressBarColor(assessment.score)}`}
-                      style={{ width: `${assessment.score}%` }}
-                    />
-                  </div>
-                  <div className="flex justify-between text-xs text-slate-500">
-                    <span>{assessment.completed}/{assessment.total} Completed</span>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Topics */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Topic Performance</CardTitle>
-            <CardDescription>Understanding of key subject areas</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-6">
-              {currentSubject?.topics.map((topic) => (
-                <div key={topic.name} className="space-y-2">
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm font-medium text-slate-700 dark:text-slate-300">
-                      {topic.name}
-                    </span>
-                    <span className={`text-sm font-medium ${getGradeColor(topic.score)}`}>
-                      {topic.score}%
-                    </span>
-                  </div>
-                  <div className="w-full bg-slate-100 dark:bg-slate-800 rounded-full h-2">
-                    <div 
-                      className={`h-2 rounded-full ${getProgressBarColor(topic.score)}`}
-                      style={{ width: `${topic.score}%` }}
-                    />
-                  </div>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
+        <AssessmentSection assessments={currentSubject?.assessments} />
+        <TopicPerformance topics={currentSubject?.topics} />
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">

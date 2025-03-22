@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, ComponentType } from 'react'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "./dialog"
 import { Button } from "./button"
 import { 
@@ -19,17 +19,269 @@ import { motion, AnimatePresence } from "framer-motion"
 
 type UserType = 'teacher' | 'student' | undefined
 
+interface FormInputProps {
+  icon: ComponentType<{ className?: string }>
+  label: string
+  type?: string
+  error?: string
+  showPassword?: boolean
+  onTogglePassword?: () => void
+  value: string
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
+  placeholder?: string
+}
+
+interface FormData {
+  firstName: string
+  lastName: string
+  email: string
+  id: string
+  password: string
+  confirmPassword: string
+}
+
+interface BasicInfoStepProps {
+  formData: FormData
+  setFormData: (data: FormData) => void
+  errors: Record<string, string>
+  userType: UserType
+}
+
+interface PasswordStepProps {
+  formData: FormData
+  setFormData: (data: FormData) => void
+  errors: Record<string, string>
+  showPassword: boolean
+  showConfirmPassword: boolean
+  setShowPassword: (show: boolean) => void
+  setShowConfirmPassword: (show: boolean) => void
+}
+
+interface SuccessStepProps {
+  userType: UserType
+  onClose: () => void
+}
+
+interface AccountTypeSelectionProps {
+  onSelect: (type: UserType) => void
+}
+
+const AccountTypeSelection = ({ onSelect }: AccountTypeSelectionProps) => (
+  <div className="mt-10 space-y-6">
+    <motion.button
+      whileHover={{ y: -4 }}
+      whileTap={{ scale: 0.98 }}
+      onClick={() => onSelect('teacher')}
+      className="w-full relative group overflow-hidden p-6 rounded-xl border-2 border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 hover:border-violet-500/70 dark:hover:border-violet-500/70 transition-all duration-300"
+    >
+      <div className="absolute inset-0 bg-gradient-to-r from-violet-500/5 to-pink-500/5 dark:from-violet-500/10 dark:to-pink-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+      <div className="relative flex items-center gap-5">
+        <div className="shrink-0 w-14 h-14 rounded-lg bg-gradient-to-br from-violet-500 to-pink-500 flex items-center justify-center text-white shadow-md shadow-violet-500/20">
+          <AcademicCapIcon className="w-7 h-7" />
+        </div>
+        <div className="flex-1 text-left">
+          <h3 className="text-xl font-semibold text-slate-900 dark:text-white">Teacher Account</h3>
+          <p className="text-slate-600 dark:text-slate-400 mt-1">Create classes, manage students, and track progress</p>
+        </div>
+      </div>
+    </motion.button>
+
+    <motion.button
+      whileHover={{ y: -4 }}
+      whileTap={{ scale: 0.98 }}
+      onClick={() => onSelect('student')}
+      className="w-full relative group overflow-hidden p-6 rounded-xl border-2 border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 hover:border-blue-500/70 dark:hover:border-blue-500/70 transition-all duration-300"
+    >
+      <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 to-violet-500/5 dark:from-blue-500/10 dark:to-violet-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+      <div className="relative flex items-center gap-5">
+        <div className="shrink-0 w-14 h-14 rounded-lg bg-gradient-to-br from-blue-500 to-violet-500 flex items-center justify-center text-white shadow-md shadow-blue-500/20">
+          <UserIcon className="w-7 h-7" />
+        </div>
+        <div className="flex-1 text-left">
+          <h3 className="text-xl font-semibold text-slate-900 dark:text-white">Student Account</h3>
+          <p className="text-slate-600 dark:text-slate-400 mt-1">Access courses, submit assignments, and view grades</p>
+        </div>
+      </div>
+    </motion.button>
+  </div>
+)
+
+const FormInput = ({ 
+  icon: Icon, 
+  label, 
+  type = 'text', 
+  error, 
+  showPassword, 
+  onTogglePassword, 
+  ...props 
+}: FormInputProps) => (
+  <div className="space-y-2">
+    <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
+      {label}
+    </label>
+    <div className="relative">
+      <Icon className="absolute left-3 top-2.5 h-5 w-5 text-slate-400 dark:text-slate-500" />
+      <input
+        type={type}
+        className="flex h-11 w-full rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 pl-10 pr-10 text-sm ring-offset-white placeholder:text-slate-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:ring-offset-slate-950 dark:placeholder:text-slate-500 dark:focus-visible:ring-blue-500"
+        {...props}
+      />
+      {type === 'password' && (
+        <button
+          type="button"
+          onClick={onTogglePassword}
+          className="absolute right-3 top-2.5 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition-colors"
+        >
+          {showPassword ? (
+            <EyeSlashIcon className="h-5 w-5" />
+          ) : (
+            <EyeIcon className="h-5 w-5" />
+          )}
+        </button>
+      )}
+      {error && (
+        <p className="mt-1 text-xs text-red-500 dark:text-red-400">{error}</p>
+      )}
+    </div>
+  </div>
+)
+
+const BasicInfoStep = ({ formData, setFormData, errors, userType }: BasicInfoStepProps) => (
+  <div className="space-y-6">
+    <div className="grid grid-cols-2 gap-4">
+      <FormInput
+        icon={UserIcon}
+        label="First name"
+        placeholder="Enter your first name"
+        value={formData.firstName}
+        onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
+        error={errors.firstName}
+      />
+      <FormInput
+        icon={UserIcon}
+        label="Last name"
+        placeholder="Enter your last name"
+        value={formData.lastName}
+        onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
+        error={errors.lastName}
+      />
+    </div>
+
+    <FormInput
+      icon={EnvelopeIcon}
+      label="Email address"
+      type="email"
+      placeholder="Enter your email"
+      value={formData.email}
+      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+      error={errors.email}
+    />
+
+    <FormInput
+      icon={IdentificationIcon}
+      label={`${userType === 'teacher' ? 'Teacher' : 'Student'} ID`}
+      placeholder={`Enter your ${userType === 'teacher' ? 'teacher' : 'student'} ID`}
+      value={formData.id}
+      onChange={(e) => setFormData({ ...formData, id: e.target.value })}
+      error={errors.id}
+    />
+  </div>
+)
+
+const PasswordStep = ({ 
+  formData, 
+  setFormData, 
+  errors, 
+  showPassword, 
+  showConfirmPassword, 
+  setShowPassword, 
+  setShowConfirmPassword 
+}: PasswordStepProps) => (
+  <div className="space-y-6">
+    <FormInput
+      icon={KeyIcon}
+      label="Password"
+      type={showPassword ? "text" : "password"}
+      placeholder="Create a password"
+      value={formData.password}
+      onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+      error={errors.password}
+      showPassword={showPassword}
+      onTogglePassword={() => setShowPassword(!showPassword)}
+    />
+
+    <FormInput
+      icon={KeyIcon}
+      label="Confirm password"
+      type={showConfirmPassword ? "text" : "password"}
+      placeholder="Confirm your password"
+      value={formData.confirmPassword}
+      onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
+      error={errors.confirmPassword}
+      showPassword={showConfirmPassword}
+      onTogglePassword={() => setShowConfirmPassword(!showConfirmPassword)}
+    />
+
+    <div className="rounded-lg border border-slate-200 dark:border-slate-800 p-4 bg-slate-50/50 dark:bg-slate-900/50">
+      <p className="font-medium text-sm text-slate-900 dark:text-white mb-3">
+        Password requirements:
+      </p>
+      <ul className="space-y-2 text-sm text-slate-600 dark:text-slate-400">
+        <li className="flex items-center gap-2">
+          <div className="h-1.5 w-1.5 rounded-full bg-slate-400 dark:bg-slate-600" />
+          At least 8 characters long
+        </li>
+        <li className="flex items-center gap-2">
+          <div className="h-1.5 w-1.5 rounded-full bg-slate-400 dark:bg-slate-600" />
+          Contains at least one number
+        </li>
+        <li className="flex items-center gap-2">
+          <div className="h-1.5 w-1.5 rounded-full bg-slate-400 dark:bg-slate-600" />
+          Contains at least one special character
+        </li>
+      </ul>
+    </div>
+  </div>
+)
+
+const SuccessStep = ({ userType, onClose }: SuccessStepProps) => (
+  <motion.div 
+    className="text-center py-8"
+    initial={{ opacity: 0, scale: 0.95 }}
+    animate={{ opacity: 1, scale: 1 }}
+    transition={{ duration: 0.2 }}
+  >
+    <div className="mx-auto w-20 h-20 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center mb-6 shadow-md shadow-green-500/10">
+      <CheckCircleIcon className="w-10 h-10 text-green-600 dark:text-green-400" />
+    </div>
+    <h3 className="text-2xl font-semibold text-slate-900 dark:text-white mb-3">
+      Account Created Successfully
+    </h3>
+    <p className="text-slate-600 dark:text-slate-400 mb-8 max-w-md mx-auto">
+      Your {userType} account has been created. You can now sign in to access your dashboard.
+    </p>
+    <Button
+      onClick={onClose}
+      className="px-8 py-2.5 bg-gradient-to-r from-blue-600 to-violet-600 hover:from-blue-700 hover:to-violet-700 text-white dark:from-blue-500 dark:to-violet-500 dark:hover:from-blue-600 dark:hover:to-violet-600"
+    >
+      Go to Login
+    </Button>
+  </motion.div>
+)
+
+interface SignupModalProps {
+  isOpen: boolean
+  onClose: () => void
+}
+
 export function SignupModal({
   isOpen,
   onClose
-}: {
-  isOpen: boolean
-  onClose: () => void
-}) {
+}: SignupModalProps) {
   const [isLoading, setIsLoading] = useState(false)
   const [userType, setUserType] = useState<UserType>(undefined)
   const [step, setStep] = useState(1)
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     firstName: '',
     lastName: '',
     email: '',
@@ -71,7 +323,7 @@ export function SignupModal({
     // Add signup logic here
     setTimeout(() => {
       setIsLoading(false)
-      setStep(3) // Show success state
+      setStep(3)
     }, 1000)
   }
 
@@ -134,44 +386,7 @@ export function SignupModal({
                     Choose your account type to get started
                   </p>
                 </DialogHeader>
-
-                <div className="mt-10 space-y-6">
-                  <motion.button
-                    whileHover={{ y: -4 }}
-                    whileTap={{ scale: 0.98 }}
-                    onClick={() => setUserType('teacher')}
-                    className="w-full relative group overflow-hidden p-6 rounded-xl border-2 border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 hover:border-violet-500/70 dark:hover:border-violet-500/70 transition-all duration-300"
-                  >
-                    <div className="absolute inset-0 bg-gradient-to-r from-violet-500/5 to-pink-500/5 dark:from-violet-500/10 dark:to-pink-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                    <div className="relative flex items-center gap-5">
-                      <div className="shrink-0 w-14 h-14 rounded-lg bg-gradient-to-br from-violet-500 to-pink-500 flex items-center justify-center text-white shadow-md shadow-violet-500/20">
-                        <AcademicCapIcon className="w-7 h-7" />
-                      </div>
-                      <div className="flex-1 text-left">
-                        <h3 className="text-xl font-semibold text-slate-900 dark:text-white">Teacher Account</h3>
-                        <p className="text-slate-600 dark:text-slate-400 mt-1">Create classes, manage students, and track progress</p>
-                      </div>
-                    </div>
-                  </motion.button>
-
-                  <motion.button
-                    whileHover={{ y: -4 }}
-                    whileTap={{ scale: 0.98 }}
-                    onClick={() => setUserType('student')}
-                    className="w-full relative group overflow-hidden p-6 rounded-xl border-2 border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 hover:border-blue-500/70 dark:hover:border-blue-500/70 transition-all duration-300"
-                  >
-                    <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 to-violet-500/5 dark:from-blue-500/10 dark:to-violet-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                    <div className="relative flex items-center gap-5">
-                      <div className="shrink-0 w-14 h-14 rounded-lg bg-gradient-to-br from-blue-500 to-violet-500 flex items-center justify-center text-white shadow-md shadow-blue-500/20">
-                        <UserIcon className="w-7 h-7" />
-                      </div>
-                      <div className="flex-1 text-left">
-                        <h3 className="text-xl font-semibold text-slate-900 dark:text-white">Student Account</h3>
-                        <p className="text-slate-600 dark:text-slate-400 mt-1">Access courses, submit assignments, and view grades</p>
-                      </div>
-                    </div>
-                  </motion.button>
-                </div>
+                <AccountTypeSelection onSelect={setUserType} />
               </div>
             </div>
           </div>
@@ -279,199 +494,28 @@ export function SignupModal({
                   >
                     <form onSubmit={step === 2 ? handleSubmit : (e) => { e.preventDefault(); setStep(2); }}>
                       {step === 1 && (
-                        <div className="space-y-6">
-                          <div className="grid grid-cols-2 gap-4">
-                            <div className="space-y-2">
-                              <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
-                                First name
-                              </label>
-                              <div className="relative">
-                                <UserIcon className="absolute left-3 top-2.5 h-5 w-5 text-slate-400 dark:text-slate-500" />
-                                <input
-                                  type="text"
-                                  placeholder="Enter your first name"
-                                  value={formData.firstName}
-                                  onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
-                                  className="flex h-11 w-full rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 pl-10 pr-3 text-sm ring-offset-white placeholder:text-slate-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:ring-offset-slate-950 dark:placeholder:text-slate-500 dark:focus-visible:ring-blue-500"
-                                  required
-                                />
-                                {errors.firstName && (
-                                  <p className="mt-1 text-xs text-red-500 dark:text-red-400">{errors.firstName}</p>
-                                )}
-                              </div>
-                            </div>
-                            <div className="space-y-2">
-                              <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
-                                Last name
-                              </label>
-                              <div className="relative">
-                                <UserIcon className="absolute left-3 top-2.5 h-5 w-5 text-slate-400 dark:text-slate-500" />
-                                <input
-                                  type="text"
-                                  placeholder="Enter your last name"
-                                  value={formData.lastName}
-                                  onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
-                                  className="flex h-11 w-full rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 pl-10 pr-3 text-sm ring-offset-white placeholder:text-slate-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:ring-offset-slate-950 dark:placeholder:text-slate-500 dark:focus-visible:ring-blue-500"
-                                  required
-                                />
-                                {errors.lastName && (
-                                  <p className="mt-1 text-xs text-red-500 dark:text-red-400">{errors.lastName}</p>
-                                )}
-                              </div>
-                            </div>
-                          </div>
-
-                          <div className="space-y-2">
-                            <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
-                              Email address
-                            </label>
-                            <div className="relative">
-                              <EnvelopeIcon className="absolute left-3 top-2.5 h-5 w-5 text-slate-400 dark:text-slate-500" />
-                              <input
-                                type="email"
-                                placeholder="Enter your email"
-                                value={formData.email}
-                                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                                className="flex h-11 w-full rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 pl-10 pr-3 text-sm ring-offset-white placeholder:text-slate-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:ring-offset-slate-950 dark:placeholder:text-slate-500 dark:focus-visible:ring-blue-500"
-                                required
-                              />
-                              {errors.email && (
-                                <p className="mt-1 text-xs text-red-500 dark:text-red-400">{errors.email}</p>
-                              )}
-                            </div>
-                          </div>
-
-                          <div className="space-y-2">
-                            <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
-                              {userType === 'teacher' ? 'Teacher' : 'Student'} ID
-                            </label>
-                            <div className="relative">
-                              <IdentificationIcon className="absolute left-3 top-2.5 h-5 w-5 text-slate-400 dark:text-slate-500" />
-                              <input
-                                type="text"
-                                placeholder={`Enter your ${userType === 'teacher' ? 'teacher' : 'student'} ID`}
-                                value={formData.id}
-                                onChange={(e) => setFormData({ ...formData, id: e.target.value })}
-                                className="flex h-11 w-full rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 pl-10 pr-3 text-sm ring-offset-white placeholder:text-slate-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:ring-offset-slate-950 dark:placeholder:text-slate-500 dark:focus-visible:ring-blue-500"
-                                required
-                              />
-                              {errors.id && (
-                                <p className="mt-1 text-xs text-red-500 dark:text-red-400">{errors.id}</p>
-                              )}
-                            </div>
-                          </div>
-                        </div>
+                        <BasicInfoStep 
+                          formData={formData}
+                          setFormData={setFormData}
+                          errors={errors}
+                          userType={userType}
+                        />
                       )}
 
                       {step === 2 && (
-                        <div className="space-y-6">
-                          <div className="space-y-2">
-                            <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
-                              Password
-                            </label>
-                            <div className="relative">
-                              <KeyIcon className="absolute left-3 top-2.5 h-5 w-5 text-slate-400 dark:text-slate-500" />
-                              <input
-                                type={showPassword ? "text" : "password"}
-                                placeholder="Create a password"
-                                value={formData.password}
-                                onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                                className="flex h-11 w-full rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 pl-10 pr-10 text-sm ring-offset-white placeholder:text-slate-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:ring-offset-slate-950 dark:placeholder:text-slate-500 dark:focus-visible:ring-blue-500"
-                                required
-                              />
-                              <button
-                                type="button"
-                                onClick={() => setShowPassword(!showPassword)}
-                                className="absolute right-3 top-2.5 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition-colors"
-                              >
-                                {showPassword ? (
-                                  <EyeSlashIcon className="h-5 w-5" />
-                                ) : (
-                                  <EyeIcon className="h-5 w-5" />
-                                )}
-                              </button>
-                              {errors.password && (
-                                <p className="mt-1 text-xs text-red-500 dark:text-red-400">{errors.password}</p>
-                              )}
-                            </div>
-                          </div>
-
-                          <div className="space-y-2">
-                            <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
-                              Confirm password
-                            </label>
-                            <div className="relative">
-                              <KeyIcon className="absolute left-3 top-2.5 h-5 w-5 text-slate-400 dark:text-slate-500" />
-                              <input
-                                type={showConfirmPassword ? "text" : "password"}
-                                placeholder="Confirm your password"
-                                value={formData.confirmPassword}
-                                onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
-                                className="flex h-11 w-full rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 pl-10 pr-10 text-sm ring-offset-white placeholder:text-slate-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:ring-offset-slate-950 dark:placeholder:text-slate-500 dark:focus-visible:ring-blue-500"
-                                required
-                              />
-                              <button
-                                type="button"
-                                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                                className="absolute right-3 top-2.5 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition-colors"
-                              >
-                                {showConfirmPassword ? (
-                                  <EyeSlashIcon className="h-5 w-5" />
-                                ) : (
-                                  <EyeIcon className="h-5 w-5" />
-                                )}
-                              </button>
-                              {errors.confirmPassword && (
-                                <p className="mt-1 text-xs text-red-500 dark:text-red-400">{errors.confirmPassword}</p>
-                              )}
-                            </div>
-                          </div>
-
-                          <div className="rounded-lg border border-slate-200 dark:border-slate-800 p-4 bg-slate-50/50 dark:bg-slate-900/50">
-                            <p className="font-medium text-sm text-slate-900 dark:text-white mb-3">
-                              Password requirements:
-                            </p>
-                            <ul className="space-y-2 text-sm text-slate-600 dark:text-slate-400">
-                              <li className="flex items-center gap-2">
-                                <div className="h-1.5 w-1.5 rounded-full bg-slate-400 dark:bg-slate-600" />
-                                At least 8 characters long
-                              </li>
-                              <li className="flex items-center gap-2">
-                                <div className="h-1.5 w-1.5 rounded-full bg-slate-400 dark:bg-slate-600" />
-                                Contains at least one number
-                              </li>
-                              <li className="flex items-center gap-2">
-                                <div className="h-1.5 w-1.5 rounded-full bg-slate-400 dark:bg-slate-600" />
-                                Contains at least one special character
-                              </li>
-                            </ul>
-                          </div>
-                        </div>
+                        <PasswordStep 
+                          formData={formData}
+                          setFormData={setFormData}
+                          errors={errors}
+                          showPassword={showPassword}
+                          showConfirmPassword={showConfirmPassword}
+                          setShowPassword={setShowPassword}
+                          setShowConfirmPassword={setShowConfirmPassword}
+                        />
                       )}
 
                       {step === 3 && (
-                        <motion.div 
-                          className="text-center py-8"
-                          initial={{ opacity: 0, scale: 0.95 }}
-                          animate={{ opacity: 1, scale: 1 }}
-                          transition={{ duration: 0.2 }}
-                        >
-                          <div className="mx-auto w-20 h-20 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center mb-6 shadow-md shadow-green-500/10">
-                            <CheckCircleIcon className="w-10 h-10 text-green-600 dark:text-green-400" />
-                          </div>
-                          <h3 className="text-2xl font-semibold text-slate-900 dark:text-white mb-3">
-                            Account Created Successfully
-                          </h3>
-                          <p className="text-slate-600 dark:text-slate-400 mb-8 max-w-md mx-auto">
-                            Your {userType} account has been created. You can now sign in to access your dashboard.
-                          </p>
-                          <Button
-                            onClick={onClose}
-                            className="px-8 py-2.5 bg-gradient-to-r from-blue-600 to-violet-600 hover:from-blue-700 hover:to-violet-700 text-white dark:from-blue-500 dark:to-violet-500 dark:hover:from-blue-600 dark:hover:to-violet-600"
-                          >
-                            Go to Login
-                          </Button>
-                        </motion.div>
+                        <SuccessStep userType={userType} onClose={onClose} />
                       )}
 
                       {step < 3 && (
