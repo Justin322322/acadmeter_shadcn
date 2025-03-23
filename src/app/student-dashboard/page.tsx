@@ -139,7 +139,7 @@ export default function StudentDashboardPage() {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-100">Student Dashboard</h1>
-          <p className="mt-2 text-slate-500 dark:text-slate-400">Welcome back! Here&apos;s an overview of your academic progress</p>
+          <p className="mt-2 text-slate-500 dark:text-slate-400">Welcome back! Here's an overview of your academic progress</p>
         </div>
         <div className="flex items-center gap-2">
           <span className="text-sm text-slate-500">Viewing:</span>

@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useRef, useEffect } from "react"
+import { useRouter } from "next/navigation"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { ThemeToggle } from "@/components/ui/theme-toggle"
@@ -13,8 +14,24 @@ interface StudentNavigationProps {
 export function StudentNavigation({ onToggleSidebar }: StudentNavigationProps) {
   const [isProfileOpen, setIsProfileOpen] = useState(false)
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false)
+  const [isLoggingOut, setIsLoggingOut] = useState(false)
   const profileRef = useRef<HTMLDivElement>(null)
   const notificationsRef = useRef<HTMLDivElement>(null)
+  const router = useRouter()
+
+  const handleLogout = async () => {
+    setIsLoggingOut(true)
+    
+    // Clear session data
+    localStorage.removeItem('token')
+    localStorage.removeItem('user')
+    
+    // Add a small delay to show the loading state
+    await new Promise(resolve => setTimeout(resolve, 1000))
+    
+    // Redirect to home page
+    router.push('/')
+  }
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -119,6 +136,7 @@ export function StudentNavigation({ onToggleSidebar }: StudentNavigationProps) {
                       className="w-full justify-start h-9 px-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800/50 rounded-md transition-colors"
                       onClick={() => {
                         setIsProfileOpen(false)
+                        router.push('/student-dashboard/settings')
                       }}
                     >
                       <div className="flex items-center gap-2">
@@ -131,11 +149,22 @@ export function StudentNavigation({ onToggleSidebar }: StudentNavigationProps) {
                       className="w-full justify-start h-9 px-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800/50 rounded-md transition-colors"
                       onClick={() => {
                         setIsProfileOpen(false)
+                        handleLogout()
                       }}
+                      disabled={isLoggingOut}
                     >
                       <div className="flex items-center gap-2">
-                        <ArrowLeftOnRectangleIcon className="w-4 h-4" />
-                        <span>Logout</span>
+                        {isLoggingOut ? (
+                          <>
+                            <div className="h-4 w-4 animate-spin rounded-full border-2 border-slate-600 dark:border-slate-400 border-t-transparent" />
+                            <span>Logging out...</span>
+                          </>
+                        ) : (
+                          <>
+                            <ArrowLeftOnRectangleIcon className="w-4 h-4" />
+                            <span>Logout</span>
+                          </>
+                        )}
                       </div>
                     </Button>
                   </div>

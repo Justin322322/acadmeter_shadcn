@@ -66,67 +66,31 @@ interface AccountTypeSelectionProps {
   onSelect: (type: UserType) => void
 }
 
-const AccountTypeSelection = ({ onSelect }: AccountTypeSelectionProps) => (
-  <div className="mt-10 space-y-6">
-    <motion.button
-      whileHover={{ y: -4 }}
-      whileTap={{ scale: 0.98 }}
-      onClick={() => onSelect('teacher')}
-      className="w-full relative group overflow-hidden p-6 rounded-xl border-2 border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 hover:border-violet-500/70 dark:hover:border-violet-500/70 transition-all duration-300"
-    >
-      <div className="absolute inset-0 bg-gradient-to-r from-violet-500/5 to-pink-500/5 dark:from-violet-500/10 dark:to-pink-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-      <div className="relative flex items-center gap-5">
-        <div className="shrink-0 w-14 h-14 rounded-lg bg-gradient-to-br from-violet-500 to-pink-500 flex items-center justify-center text-white shadow-md shadow-violet-500/20">
-          <AcademicCapIcon className="w-7 h-7" />
-        </div>
-        <div className="flex-1 text-left">
-          <h3 className="text-xl font-semibold text-slate-900 dark:text-white">Teacher Account</h3>
-          <p className="text-slate-600 dark:text-slate-400 mt-1">Create classes, manage students, and track progress</p>
-        </div>
-      </div>
-    </motion.button>
-
-    <motion.button
-      whileHover={{ y: -4 }}
-      whileTap={{ scale: 0.98 }}
-      onClick={() => onSelect('student')}
-      className="w-full relative group overflow-hidden p-6 rounded-xl border-2 border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 hover:border-blue-500/70 dark:hover:border-blue-500/70 transition-all duration-300"
-    >
-      <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 to-violet-500/5 dark:from-blue-500/10 dark:to-violet-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-      <div className="relative flex items-center gap-5">
-        <div className="shrink-0 w-14 h-14 rounded-lg bg-gradient-to-br from-blue-500 to-violet-500 flex items-center justify-center text-white shadow-md shadow-blue-500/20">
-          <UserIcon className="w-7 h-7" />
-        </div>
-        <div className="flex-1 text-left">
-          <h3 className="text-xl font-semibold text-slate-900 dark:text-white">Student Account</h3>
-          <p className="text-slate-600 dark:text-slate-400 mt-1">Access courses, submit assignments, and view grades</p>
-        </div>
-      </div>
-    </motion.button>
-  </div>
-)
-
-const FormInput = ({ 
-  icon: Icon, 
-  label, 
-  type = 'text', 
-  error, 
-  showPassword, 
-  onTogglePassword, 
-  ...props 
+const FormInput = ({
+  icon: Icon,
+  label,
+  type = "text",
+  error,
+  showPassword,
+  onTogglePassword,
+  value,
+  onChange,
+  placeholder
 }: FormInputProps) => (
   <div className="space-y-2">
-    <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
+    <label className="block text-sm font-medium text-slate-700 dark:text-slate-300">
       {label}
     </label>
     <div className="relative">
       <Icon className="absolute left-3 top-2.5 h-5 w-5 text-slate-400 dark:text-slate-500" />
       <input
-        type={type}
-        className="flex h-11 w-full rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 pl-10 pr-10 text-sm ring-offset-white placeholder:text-slate-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:ring-offset-slate-950 dark:placeholder:text-slate-500 dark:focus-visible:ring-blue-500"
-        {...props}
+        type={type === "password" ? (showPassword ? "text" : "password") : type}
+        value={value}
+        onChange={onChange}
+        placeholder={placeholder}
+        className="flex h-11 w-full rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 pl-10 pr-3 text-sm ring-offset-white placeholder:text-slate-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:ring-offset-slate-950 dark:placeholder:text-slate-500 dark:focus-visible:ring-blue-500"
       />
-      {type === 'password' && (
+      {type === "password" && onTogglePassword && (
         <button
           type="button"
           onClick={onTogglePassword}
@@ -139,16 +103,52 @@ const FormInput = ({
           )}
         </button>
       )}
-      {error && (
-        <p className="mt-1 text-xs text-red-500 dark:text-red-400">{error}</p>
-      )}
     </div>
+    {error && (
+      <p className="text-sm text-red-500">{error}</p>
+    )}
+  </div>
+)
+
+const AccountTypeSelection = ({ onSelect }: AccountTypeSelectionProps) => (
+  <div className="mt-10 space-y-6">
+    <motion.button
+      whileHover={{ y: -4 }}
+      onClick={() => onSelect('teacher')}
+      className="w-full p-6 text-left rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 hover:border-blue-500 dark:hover:border-blue-500 transition-all duration-200"
+    >
+      <div className="flex items-center gap-4">
+        <div className="p-3 rounded-lg bg-blue-50 dark:bg-blue-950/50">
+          <AcademicCapIcon className="w-6 h-6 text-blue-500" />
+        </div>
+        <div>
+          <h3 className="font-semibold text-slate-900 dark:text-slate-100">Teacher Account</h3>
+          <p className="text-sm text-slate-500">Create a teacher account to manage classes and track student progress</p>
+        </div>
+      </div>
+    </motion.button>
+
+    <motion.button
+      whileHover={{ y: -4 }}
+      onClick={() => onSelect('student')}
+      className="w-full p-6 text-left rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 hover:border-violet-500 dark:hover:border-violet-500 transition-all duration-200"
+    >
+      <div className="flex items-center gap-4">
+        <div className="p-3 rounded-lg bg-violet-50 dark:bg-violet-950/50">
+          <UserIcon className="w-6 h-6 text-violet-500" />
+        </div>
+        <div>
+          <h3 className="font-semibold text-slate-900 dark:text-slate-100">Student Account</h3>
+          <p className="text-sm text-slate-500">Create a student account to access your courses and track your progress</p>
+        </div>
+      </div>
+    </motion.button>
   </div>
 )
 
 const BasicInfoStep = ({ formData, setFormData, errors, userType }: BasicInfoStepProps) => (
   <div className="space-y-6">
-    <div className="grid grid-cols-2 gap-4">
+    <div className="grid gap-4 sm:grid-cols-2">
       <FormInput
         icon={UserIcon}
         label="First name"
@@ -191,17 +191,17 @@ const BasicInfoStep = ({ formData, setFormData, errors, userType }: BasicInfoSte
 const PasswordStep = ({ 
   formData, 
   setFormData, 
-  errors, 
-  showPassword, 
-  showConfirmPassword, 
-  setShowPassword, 
-  setShowConfirmPassword 
+  errors,
+  showPassword,
+  showConfirmPassword,
+  setShowPassword,
+  setShowConfirmPassword
 }: PasswordStepProps) => (
   <div className="space-y-6">
     <FormInput
       icon={KeyIcon}
       label="Password"
-      type={showPassword ? "text" : "password"}
+      type="password"
       placeholder="Create a password"
       value={formData.password}
       onChange={(e) => setFormData({ ...formData, password: e.target.value })}
@@ -212,8 +212,8 @@ const PasswordStep = ({
 
     <FormInput
       icon={KeyIcon}
-      label="Confirm password"
-      type={showConfirmPassword ? "text" : "password"}
+      label="Confirm Password"
+      type="password"
       placeholder="Confirm your password"
       value={formData.confirmPassword}
       onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
@@ -222,22 +222,20 @@ const PasswordStep = ({
       onTogglePassword={() => setShowConfirmPassword(!showConfirmPassword)}
     />
 
-    <div className="rounded-lg border border-slate-200 dark:border-slate-800 p-4 bg-slate-50/50 dark:bg-slate-900/50">
-      <p className="font-medium text-sm text-slate-900 dark:text-white mb-3">
-        Password requirements:
-      </p>
-      <ul className="space-y-2 text-sm text-slate-600 dark:text-slate-400">
-        <li className="flex items-center gap-2">
-          <div className="h-1.5 w-1.5 rounded-full bg-slate-400 dark:bg-slate-600" />
-          At least 8 characters long
+    <div className="mt-2 space-y-2">
+      <p className="text-sm text-slate-500">Password must:</p>
+      <ul className="space-y-1">
+        <li className="text-sm text-slate-500 flex items-center gap-2">
+          <CheckCircleIcon className={`h-4 w-4 ${formData.password.length >= 8 ? 'text-green-500' : 'text-slate-400'}`} />
+          Be at least 8 characters long
         </li>
-        <li className="flex items-center gap-2">
-          <div className="h-1.5 w-1.5 rounded-full bg-slate-400 dark:bg-slate-600" />
-          Contains at least one number
+        <li className="text-sm text-slate-500 flex items-center gap-2">
+          <CheckCircleIcon className={`h-4 w-4 ${/[A-Z]/.test(formData.password) ? 'text-green-500' : 'text-slate-400'}`} />
+          Include at least one uppercase letter
         </li>
-        <li className="flex items-center gap-2">
-          <div className="h-1.5 w-1.5 rounded-full bg-slate-400 dark:bg-slate-600" />
-          Contains at least one special character
+        <li className="text-sm text-slate-500 flex items-center gap-2">
+          <CheckCircleIcon className={`h-4 w-4 ${/[0-9]/.test(formData.password) ? 'text-green-500' : 'text-slate-400'}`} />
+          Include at least one number
         </li>
       </ul>
     </div>
@@ -246,18 +244,17 @@ const PasswordStep = ({
 
 const SuccessStep = ({ userType, onClose }: SuccessStepProps) => (
   <motion.div 
-    className="text-center py-8"
-    initial={{ opacity: 0, scale: 0.95 }}
-    animate={{ opacity: 1, scale: 1 }}
-    transition={{ duration: 0.2 }}
+    className="text-center space-y-4"
+    initial={{ opacity: 0, y: 20 }}
+    animate={{ opacity: 1, y: 0 }}
   >
-    <div className="mx-auto w-20 h-20 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center mb-6 shadow-md shadow-green-500/10">
-      <CheckCircleIcon className="w-10 h-10 text-green-600 dark:text-green-400" />
+    <div className="inline-flex h-14 w-14 items-center justify-center rounded-full bg-green-100 dark:bg-green-900/30">
+      <CheckCircleIcon className="h-8 w-8 text-green-600 dark:text-green-400" />
     </div>
-    <h3 className="text-2xl font-semibold text-slate-900 dark:text-white mb-3">
+    <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-100">
       Account Created Successfully
     </h3>
-    <p className="text-slate-600 dark:text-slate-400 mb-8 max-w-md mx-auto">
+    <p className="text-slate-500 dark:text-slate-400">
       Your {userType} account has been created. You can now sign in to access your dashboard.
     </p>
     <Button
@@ -293,7 +290,7 @@ export function SignupModal({
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
 
-  const validateForm = () => {
+  const validateBasicInfo = () => {
     const newErrors: Record<string, string> = {}
     
     if (!formData.firstName.trim()) newErrors.firstName = 'First name is required'
@@ -305,8 +302,21 @@ export function SignupModal({
     if (!formData.id.trim()) {
       newErrors.id = `${userType === 'teacher' ? 'Teacher' : 'Student'} ID is required`
     }
+
+    setErrors(newErrors)
+    return Object.keys(newErrors).length === 0
+  }
+
+  const validatePassword = () => {
+    const newErrors: Record<string, string> = {}
+    
     if (!formData.password) newErrors.password = 'Password is required'
-    else if (formData.password.length < 8) newErrors.password = 'Password must be at least 8 characters'
+    else {
+      if (formData.password.length < 8) newErrors.password = 'Password must be at least 8 characters'
+      if (!/[A-Z]/.test(formData.password)) newErrors.password = 'Password must include an uppercase letter'
+      if (!/[0-9]/.test(formData.password)) newErrors.password = 'Password must include a number'
+    }
+    
     if (formData.password !== formData.confirmPassword) {
       newErrors.confirmPassword = 'Passwords do not match'
     }
@@ -315,16 +325,54 @@ export function SignupModal({
     return Object.keys(newErrors).length === 0
   }
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleStepSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (!validateForm()) return
+    
+    if (step === 1) {
+      if (validateBasicInfo()) {
+        setStep(2)
+      }
+    } else if (step === 2) {
+      if (validatePassword()) {
+        handleFinalSubmit()
+      }
+    }
+  }
 
+  const handleFinalSubmit = async () => {
     setIsLoading(true)
-    // Add signup logic here
-    setTimeout(() => {
-      setIsLoading(false)
-      setStep(3)
-    }, 1000)
+    try {
+      const response = await fetch('/api/auth/signup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          email: formData.email,
+          password: formData.password,
+          userType,
+          id: formData.id
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Registration failed');
+      }
+
+      setStep(3);
+    } catch (error) {
+      console.error('Signup error:', error);
+      setErrors(prev => ({
+        ...prev,
+        submit: error instanceof Error ? error.message : 'Registration failed'
+      }));
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   const handleBack = () => {
@@ -345,7 +393,8 @@ export function SignupModal({
               <div className="absolute inset-0">
                 <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff1a_1px,transparent_1px),linear-gradient(to_bottom,#ffffff1a_1px,transparent_1px)] bg-[size:24px_24px]" />
               </div>
-              <div className="relative h-full flex flex-col p-10">
+              <div className="relative h-full p-10">
+                {/* Logo */}
                 <div className="flex items-center gap-3 mb-12">
                   <AcademicCapIcon className="w-8 h-8 text-white" />
                   <span className="text-xl font-semibold text-white">AcadMeter</span>
@@ -353,23 +402,8 @@ export function SignupModal({
                 
                 <div className="flex-1 flex flex-col justify-center">
                   <div className="space-y-6">
-                    <h2 className="text-3xl font-bold text-white leading-tight">Start your academic journey</h2>
-                    <p className="text-base text-blue-100/90 leading-relaxed">Join our platform to enhance your learning experience and achieve academic excellence.</p>
-                    
-                    <div className="space-y-4 pt-4">
-                      {['Track your academic progress', 'Access learning resources', 'Connect with teachers'].map((feature, index) => (
-                        <motion.div 
-                          key={feature}
-                          initial={{ opacity: 0, x: -10 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          transition={{ delay: index * 0.1 }}
-                          className="flex items-center gap-3 group"
-                        >
-                          <div className="w-2 h-2 rounded-full bg-blue-200 group-hover:bg-white transition-colors duration-200" />
-                          <span className="text-base text-blue-100 group-hover:text-white transition-colors duration-200">{feature}</span>
-                        </motion.div>
-                      ))}
-                    </div>
+                    <h2 className="text-3xl font-bold text-white leading-tight">Join AcadMeter Today</h2>
+                    <p className="text-base text-blue-100/90 leading-relaxed">Choose your account type to get started with your educational journey.</p>
                   </div>
                 </div>
               </div>
@@ -492,7 +526,7 @@ export function SignupModal({
                     exit={{ opacity: 0, x: -20 }}
                     transition={{ duration: 0.2 }}
                   >
-                    <form onSubmit={step === 2 ? handleSubmit : (e) => { e.preventDefault(); setStep(2); }}>
+                    <form onSubmit={handleStepSubmit}>
                       {step === 1 && (
                         <BasicInfoStep 
                           formData={formData}
@@ -520,7 +554,7 @@ export function SignupModal({
 
                       {step < 3 && (
                         <Button
-                          type={step === 2 ? 'submit' : 'button'}
+                          type="submit"
                           className="w-full mt-8 h-11 bg-gradient-to-r from-blue-600 to-violet-600 hover:from-blue-700 hover:to-violet-700 text-white dark:from-blue-500 dark:to-violet-500 dark:hover:from-blue-600 dark:hover:to-violet-600"
                           disabled={isLoading}
                         >
@@ -539,6 +573,10 @@ export function SignupModal({
                             </span>
                           )}
                         </Button>
+                      )}
+
+                      {errors.submit && (
+                        <p className="mt-4 text-sm text-red-500 text-center">{errors.submit}</p>
                       )}
                     </form>
                   </motion.div>

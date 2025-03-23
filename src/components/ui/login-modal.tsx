@@ -28,15 +28,45 @@ export function LoginModal({
   const [isLoading, setIsLoading] = useState(false)
   const [showSignup, setShowSignup] = useState(false)
   const [showForgotPassword, setShowForgotPassword] = useState(false)
+  const [loadingMessage, setLoadingMessage] = useState('')
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsLoading(true)
-    // Add login logic here
-    setTimeout(() => {
-      setIsLoading(false)
-      onClose()
-    }, 1000)
+    setLoadingMessage('Signing in...')
+    
+    try {
+      const response = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Login failed');
+      }
+
+      setLoadingMessage('Login successful! Redirecting...')
+      // Store token and user data
+      localStorage.setItem('token', data.token);
+      localStorage.setItem('user', JSON.stringify(data.user));
+
+      // Redirect based on user type
+      const userType = data.user.user_type;
+      window.location.href = `/${userType}-dashboard`;
+      
+      onClose();
+    } catch (error) {
+      console.error('Login error:', error);
+      setLoadingMessage('')
+      // You might want to show an error message to the user here
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   if (showSignup) {
@@ -191,11 +221,12 @@ export function LoginModal({
                 >
                   {isLoading ? (
                     <motion.div
-                      className="flex items-center justify-center"
+                      className="flex items-center justify-center gap-3"
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                     >
                       <div className="h-5 w-5 animate-spin rounded-full border-2 border-white border-t-transparent" />
+                      <span>{loadingMessage}</span>
                     </motion.div>
                   ) : (
                     <span className="flex items-center justify-center gap-2">
@@ -211,7 +242,7 @@ export function LoginModal({
                   </div>
                   <div className="relative flex justify-center text-sm">
                     <span className="px-2 bg-white dark:bg-slate-950 text-slate-500 dark:text-slate-400">
-                      Don&apos;t have an account?
+                      Don't have an account?
                     </span>
                   </div>
                 </div>

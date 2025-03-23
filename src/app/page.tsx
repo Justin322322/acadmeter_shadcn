@@ -1,5 +1,7 @@
 "use client"
 
+import { useEffect, useState } from "react"
+import { useSearchParams } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { 
   CheckCircleIcon,
@@ -34,9 +36,37 @@ const staggerContainer = {
   }
 }
 
+// Auth Error Alert Component
+const AuthErrorAlert = ({ message }: { message: string }) => (
+  <motion.div
+    initial={{ opacity: 0, scale: 0.9 }}
+    animate={{ opacity: 1, scale: 1 }}
+    exit={{ opacity: 0, scale: 0.9 }}
+    className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 bg-red-100 border border-red-400 text-red-700 px-6 py-4 rounded-lg shadow-lg"
+    role="alert"
+  >
+    <span className="block text-center font-medium">{message}</span>
+  </motion.div>
+)
+
 export default function Home() {
+  const searchParams = useSearchParams()
+  const [authError, setAuthError] = useState<string | null>(null)
+
+  useEffect(() => {
+    const error = searchParams.get('authError')
+    if (error) {
+      setAuthError(error)
+      const timer = setTimeout(() => {
+        setAuthError(null)
+      }, 1500)
+      return () => clearTimeout(timer)
+    }
+  }, [searchParams])
+
   return (
     <div>
+      {authError && <AuthErrorAlert message={authError} />}
       <Navigation />
       <main className="relative text-slate-800 dark:text-slate-100 overflow-x-hidden">
         <section className="min-h-[50vh] sm:min-h-[60vh] flex items-center pt-24 pb-16 sm:pt-32 sm:pb-20 md:pt-40 md:pb-24 lg:min-h-screen overflow-hidden relative px-4 sm:px-6">

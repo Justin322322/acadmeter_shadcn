@@ -57,7 +57,7 @@ export function ForgotPasswordModal({
                       Reset Your Password
                     </h2>
                     <p className="text-base text-blue-100/90 leading-relaxed">
-                      Don&apos;t worry! It happens. We&apos;ll help you regain access to your account.
+                      Don't worry! It happens. We'll help you regain access to your account.
                     </p>
                   </div>
                 </div>
@@ -82,7 +82,7 @@ export function ForgotPasswordModal({
                 </DialogTitle>
                 <p className="text-center text-base text-slate-600 dark:text-slate-400 mt-2">
                   {isSuccess 
-                    ? "We&apos;ve sent you instructions to reset your password"
+                    ? "We've sent you instructions to reset your password"
                     : "Enter your email address to receive reset instructions"}
                 </p>
               </DialogHeader>
@@ -98,8 +98,8 @@ export function ForgotPasswordModal({
                     <div className="mx-auto w-20 h-20 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center mb-6 shadow-md shadow-green-500/10">
                       <CheckCircleIcon className="w-10 h-10 text-green-600 dark:text-green-400" />
                     </div>
-                    <p className="text-slate-600 dark:text-slate-400 mb-8 max-w-md mx-auto">
-                      If an account exists for {email}, you will receive password reset instructions at this email address.
+                    <p className="text-slate-600 dark:text-slate-400 mb-6">
+                      If an account exists for <span className="font-medium">{email}</span>, you will receive password reset instructions at this email address.
                     </p>
                     <Button
                       onClick={onBackToLogin}
