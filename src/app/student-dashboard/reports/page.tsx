@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, ComponentType } from "react"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import {
@@ -11,7 +11,6 @@ import {
   CheckCircleIcon,
   ChartBarIcon
 } from "@heroicons/react/24/outline"
-import { ComponentType } from "react"
 
 interface Assessment {
   name: string
