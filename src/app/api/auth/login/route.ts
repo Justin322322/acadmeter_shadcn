@@ -69,11 +69,16 @@ export async function POST(request: Request) {
         { expiresIn: '24h' }
       );
 
-      const { password: _, ...userWithoutPassword } = user;
-
       return NextResponse.json({
         message: 'Login successful',
-        user: userWithoutPassword,
+        user: {
+          id: user.id,
+          email: user.email,
+          user_type: user.user_type,
+          profile_id: user.profile_id,
+          first_name: user.first_name,
+          last_name: user.last_name
+        },
         token
       });
     } finally {

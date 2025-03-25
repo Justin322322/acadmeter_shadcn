@@ -17,6 +17,7 @@ export async function verifyAuth(token: string | null) {
     );
     return verified.payload;
   } catch (error) {
+    console.error('Token verification failed:', error);
     return false;
   }
 }

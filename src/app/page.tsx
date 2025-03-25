@@ -8,8 +8,6 @@ import {
   ClipboardDocumentCheckIcon,
   ChartPieIcon,
   UserGroupIcon,
-  DocumentChartBarIcon,
-  PresentationChartLineIcon,
   ArrowRightIcon,
   AcademicCapIcon,
 } from "@heroicons/react/24/outline"
@@ -37,17 +35,6 @@ const staggerContainer = {
     transition: {
       staggerChildren: 0.15,
       delayChildren: 0.1
-    }
-  }
-}
-
-const cardHover = {
-  hover: {
-    y: -8,
-    transition: {
-      type: "spring",
-      stiffness: 400,
-      damping: 10
     }
   }
 }

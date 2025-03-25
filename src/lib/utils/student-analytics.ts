@@ -4,7 +4,7 @@
  */
 
 import { Assessment } from './grade-utils'
-import { calculateTrend, calculatePercentileRank } from './performance-metrics'
+import { calculateTrend } from './performance-metrics'
 
 /**
  * Generate prediction for future performance based on historical data

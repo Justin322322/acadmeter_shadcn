@@ -26,6 +26,7 @@ export async function GET(request: NextRequest) {
       { status: 200 }
     )
   } catch (error) {
+    console.error('Authentication verification failed:', error);
     return new NextResponse(
       JSON.stringify({ error: 'Authentication failed' }),
       { status: 500 }
