@@ -12,6 +12,7 @@ import {
   Tooltip,
   ResponsiveContainer
 } from 'recharts'
+import { ChevronDownIcon } from "@heroicons/react/24/outline"
 
 const trendData = [
   { month: 'Jan', Mathematics: 65, Science: 70, English: 60, History: 68, Physics: 72 },
@@ -23,17 +24,18 @@ const trendData = [
 ]
 
 const subjects = {
-  Mathematics: '#2563eb', // blue
-  Science: '#16a34a', // green
-  English: '#9333ea', // purple
-  History: '#eab308', // yellow
-  Physics: '#dc2626' // red
+  Mathematics: '#3b82f6', // blue-500
+  Science: '#10b981', // emerald-500
+  English: '#8b5cf6', // violet-500
+  History: '#f59e0b', // amber-500
+  Physics: '#ef4444' // red-500
 }
 
 export function DashboardChart() {
   const { theme } = useTheme()
   const isDark = theme === "dark"
   const [selectedSubjects, setSelectedSubjects] = useState<string[]>(["Mathematics", "Science", "English"])
+  const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
 
   const toggleSubject = (subject: string) => {
     setSelectedSubjects(current => 
@@ -45,7 +47,8 @@ export function DashboardChart() {
 
   return (
     <div className="space-y-4">
-      <div className="flex flex-wrap gap-2">
+      {/* Desktop Subject Selector */}
+      <div className="hidden md:flex flex-wrap gap-2">
         {Object.entries(subjects).map(([subject, color]) => (
           <Button
             key={subject}
@@ -60,44 +63,94 @@ export function DashboardChart() {
         ))}
       </div>
 
-      <div className="h-[350px]">
-        <ResponsiveContainer width="100%" height="100%">
-          <LineChart
-            data={trendData}
-            margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
-          >
-            <CartesianGrid strokeDasharray="3 3" stroke={isDark ? '#334155' : '#e2e8f0'} />
-            <XAxis
-              dataKey="month"
-              stroke={isDark ? '#94a3b8' : '#64748b'}
-              fontSize={12}
-            />
-            <YAxis
-              stroke={isDark ? '#94a3b8' : '#64748b'}
-              fontSize={12}
-              tickFormatter={(value) => `${value}%`}
-            />
-            <Tooltip
-              contentStyle={{
-                backgroundColor: isDark ? '#1e293b' : '#ffffff',
-                border: `1px solid ${isDark ? '#334155' : '#e2e8f0'}`,
-                borderRadius: '6px',
-                fontSize: '12px'
-              }}
-            />
-            {selectedSubjects.map((subject) => (
-              <Line
+      {/* Mobile Subject Selector */}
+      <div className="md:hidden space-y-2">
+        <Button
+          variant="outline"
+          className="w-full justify-between"
+          onClick={() => setMobileFiltersOpen(!mobileFiltersOpen)}
+        >
+          <span>Select Subjects ({selectedSubjects.length})</span>
+          <ChevronDownIcon className={`h-4 w-4 transition-transform ${mobileFiltersOpen ? 'rotate-180' : ''}`} />
+        </Button>
+        
+        {mobileFiltersOpen && (
+          <div className="grid grid-cols-2 gap-2 p-3 border rounded-lg bg-slate-50 dark:bg-slate-800/50">
+            {Object.entries(subjects).map(([subject, color]) => (
+              <Button
                 key={subject}
-                type="monotone"
-                dataKey={subject}
-                name={subject}
-                stroke={subjects[subject as keyof typeof subjects]}
-                strokeWidth={2}
-                dot={{ fill: subjects[subject as keyof typeof subjects], r: 4 }}
-              />
+                size="sm"
+                variant={selectedSubjects.includes(subject) ? 'default' : 'outline'}
+                className="gap-2 justify-start"
+                onClick={() => toggleSubject(subject)}
+              >
+                <div className="w-2 h-2 rounded-full" style={{ backgroundColor: color }} />
+                {subject}
+              </Button>
             ))}
-          </LineChart>
-        </ResponsiveContainer>
+          </div>
+        )}
+      </div>
+
+      {/* Chart Container */}
+      <div className="bg-slate-50 dark:bg-slate-800/50 p-4 rounded-lg">
+        <div className="h-[300px] sm:h-[400px]">
+          <ResponsiveContainer width="100%" height="100%">
+            <LineChart
+              data={trendData}
+              margin={{ top: 20, right: 30, left: 30, bottom: 10 }}
+            >
+              <CartesianGrid 
+                strokeDasharray="3 3" 
+                stroke={isDark ? '#334155' : '#e2e8f0'}
+                horizontal={true}
+                vertical={true}
+              />
+              <XAxis
+                dataKey="month"
+                stroke={isDark ? '#94a3b8' : '#64748b'}
+                fontSize={12}
+                tickMargin={10}
+              />
+              <YAxis
+                stroke={isDark ? '#94a3b8' : '#64748b'}
+                fontSize={12}
+                tickFormatter={(value) => `${value}%`}
+                tickMargin={10}
+                width={40}
+                domain={[0, 100]}
+              />
+              <Tooltip
+                contentStyle={{
+                  backgroundColor: isDark ? '#1e293b' : '#ffffff',
+                  border: `1px solid ${isDark ? '#334155' : '#e2e8f0'}`,
+                  borderRadius: '6px',
+                  fontSize: '12px'
+                }}
+              />
+              {selectedSubjects.map((subject) => (
+                <Line
+                  key={subject}
+                  type="monotone"
+                  dataKey={subject}
+                  name={subject}
+                  stroke={subjects[subject as keyof typeof subjects]}
+                  strokeWidth={2}
+                  dot={{ 
+                    fill: subjects[subject as keyof typeof subjects], 
+                    r: 4,
+                    strokeWidth: 0
+                  }}
+                  activeDot={{ 
+                    r: 6,
+                    strokeWidth: 2,
+                    stroke: isDark ? '#1e293b' : '#ffffff'
+                  }}
+                />
+              ))}
+            </LineChart>
+          </ResponsiveContainer>
+        </div>
       </div>
     </div>
   )

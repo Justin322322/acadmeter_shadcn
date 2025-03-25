@@ -1,3 +1,40 @@
+/**
+ * Administrative Navigation Component
+ * Top-level navigation bar for system administrators
+ * 
+ * Features:
+ * - Role-based access controls
+ * - Dynamic menu generation
+ * - System status indicators
+ * - Quick action shortcuts
+ * - Global search integration
+ * - Notification center
+ * 
+ * Navigation Areas:
+ * 1. System Management
+ *    - User administration
+ *    - Role management
+ *    - System settings
+ * 
+ * 2. Academic Controls
+ *    - Term management
+ *    - Course configuration
+ *    - Grade system setup
+ * 
+ * 3. Monitoring
+ *    - System health
+ *    - User activity
+ *    - Performance metrics
+ * 
+ * Security Features:
+ * - Session management
+ * - Access logging
+ * - Action auditing
+ * 
+ * @param props
+ * @param {Function} props.onToggleSidebar - Sidebar toggle callback
+ * @param {Function} [props.onSystemAlert] - System alert handler
+ */
 "use client"
 
 import { useState, useRef, useEffect } from "react"

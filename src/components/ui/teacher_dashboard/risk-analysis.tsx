@@ -1,3 +1,33 @@
+/**
+ * Risk Analysis Component
+ * Analyzes and visualizes academic risk factors for students
+ * 
+ * Features:
+ * - Risk factor identification
+ * - Multi-dimensional risk scoring
+ * - Intervention tracking
+ * - Risk threshold management
+ * - Historical risk patterns
+ * - Automated alerts
+ * 
+ * Risk Categories:
+ * - Academic Performance
+ * - Attendance Patterns
+ * - Assignment Completion
+ * - Engagement Metrics
+ * - Behavioral Indicators
+ * 
+ * Integration Points:
+ * - Works with PredictiveAnalytics
+ * - Feeds into early warning system
+ * - Updates student profiles
+ * - Triggers automated notifications
+ * 
+ * @param {Object} props - Component properties
+ * @param {string} props.studentId - Target student ID
+ * @param {Object} props.thresholds - Custom risk thresholds
+ * @param {Function} props.onRiskUpdate - Risk update callback
+ */
 "use client"
 
 import { useState } from "react"

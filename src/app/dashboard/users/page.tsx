@@ -68,8 +68,13 @@ export default function UsersPage() {
   const [users, setUsers] = useState<User[]>(mockUsers)
   const [searchQuery, setSearchQuery] = useState("")
 
-  const activeUsers = users.filter(user => user.status !== 'suspended')
-  const suspendedUsers = users.filter(user => user.status === 'suspended')
+  const filteredUsers = users.filter(user => 
+    user.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    user.email.toLowerCase().includes(searchQuery.toLowerCase())
+  )
+
+  const activeUsers = filteredUsers.filter(user => user.status !== 'suspended')
+  const suspendedUsers = filteredUsers.filter(user => user.status === 'suspended')
 
   const handleStatusChange = (userId: string, newStatus: UserStatus) => {
     setUsers(users.map(user => 
@@ -98,10 +103,12 @@ export default function UsersPage() {
     }
   }
 
-  const UserTable = ({ users }: { users: User[] }) => (
-    <div>
+  const UserTable = ({ users, title }: { users: User[], title?: string }) => (
+    <div className="space-y-4">
+      {title && <h3 className="text-lg font-medium text-slate-900 dark:text-slate-100">{title}</h3>}
+      
       {/* Desktop View */}
-      <div className="hidden md:block">
+      <div className="hidden md:block overflow-x-auto">
         <table className="w-full border-collapse">
           <thead>
             <tr className="border-b border-slate-200 dark:border-slate-700">
@@ -182,15 +189,20 @@ export default function UsersPage() {
             ))}
           </tbody>
         </table>
+        {users.length === 0 && (
+          <div className="text-center py-6 text-slate-500 dark:text-slate-400">
+            No users found
+          </div>
+        )}
       </div>
 
       {/* Mobile View */}
-      <div className="grid gap-4 md:hidden">
+      <div className="grid gap-3 md:hidden">
         {users.map((user) => (
           <Card key={user.id} className="overflow-hidden">
-            <CardContent className="p-4 space-y-4">
-              <div className="flex justify-between items-start">
-                <div>
+            <CardContent className="p-4 space-y-3">
+              <div className="flex justify-between items-start gap-2">
+                <div className="space-y-1">
                   <h3 className="font-medium text-slate-900 dark:text-slate-100">{user.name}</h3>
                   <p className="text-sm text-slate-500 dark:text-slate-400">{user.email}</p>
                 </div>
@@ -199,18 +211,18 @@ export default function UsersPage() {
                 </span>
               </div>
               
-              <div className="space-y-2">
-                <div className="flex justify-between text-sm">
-                  <span className="text-slate-500 dark:text-slate-400">Role</span>
-                  <span className="font-medium text-slate-900 dark:text-slate-100">{user.role}</span>
+              <div className="grid grid-cols-2 gap-2 text-sm">
+                <div>
+                  <p className="text-slate-500 dark:text-slate-400">Role</p>
+                  <p className="font-medium text-slate-900 dark:text-slate-100">{user.role}</p>
                 </div>
-                <div className="flex justify-between text-sm">
-                  <span className="text-slate-500 dark:text-slate-400">Last Active</span>
-                  <span className="font-medium text-slate-900 dark:text-slate-100">{user.lastActive}</span>
+                <div>
+                  <p className="text-slate-500 dark:text-slate-400">Last Active</p>
+                  <p className="font-medium text-slate-900 dark:text-slate-100">{user.lastActive}</p>
                 </div>
               </div>
 
-              <div className="flex flex-wrap gap-2 pt-2">
+              <div className="flex flex-wrap gap-2 pt-1">
                 {user.status === 'pending' && (
                   <>
                     <Button
@@ -259,74 +271,60 @@ export default function UsersPage() {
             </CardContent>
           </Card>
         ))}
+        {users.length === 0 && (
+          <div className="text-center py-6 text-slate-500 dark:text-slate-400">
+            No users found
+          </div>
+        )}
       </div>
     </div>
   )
 
   return (
     <div className="space-y-6">
-      <div className="flex justify-between items-start">
+      <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4">
         <div>
           <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-100">User Management</h1>
-          <p className="mt-2 text-slate-500 dark:text-slate-400">Manage and monitor user accounts</p>
+          <p className="mt-1 text-slate-500 dark:text-slate-400">Manage and monitor user accounts</p>
         </div>
-        <div className="flex gap-2">
-          <Button variant="outline" className="gap-2">
+        <div className="flex items-center gap-2">
+          <div className="relative flex-1">
+            <MagnifyingGlassIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-500" />
+            <input
+              type="search"
+              placeholder="Search users..."
+              className="w-full rounded-md border border-slate-200 bg-white pl-9 pr-4 py-2 text-sm outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 dark:border-slate-700 dark:bg-slate-800"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+          </div>
+          <Button variant="outline" size="icon" className="shrink-0">
             <FunnelIcon className="h-4 w-4" />
-            Filter
+            <span className="sr-only">Filter</span>
           </Button>
         </div>
       </div>
 
-      <div className="grid gap-6">
+      <div className="space-y-6">
         {/* Active/Pending Users */}
         <Card>
-          <CardHeader className="border-b border-slate-200 dark:border-slate-700">
-            <div className="flex items-center justify-between">
-              <div>
-                <CardTitle>Active & Pending Users</CardTitle>
-                <CardDescription>Manage active and pending user accounts</CardDescription>
-              </div>
-              <div className="flex w-full max-w-sm items-center space-x-2">
-                <div className="relative flex-1">
-                  <MagnifyingGlassIcon className="absolute left-2.5 top-2.5 h-4 w-4 text-slate-500" />
-                  <input
-                    type="search"
-                    placeholder="Search users..."
-                    className="w-full rounded-md border border-slate-200 bg-white pl-8 pr-4 py-2 text-sm outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 dark:border-slate-700 dark:bg-slate-800"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                  />
-                </div>
-              </div>
-            </div>
+          <CardHeader>
+            <CardTitle>Active & Pending Users</CardTitle>
+            <CardDescription>Manage active and pending user accounts</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="mt-6">
-              <UserTable users={activeUsers} />
-            </div>
+            <UserTable users={activeUsers} />
           </CardContent>
         </Card>
 
         {/* Suspended Users */}
         <Card>
-          <CardHeader className="border-b border-slate-200 dark:border-slate-700">
-            <div className="flex items-center justify-between">
-              <div>
-                <CardTitle>Suspended Users</CardTitle>
-                <CardDescription>View and manage suspended accounts</CardDescription>
-              </div>
-            </div>
+          <CardHeader>
+            <CardTitle>Suspended Users</CardTitle>
+            <CardDescription>View and manage suspended accounts</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="mt-6">
-              <UserTable users={suspendedUsers} />
-              {suspendedUsers.length === 0 && (
-                <div className="text-center py-6 text-slate-500 dark:text-slate-400">
-                  No suspended users
-                </div>
-              )}
-            </div>
+            <UserTable users={suspendedUsers} />
           </CardContent>
         </Card>
       </div>

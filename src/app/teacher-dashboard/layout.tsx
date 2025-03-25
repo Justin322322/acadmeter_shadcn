@@ -1,3 +1,13 @@
+/**
+ * Teacher Dashboard Layout Component
+ * Handles authentication, layout structure, and navigation for the teacher portal
+ * 
+ * Features:
+ * - Token-based authentication verification
+ * - Protected route redirection
+ * - Responsive sidebar navigation
+ * - Loading state management
+ */
 "use client"
 
 import { useState, useEffect } from "react"

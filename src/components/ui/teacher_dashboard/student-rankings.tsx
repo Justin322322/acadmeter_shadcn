@@ -1,3 +1,24 @@
+/**
+ * Student Rankings Component
+ * Visualizes class rankings and comparative performance metrics
+ * 
+ * Features:
+ * - Dynamic performance rankings
+ * - Percentile calculations
+ * - Subject-wise comparisons
+ * - Progress tracking over time
+ * - Performance brackets (top/middle/bottom)
+ * - Customizable ranking criteria
+ * - Export functionality
+ * 
+ * Implementation Notes:
+ * - Uses weighted scoring system
+ * - Updates rankings in real-time
+ * - Supports multiple sorting criteria
+ * - Handles ties appropriately
+ * - Includes detailed performance metrics
+ * - Maintains ranking history
+ */
 "use client"
 
 import Image from 'next/image'

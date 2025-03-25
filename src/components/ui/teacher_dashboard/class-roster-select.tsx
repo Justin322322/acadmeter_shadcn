@@ -1,3 +1,32 @@
+/**
+ * Class Roster Select Component
+ * Manages class and student selection with advanced filtering capabilities
+ * 
+ * Features:
+ * - Multi-level selection (Class → Section → Student)
+ * - Smart filtering and search
+ * - Batch selection support
+ * - Student group management
+ * - Quick action shortcuts
+ * - Real-time roster updates
+ * 
+ * Usage:
+ * ```tsx
+ * <ClassRosterSelect
+ *   onClassChange={(classId) => handleClassChange(classId)}
+ *   onStudentSelect={(students) => handleStudentSelection(students)}
+ *   defaultClass="CLASS101"
+ * />
+ * ```
+ * 
+ * Props:
+ * @param {Object} props - Component properties
+ * @param {string} [props.defaultClass] - Initial class selection
+ * @param {string[]} [props.selectedStudents] - Pre-selected students
+ * @param {Function} props.onClassChange - Class change handler
+ * @param {Function} props.onStudentSelect - Student selection handler
+ * @param {boolean} [props.multiSelect=false] - Enable multiple student selection
+ */
 "use client"
 
 import { Button } from "@/components/ui/button"

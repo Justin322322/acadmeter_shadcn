@@ -1,3 +1,21 @@
+/**
+ * Assessment Table Component
+ * Displays and manages student assessment data in a tabular format
+ * 
+ * Features:
+ * - Sortable columns for different assessment metrics
+ * - Filterable by assessment type, date range, and student
+ * - Inline grade editing capabilities
+ * - Batch grade update support
+ * - Export functionality for assessment data
+ * - Status indicators for submissions and grading
+ * 
+ * Props:
+ * @param {Object} props - Component properties
+ * @param {Array} props.assessments - List of student assessments
+ * @param {Function} props.onGradeChange - Callback for grade updates
+ * @param {Function} props.onExport - Callback for exporting data
+ */
 "use client"
 
 import { useState } from "react"

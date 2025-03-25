@@ -1,3 +1,33 @@
+/**
+ * Class Performance Chart Component
+ * Visualizes aggregate class performance metrics for teachers
+ * 
+ * Features:
+ * - Section-wise performance comparison
+ * - Average scores visualization
+ * - Distribution of grades across sections
+ * - Performance trends over time
+ * - Interactive filters and tooltips
+ * - Customizable date ranges
+ * 
+ * Technical Details:
+ * - Uses Recharts for visualization
+ * - Real-time data updates
+ * - Custom theme integration
+ * - Responsive design adaptation
+ * 
+ * Data Representation:
+ * - Bar charts for subject comparisons
+ * - Line charts for trends
+ * - Radar charts for skill distribution
+ * - Interactive tooltips for details
+ * 
+ * Performance Metrics:
+ * - Assignment scores
+ * - Exam results
+ * - Participation rates
+ * - Overall averages
+ */
 "use client"
 
 import { useState } from 'react'

@@ -1,3 +1,26 @@
+/**
+ * Predictive Analytics Component
+ * Advanced analytics tool for predicting student performance and identifying risks
+ * 
+ * Features:
+ * - ML-based performance predictions
+ * - Early warning system for at-risk students
+ * - Trend analysis and forecasting
+ * - Intervention recommendation engine
+ * - Performance pattern recognition
+ * - Custom alert thresholds
+ * 
+ * Technical Details:
+ * - Uses historical performance data
+ * - Implements regression analysis for predictions
+ * - Considers multiple performance indicators
+ * - Updates predictions in real-time
+ * 
+ * Dependencies:
+ * - Requires RiskAnalysis component
+ * - Integrates with assessment data
+ * - Uses system-wide alert settings
+ */
 "use client"
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"

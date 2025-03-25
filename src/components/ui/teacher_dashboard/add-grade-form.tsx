@@ -1,3 +1,41 @@
+/**
+ * Add Grade Form Component
+ * Form interface for adding individual or multiple student grades
+ * 
+ * Features:
+ * - Single and batch grade entry
+ * - Grade validation and constraints
+ * - Auto-grade calculation
+ * - Comment/feedback system
+ * - Grade history tracking
+ * - Rubric integration
+ * 
+ * Form Sections:
+ * 1. Assessment Details
+ *    - Type (quiz/test/assignment)
+ *    - Total points possible
+ *    - Due date and time
+ * 
+ * 2. Student Selection
+ *    - Individual or group selection
+ *    - Quick search and filters
+ * 
+ * 3. Grade Entry
+ *    - Numerical grade input
+ *    - Percentage calculation
+ *    - Pass/fail options
+ * 
+ * 4. Feedback
+ *    - Comment field
+ *    - Rubric scoring
+ *    - Improvement suggestions
+ * 
+ * @param props
+ * @param {Function} props.onSubmit - Grade submission handler
+ * @param {Function} props.onCancel - Cancel form handler
+ * @param {Object} [props.initialData] - Pre-filled grade data
+ * @param {Object} [props.rubric] - Assessment rubric
+ */
 "use client"
 
 import { useState } from "react"

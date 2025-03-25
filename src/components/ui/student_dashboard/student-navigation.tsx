@@ -1,3 +1,16 @@
+/**
+ * Student Navigation Component
+ * Top navigation bar for the student dashboard
+ * 
+ * Features:
+ * - Mobile-responsive sidebar toggle
+ * - Theme toggle functionality 
+ * - Notification system with dropdown
+ * - User profile menu
+ * 
+ * @param {Object} props - Component props
+ * @param {Function} props.onToggleSidebar - Callback to toggle sidebar visibility
+ */
 "use client"
 
 import { useState, useRef, useEffect } from "react"

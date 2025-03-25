@@ -1,3 +1,12 @@
+/**
+ * Student Dashboard Layout Component
+ * Provides the main layout structure for the student portal
+ * 
+ * Features:
+ * - Responsive sidebar navigation with toggle functionality
+ * - Dark mode compatible container structure
+ * - Content area with consistent padding and styling
+ */
 "use client"
 
 import { useState } from "react"

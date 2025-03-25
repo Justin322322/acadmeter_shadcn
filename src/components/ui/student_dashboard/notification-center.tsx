@@ -1,3 +1,18 @@
+/**
+ * Notification Center Component
+ * Manages and displays student notifications and alerts
+ * 
+ * Features:
+ * - Real-time notification updates
+ * - Priority-based notification sorting
+ * - Category-based filtering (assignments, grades, announcements)
+ * - Mark as read/unread functionality
+ * - Interactive notification actions
+ * - Visual status indicators
+ * 
+ * Props:
+ * - None (uses internal state management)
+ */
 "use client"
 
 import { useState } from "react"

@@ -1,3 +1,23 @@
+/**
+ * Feedback Editor Component
+ * Rich text editor for teachers to provide detailed feedback to students
+ * 
+ * Features:
+ * - Rich text formatting options
+ * - Template-based feedback snippets
+ * - File attachment support
+ * - Auto-save functionality
+ * - Preview mode
+ * - Student performance context display
+ * - Rubric integration
+ * 
+ * Props:
+ * @param {Object} props - Component properties
+ * @param {string} props.studentId - ID of the student receiving feedback
+ * @param {string} props.assignmentId - ID of the assignment being reviewed
+ * @param {Function} props.onSave - Callback when feedback is saved
+ * @param {Object} [props.initialFeedback] - Pre-existing feedback to edit
+ */
 "use client"
 
 import { useState } from 'react'

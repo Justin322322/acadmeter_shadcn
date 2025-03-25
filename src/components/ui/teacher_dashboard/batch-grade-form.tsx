@@ -1,3 +1,20 @@
+/**
+ * Batch Grade Form Component
+ * Provides an interface for teachers to enter multiple student grades simultaneously
+ * 
+ * Features:
+ * - Bulk grade entry for multiple students
+ * - CSV/Excel file import support
+ * - Grade validation and error checking
+ * - Auto-calculation of class statistics
+ * - Grade distribution preview
+ * - Comment/feedback field for each entry
+ * 
+ * @param props
+ * @param {Function} props.onClose - Callback to close the form modal
+ * @param {Function} props.onSubmit - Callback to handle form submission
+ * @param {Object} [props.initialData] - Optional initial grade data
+ */
 "use client"
 
 import { useState } from "react"

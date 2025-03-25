@@ -1,3 +1,16 @@
+/**
+ * Teacher Navigation Component
+ * Primary navigation bar for the teacher dashboard interface
+ * 
+ * Features:
+ * - Responsive sidebar menu toggle for mobile devices
+ * - Quick access to notifications and profile settings
+ * - Theme switching capability
+ * - Logout functionality with loading state
+ * 
+ * @param {Object} props - Component props
+ * @param {Function} props.onToggleSidebar - Function to toggle sidebar visibility
+ */
 "use client"
 
 import { useState, useRef, useEffect } from "react"
