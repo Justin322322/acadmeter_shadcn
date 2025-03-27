@@ -9,6 +9,7 @@ import {
   DocumentTextIcon,
   ArrowDownTrayIcon,
   ArrowPathIcon,
+  XMarkIcon,
 } from "@heroicons/react/24/outline"
 
 interface ReportTemplate {
@@ -117,7 +118,7 @@ export default function ReportsPage() {
         </div>
       </div>
 
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {reportTemplates.map((template) => (
           <Card
             key={template.id}
@@ -143,78 +144,105 @@ export default function ReportsPage() {
         ))}
       </div>
 
+      {/* Mobile-friendly Modal */}
       {selectedReport && (
-        <Card>
-          <CardHeader className="border-b border-slate-200 dark:border-slate-700">
-            <div className="flex items-center justify-between">
-              <CardTitle>Generate {selectedReport.name}</CardTitle>
-              <div className="flex gap-2">
+        <div className="fixed inset-0 bg-black/50 flex items-stretch sm:items-center justify-center z-50">
+          <div className="bg-white dark:bg-slate-800 w-full min-h-screen sm:min-h-fit sm:rounded-lg sm:max-w-2xl sm:my-4 overflow-y-auto relative">
+            {/* Sticky Header */}
+            <div className="sticky top-0 bg-white dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700 p-4 z-10">
+              <div className="flex justify-between items-start gap-4 max-w-3xl mx-auto">
+                <div>
+                  <h2 className="text-xl font-semibold text-slate-900 dark:text-slate-100">
+                    {selectedReport.name}
+                  </h2>
+                  <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
+                    {selectedReport.description}
+                  </p>
+                </div>
                 <Button
-                  variant="outline"
+                  variant="ghost"
+                  size="icon"
+                  className="rounded-full shrink-0"
                   onClick={() => setSelectedReport(null)}
                 >
-                  Cancel
-                </Button>
-                <Button
-                  onClick={handleGenerateReport}
-                  disabled={isGenerating}
-                  className="gap-2"
-                >
-                  {isGenerating ? (
-                    <>
-                      <ArrowPathIcon className="h-4 w-4 animate-spin" />
-                      Generating...
-                    </>
-                  ) : (
-                    <>
-                      <ArrowDownTrayIcon className="h-4 w-4" />
-                      Generate Report
-                    </>
-                  )}
+                  <XMarkIcon className="h-5 w-5" />
                 </Button>
               </div>
             </div>
-          </CardHeader>
-          <CardContent>
-            <div className="mt-6 space-y-4">
-              {selectedReport.parameters.map((param) => (
-                <div key={param.name} className="space-y-2">
-                  <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
-                    {param.label}
-                  </label>
-                  {param.type === 'select' ? (
-                    <select
-                      className="w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-sm outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 dark:border-slate-700 dark:bg-slate-800"
-                      value={reportParameters[param.name] || ''}
-                      onChange={(e) => handleParameterChange(param.name, e.target.value)}
-                    >
-                      <option value="">Select {param.label}</option>
-                      {param.options?.map((option) => (
-                        <option key={option} value={option}>
-                          {option}
-                        </option>
-                      ))}
-                    </select>
-                  ) : param.type === 'date' ? (
-                    <input
-                      type="date"
-                      className="w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-sm outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 dark:border-slate-700 dark:bg-slate-800"
-                      value={reportParameters[param.name] || ''}
-                      onChange={(e) => handleParameterChange(param.name, e.target.value)}
-                    />
-                  ) : (
-                    <input
-                      type="text"
-                      className="w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-sm outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 dark:border-slate-700 dark:bg-slate-800"
-                      value={reportParameters[param.name] || ''}
-                      onChange={(e) => handleParameterChange(param.name, e.target.value)}
-                    />
-                  )}
+
+            {/* Mobile-optimized Form Content */}
+            <div className="p-4 sm:p-6 max-w-3xl mx-auto">
+              <div className="space-y-4">
+                {selectedReport.parameters.map((param) => (
+                  <div key={param.name} className="space-y-2">
+                    <label className="block text-sm font-medium text-slate-700 dark:text-slate-300">
+                      {param.label}
+                    </label>
+                    {param.type === 'select' ? (
+                      <select
+                        className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2.5 text-base outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 dark:border-slate-700 dark:bg-slate-800"
+                        value={reportParameters[param.name] || ''}
+                        onChange={(e) => handleParameterChange(param.name, e.target.value)}
+                      >
+                        <option value="">Select {param.label}</option>
+                        {param.options?.map((option) => (
+                          <option key={option} value={option}>
+                            {option}
+                          </option>
+                        ))}
+                      </select>
+                    ) : param.type === 'date' ? (
+                      <input
+                        type="date"
+                        className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2.5 text-base outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 dark:border-slate-700 dark:bg-slate-800"
+                        value={reportParameters[param.name] || ''}
+                        onChange={(e) => handleParameterChange(param.name, e.target.value)}
+                      />
+                    ) : (
+                      <input
+                        type="text"
+                        className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2.5 text-base outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 dark:border-slate-700 dark:bg-slate-800"
+                        value={reportParameters[param.name] || ''}
+                        onChange={(e) => handleParameterChange(param.name, e.target.value)}
+                        placeholder={`Enter ${param.label.toLowerCase()}`}
+                      />
+                    )}
+                  </div>
+                ))}
+              </div>
+
+              {/* Sticky Footer */}
+              <div className="sticky bottom-0 bg-white dark:bg-slate-800 mt-6 -mx-4 sm:-mx-6 px-4 sm:px-6 py-4 border-t border-slate-200 dark:border-slate-700">
+                <div className="flex flex-col sm:flex-row gap-3 sm:justify-end max-w-3xl mx-auto">
+                  <Button 
+                    variant="outline" 
+                    className="w-full sm:w-auto"
+                    onClick={() => setSelectedReport(null)}
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    className="w-full sm:w-auto gap-2"
+                    onClick={handleGenerateReport}
+                    disabled={isGenerating}
+                  >
+                    {isGenerating ? (
+                      <>
+                        <ArrowPathIcon className="h-4 w-4 animate-spin" />
+                        Generating...
+                      </>
+                    ) : (
+                      <>
+                        <ArrowDownTrayIcon className="h-4 w-4" />
+                        Generate Report
+                      </>
+                    )}
+                  </Button>
                 </div>
-              ))}
+              </div>
             </div>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       )}
     </div>
   )

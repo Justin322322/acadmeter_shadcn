@@ -104,29 +104,34 @@ export default function SettingsPage() {
         })}
       </div>
 
-      {/* Modal */}
+      {/* Mobile-friendly Modal */}
       {selectedSection && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white dark:bg-slate-800 rounded-lg w-full max-w-2xl max-h-[90vh] overflow-y-auto">
-            <div className="sticky top-0 bg-white dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700 p-4 flex justify-between items-center">
-              <div>
-                <h2 className="text-xl font-semibold">
-                  {settingsSections.find(s => s.id === selectedSection)?.title}
-                </h2>
-                <p className="text-sm text-slate-500 dark:text-slate-400">
-                  {settingsSections.find(s => s.id === selectedSection)?.description}
-                </p>
+        <div className="fixed inset-0 bg-black/50 flex items-stretch sm:items-center justify-center z-50">
+          <div className="bg-white dark:bg-slate-800 w-full min-h-screen sm:min-h-fit sm:rounded-lg sm:max-w-2xl sm:my-4 overflow-y-auto relative">
+            {/* Sticky Header */}
+            <div className="sticky top-0 bg-white dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700 p-4 z-10">
+              <div className="flex justify-between items-start gap-4 max-w-3xl mx-auto">
+                <div>
+                  <h2 className="text-xl font-semibold text-slate-900 dark:text-slate-100">
+                    {settingsSections.find(s => s.id === selectedSection)?.title}
+                  </h2>
+                  <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
+                    {settingsSections.find(s => s.id === selectedSection)?.description}
+                  </p>
+                </div>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="rounded-full shrink-0"
+                  onClick={closeModal}
+                >
+                  <XMarkIcon className="h-5 w-5" />
+                </Button>
               </div>
-              <Button
-                variant="ghost"
-                size="icon"
-                className="rounded-full"
-                onClick={closeModal}
-              >
-                <XMarkIcon className="h-5 w-5" />
-              </Button>
             </div>
-            <div className="p-6">
+
+            {/* Mobile-optimized Form Content */}
+            <div className="p-4 sm:p-6 max-w-3xl mx-auto">
               {selectedSection === 'profile' && (
                 <div className="space-y-6">
                   <div>
@@ -317,9 +322,20 @@ export default function SettingsPage() {
                 </div>
               )}
 
-              <div className="mt-6 flex justify-end gap-3 border-t border-slate-200 dark:border-slate-700 pt-6">
-                <Button variant="outline" onClick={closeModal}>Cancel</Button>
-                <Button>Save Changes</Button>
+              {/* Sticky Footer */}
+              <div className="sticky bottom-0 bg-white dark:bg-slate-800 mt-6 -mx-4 sm:-mx-6 px-4 sm:px-6 py-4 border-t border-slate-200 dark:border-slate-700">
+                <div className="flex flex-col sm:flex-row gap-3 sm:justify-end max-w-3xl mx-auto">
+                  <Button 
+                    variant="outline" 
+                    className="w-full sm:w-auto"
+                    onClick={closeModal}
+                  >
+                    Cancel
+                  </Button>
+                  <Button className="w-full sm:w-auto">
+                    Save Changes
+                  </Button>
+                </div>
               </div>
             </div>
           </div>
