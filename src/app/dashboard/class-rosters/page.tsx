@@ -339,12 +339,16 @@ export default function ClassRostersPage() {
         {filteredRosters.length === 0 && (
           <div className="col-span-full flex flex-col items-center justify-center p-8 border border-dashed border-slate-300 dark:border-slate-700 rounded-lg bg-slate-50 dark:bg-slate-800/50">
             <BookOpenIcon className="h-12 w-12 text-slate-400 mb-4" />
-            <h3 className="text-lg font-medium text-slate-900 dark:text-slate-100">No class rosters found</h3>
-            <p className="text-slate-500 dark:text-slate-400 text-center mt-1 max-w-sm">
-              {searchQuery || selectedGradeLevel
-                ? "Try adjusting your filters to find what you're looking for."
-                : "Get started by creating your first class roster."}
-            </p>
+            <div className="text-center space-y-1.5 w-[220px]">
+              <h3 className="text-lg font-medium text-slate-900 dark:text-slate-100 mb-1">
+                No class rosters found
+              </h3>
+              <p className="text-sm text-slate-500 dark:text-slate-400 leading-5">
+                {searchQuery || selectedGradeLevel
+                  ? "Try adjusting your filters to find what you're looking for."
+                  : "Get started by creating your first class roster."}
+              </p>
+            </div>
             {(searchQuery || selectedGradeLevel) && (
               <Button 
                 variant="outline" 
@@ -584,49 +588,56 @@ export default function ClassRostersPage() {
       {/* Delete Confirmation Dialog */}
       {selectedRoster && (
         <Dialog open={isDeleteConfirmOpen} onOpenChange={setIsDeleteConfirmOpen}>
-          <DialogContent className="sm:max-w-[440px] p-6">
-            <DialogHeader className="space-y-3">
-              <DialogTitle className="text-xl font-semibold leading-6">Delete Class Roster</DialogTitle>
-              <p className="text-[15px] text-slate-600 dark:text-slate-400 font-normal">
-                Are you sure you want to delete <span className="font-medium text-slate-900 dark:text-slate-200">{selectedRoster.name}</span>? This action cannot be undone.
-              </p>
-            </DialogHeader>
+          <DialogContent className="sm:max-w-[400px] p-0">
+            <div className="px-6 pt-6">
+              <DialogHeader className="space-y-3">
+                <DialogTitle className="text-xl font-semibold text-red-600 dark:text-red-500">
+                  Delete {selectedRoster.name}
+                </DialogTitle>
+                <p className="text-sm leading-6 text-slate-600 dark:text-slate-400">
+                  This will permanently remove this class roster and all associated data. This action cannot be undone.
+                </p>
+              </DialogHeader>
 
-            <div className="my-6">
-              <div className="rounded-lg bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-900/50">
-                <div className="px-4 py-3 flex gap-3">
-                  <UserGroupIcon className="h-5 w-5 text-amber-600 dark:text-amber-500 flex-shrink-0 mt-0.5" />
-                  <div className="space-y-1.5">
-                    <p className="text-sm font-medium text-amber-900 dark:text-amber-300">
-                      Warning: This roster has {selectedRoster.enrolled} enrolled students
-                    </p>
-                    <p className="text-[13px] text-amber-700 dark:text-amber-400/90">
-                      Deleting this roster will remove these students' enrollment.
-                    </p>
+              <div className="mt-6 bg-amber-50 dark:bg-amber-950/30 rounded-lg border border-amber-200/60 dark:border-amber-900/50">
+                <div className="px-4 py-3">
+                  <div className="flex gap-3">
+                    <UserGroupIcon className="h-5 w-5 text-amber-600 dark:text-amber-500 flex-shrink-0 mt-0.5" />
+                    <div className="space-y-1.5 min-w-0">
+                      <p className="text-sm font-medium text-amber-900 dark:text-amber-300">
+                        {selectedRoster.enrolled} enrolled students will be affected
+                      </p>
+                      <p className="text-[13px] leading-5 text-amber-700/90 dark:text-amber-400/90">
+                        Students will lose access to this class and all associated materials.
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
 
-            <DialogFooter className="gap-3 sm:gap-0">
-              <Button
-                variant="outline"
-                onClick={() => setIsDeleteConfirmOpen(false)}
-                className="flex-1 sm:flex-none"
-              >
-                Cancel
-              </Button>
-              <Button
-                variant="destructive"
-                onClick={() => {
-                  // Here you would delete the roster
-                  setIsDeleteConfirmOpen(false)
-                }}
-                className="flex-1 sm:flex-none gap-2"
-              >
-                Delete Roster
-              </Button>
-            </DialogFooter>
+            <div className="px-6 py-4 mt-4 bg-slate-50 dark:bg-slate-900/40 border-t border-slate-200 dark:border-slate-800">
+              <div className="flex flex-col-reverse sm:flex-row sm:justify-end gap-3">
+                <Button
+                  variant="outline"
+                  onClick={() => setIsDeleteConfirmOpen(false)}
+                  className="sm:w-24"
+                >
+                  Cancel
+                </Button>
+                <Button
+                  variant="destructive"
+                  onClick={() => {
+                    // Here you would delete the roster
+                    setIsDeleteConfirmOpen(false)
+                  }}
+                  className="sm:w-32 gap-2 font-medium"
+                >
+                  <TrashIcon className="h-4 w-4" />
+                  Delete
+                </Button>
+              </div>
+            </div>
           </DialogContent>
         </Dialog>
       )}
