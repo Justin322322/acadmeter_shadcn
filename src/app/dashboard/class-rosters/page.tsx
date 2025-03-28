@@ -584,40 +584,45 @@ export default function ClassRostersPage() {
       {/* Delete Confirmation Dialog */}
       {selectedRoster && (
         <Dialog open={isDeleteConfirmOpen} onOpenChange={setIsDeleteConfirmOpen}>
-          <DialogContent className="sm:max-w-md">
-            <DialogHeader>
-              <DialogTitle>Delete Class Roster</DialogTitle>
-            </DialogHeader>
-            <div className="py-4">
-              <p className="text-slate-600 dark:text-slate-300">
-                Are you sure you want to delete <span className="font-medium">{selectedRoster.name}</span>? 
-                This action cannot be undone.
+          <DialogContent className="sm:max-w-[440px] p-6">
+            <DialogHeader className="space-y-3">
+              <DialogTitle className="text-xl font-semibold leading-6">Delete Class Roster</DialogTitle>
+              <p className="text-[15px] text-slate-600 dark:text-slate-400 font-normal">
+                Are you sure you want to delete <span className="font-medium text-slate-900 dark:text-slate-200">{selectedRoster.name}</span>? This action cannot be undone.
               </p>
+            </DialogHeader>
 
-              <div className="mt-4 p-3 rounded-md bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800">
-                <div className="flex gap-2 items-start">
-                  <UserGroupIcon className="h-5 w-5 text-amber-600 dark:text-amber-400 mt-0.5" />
-                  <div>
-                    <p className="text-sm text-amber-800 dark:text-amber-300 font-medium">
+            <div className="my-6">
+              <div className="rounded-lg bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-900/50">
+                <div className="px-4 py-3 flex gap-3">
+                  <UserGroupIcon className="h-5 w-5 text-amber-600 dark:text-amber-500 flex-shrink-0 mt-0.5" />
+                  <div className="space-y-1.5">
+                    <p className="text-sm font-medium text-amber-900 dark:text-amber-300">
                       Warning: This roster has {selectedRoster.enrolled} enrolled students
                     </p>
-                    <p className="text-sm text-amber-700 dark:text-amber-400 mt-1">
+                    <p className="text-[13px] text-amber-700 dark:text-amber-400/90">
                       Deleting this roster will remove these students' enrollment.
                     </p>
                   </div>
                 </div>
               </div>
             </div>
-            <DialogFooter>
-              <Button variant="outline" onClick={() => setIsDeleteConfirmOpen(false)}>
+
+            <DialogFooter className="gap-3 sm:gap-0">
+              <Button
+                variant="outline"
+                onClick={() => setIsDeleteConfirmOpen(false)}
+                className="flex-1 sm:flex-none"
+              >
                 Cancel
               </Button>
-              <Button 
+              <Button
                 variant="destructive"
                 onClick={() => {
                   // Here you would delete the roster
                   setIsDeleteConfirmOpen(false)
                 }}
+                className="flex-1 sm:flex-none gap-2"
               >
                 Delete Roster
               </Button>
