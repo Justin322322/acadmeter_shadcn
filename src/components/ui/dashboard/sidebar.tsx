@@ -8,14 +8,17 @@ import {
   UsersIcon,
   DocumentChartBarIcon,
   Cog6ToothIcon,
-  ChartBarIcon,
+  ClipboardDocumentListIcon,
+  BookOpenIcon,
+  BellIcon,
 } from "@heroicons/react/24/outline"
 
 const navigation = [
-  { name: "Overview", href: "/dashboard", icon: HomeIcon },
+  { name: "Dashboard", href: "/dashboard", icon: HomeIcon },
   { name: "Users", href: "/dashboard/users", icon: UsersIcon },
+  { name: "User Logs", href: "/dashboard/user-logs", icon: ClipboardDocumentListIcon },
+  { name: "Class Rosters", href: "/dashboard/class-rosters", icon: BookOpenIcon },
   { name: "Reports", href: "/dashboard/reports", icon: DocumentChartBarIcon },
-  { name: "Analytics", href: "/dashboard/analytics", icon: ChartBarIcon },
   { name: "Settings", href: "/dashboard/settings", icon: Cog6ToothIcon },
 ]
 

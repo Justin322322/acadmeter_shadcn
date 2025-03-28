@@ -20,12 +20,14 @@
  */
 "use client"
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Button } from "@/components/ui/button"
 import {
   SparklesIcon,
   XMarkIcon,
-  CheckIcon
+  CheckIcon,
+  PaperAirplaneIcon,
+  ExclamationTriangleIcon,
 } from "@heroicons/react/24/outline"
 
 interface FeedbackEditorProps {
@@ -39,111 +41,159 @@ interface FeedbackEditorProps {
 }
 
 export function FeedbackEditor({
-  studentName = "",
+  studentName,
   initialFeedback = "",
+  initialValue = "",
   onSave,
   onClose,
-  suggestions = true
+  suggestions = true,
+  onChange,
 }: FeedbackEditorProps) {
-  const [feedback, setFeedback] = useState(initialFeedback)
+  const [feedback, setFeedback] = useState(initialFeedback || initialValue)
+  const [hasSaved, setHasSaved] = useState(false)
   const [showSuggestions, setShowSuggestions] = useState(false)
+  const [isGenerating, setIsGenerating] = useState(false)
+  const [charCount, setCharCount] = useState(0)
+  const maxChars = 2000
 
-  const handleTemplateFill = (template: string) => {
-    // Directly append the template to the feedback
-    setFeedback(prev => prev ? `${prev}\n${template}` : template)
-    setShowSuggestions(false)
+  useEffect(() => {
+    setCharCount(feedback.length)
+  }, [feedback])
+
+  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const value = e.target.value
+    setFeedback(value)
+    onChange?.(value)
+    setCharCount(value.length)
   }
 
   const handleSave = () => {
-    if (onSave) {
-      onSave(feedback)
+    if (feedback.trim()) {
+      onSave?.(feedback)
+      setHasSaved(true)
+      setTimeout(() => setHasSaved(false), 2000)
     }
   }
 
+  const feedbackTemplates = [
+    {
+      title: "Progress Recognition",
+      text: `${studentName ? studentName + " has" : "You have"} shown significant improvement in understanding key concepts. Keep up the great work!`
+    },
+    {
+      title: "Areas for Improvement",
+      text: "While progress has been made, there are some areas that need attention. Let's focus on:"
+    },
+    {
+      title: "Study Recommendations",
+      text: "To further improve your understanding, I recommend:\n\n1. Regular practice of problem-solving\n2. Active participation in class discussions\n3. Reviewing feedback on previous assignments"
+    }
+  ]
+
   return (
     <div className="space-y-4">
-      {studentName && (
-        <div className="flex items-center justify-between">
-          <h3 className="text-lg font-semibold text-slate-900 dark:text-white">
-            Feedback for {studentName}
-          </h3>
-          {onClose && (
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div className="flex items-center gap-2">
+          {suggestions && (
             <Button
-              variant="ghost"
-              size="icon"
-              onClick={onClose}
-              className="rounded-full"
+              variant="outline"
+              size="sm"
+              className="gap-2"
+              onClick={() => setShowSuggestions(!showSuggestions)}
+              aria-label="Toggle feedback suggestions"
             >
-              <XMarkIcon className="w-5 h-5" />
+              <SparklesIcon className="w-4 h-4 text-indigo-500" />
+              <span>Suggestions</span>
             </Button>
           )}
         </div>
-      )}
+
+        <div className="flex items-center gap-2">
+          <span className={`text-xs ${
+            charCount > maxChars ? 'text-red-500' : 'text-slate-500'
+          }`}>
+            {charCount}/{maxChars} characters
+          </span>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={onClose}
+            className="gap-2"
+            aria-label="Cancel editing"
+          >
+            <XMarkIcon className="w-4 h-4" />
+            <span>Cancel</span>
+          </Button>
+          <Button
+            size="sm"
+            onClick={handleSave}
+            className="gap-2"
+            disabled={!feedback.trim() || charCount > maxChars}
+            aria-label="Save feedback"
+          >
+            {hasSaved ? (
+              <>
+                <CheckIcon className="w-4 h-4" />
+                <span>Saved</span>
+              </>
+            ) : (
+              <>
+                <PaperAirplaneIcon className="w-4 h-4" />
+                <span>Save</span>
+              </>
+            )}
+          </Button>
+        </div>
+      </div>
 
       <div className="relative">
         <textarea
           value={feedback}
-          onChange={(e) => setFeedback(e.target.value)}
-          className="w-full min-h-[200px] p-3 rounded-lg border border-slate-200 bg-white text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:border-slate-700 dark:bg-slate-800 dark:text-white"
+          onChange={handleChange}
           placeholder="Enter your feedback here..."
+          className={`w-full h-64 rounded-lg border bg-white dark:bg-slate-900 px-4 py-3 text-sm outline-none transition-colors ${
+            charCount > maxChars
+              ? 'border-red-300 focus:border-red-500 focus:ring-1 focus:ring-red-500'
+              : 'border-slate-200 dark:border-slate-700 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500'
+          }`}
+          aria-label="Feedback text editor"
         />
-        
-        {suggestions && (
-          <div className="absolute top-2 right-2">
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setShowSuggestions(!showSuggestions)}
-              className="gap-1"
-            >
-              <SparklesIcon className="w-4 h-4" />
-              <span className="text-sm">Suggestions</span>
-            </Button>
+        {charCount > maxChars && (
+          <div className="absolute bottom-2 right-2 flex items-center gap-1 text-xs text-red-500">
+            <ExclamationTriangleIcon className="w-4 h-4" />
+            <span>Character limit exceeded</span>
           </div>
         )}
       </div>
 
       {showSuggestions && (
-        <div className="border border-slate-200 dark:border-slate-700 rounded-lg overflow-hidden">
-          <div className="bg-slate-50 dark:bg-slate-800/50 p-3 border-b border-slate-200 dark:border-slate-700">
-            <h4 className="font-medium text-slate-900 dark:text-white">Feedback Templates</h4>
-          </div>
-          <div className="p-3 max-h-[300px] overflow-y-auto">
-            <div className="space-y-4">
-              {feedbackSuggestions.map((category) => (
-                <div key={category.category}>
-                  <h5 className="text-sm font-medium text-slate-900 dark:text-white mb-2">
-                    {category.category}
-                  </h5>
-                  <div className="space-y-2">
-                    {category.templates.map((template, index) => (
-                      <button
-                        key={index}
-                        className="w-full p-2 text-left rounded hover:bg-slate-100 dark:hover:bg-slate-800 text-sm text-slate-600 dark:text-slate-300"
-                        onClick={() => handleTemplateFill(template)}
-                      >
-                        {template}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </div>
+        <div className="mt-4 space-y-3 rounded-lg border border-slate-200 dark:border-slate-700 p-4 bg-slate-50 dark:bg-slate-800/50">
+          <h3 className="text-sm font-medium text-slate-900 dark:text-slate-100">
+            Feedback Templates
+          </h3>
+          <div className="grid gap-3">
+            {feedbackTemplates.map((template, index) => (
+              <button
+                key={index}
+                onClick={() => {
+                  setFeedback(current => current + (current ? '\n\n' : '') + template.text)
+                  onChange?.(feedback + (feedback ? '\n\n' : '') + template.text)
+                }}
+                className="text-left p-3 rounded-md border border-slate-200 dark:border-slate-700 hover:bg-white dark:hover:bg-slate-800 transition-colors"
+              >
+                <p className="text-sm font-medium text-slate-900 dark:text-slate-100 mb-1">
+                  {template.title}
+                </p>
+                <p className="text-xs text-slate-500 dark:text-slate-400">
+                  {template.text.length > 100 
+                    ? template.text.slice(0, 100) + '...' 
+                    : template.text}
+                </p>
+              </button>
+            ))}
           </div>
         </div>
       )}
-
-      <div className="flex justify-end gap-3">
-        {onClose && (
-          <Button variant="outline" onClick={onClose}>
-            Cancel
-          </Button>
-        )}
-        <Button onClick={handleSave} className="gap-2">
-          <CheckIcon className="w-4 h-4" />
-          Save Feedback
-        </Button>
-      </div>
     </div>
   )
 }

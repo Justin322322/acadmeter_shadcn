@@ -42,6 +42,7 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { ThemeToggle } from "@/components/ui/theme-toggle"
 import { UserIcon, ArrowLeftOnRectangleIcon, BellIcon, Bars3Icon, AcademicCapIcon } from "@heroicons/react/24/outline"
+import { AdminNotificationCenter } from "./admin-notification-center"
 
 interface AdminNavigationProps {
   onToggleSidebar: () => void
@@ -101,28 +102,8 @@ export function AdminNavigation({ onToggleSidebar }: AdminNavigationProps) {
                 <span className="absolute top-0 right-0 w-2.5 h-2.5 bg-red-500 border-2 border-white dark:border-slate-900 rounded-full"></span>
               </Button>
               {isNotificationsOpen && (
-                <div className="absolute right-0 top-full mt-2 w-80 max-w-[90vw] bg-white dark:bg-slate-900 rounded-lg shadow-lg border border-slate-200 dark:border-slate-700 transition-all duration-200 ease-out z-[60] max-h-[calc(100vh-200px)] overflow-y-auto">
-                  <div className="sticky top-0 p-3 border-b border-slate-200 dark:border-slate-700 bg-inherit">
-                    <h3 className="text-base font-semibold text-slate-900 dark:text-white">Notifications</h3>
-                  </div>
-                  <div className="p-3 space-y-4">
-                    <div className="flex items-start gap-3 p-2 hover:bg-slate-50 dark:hover:bg-slate-800/50 rounded-lg transition-colors">
-                      <div className="w-2 h-2 mt-2 bg-blue-500 rounded-full"></div>
-                      <div className="flex-1">
-                        <p className="text-sm font-medium text-slate-900 dark:text-white">New user registration</p>
-                        <p className="text-xs text-slate-500 dark:text-slate-400">A new user has registered to the platform</p>
-                        <p className="text-xs text-slate-400 dark:text-slate-500 mt-1">2 minutes ago</p>
-                      </div>
-                    </div>
-                    <div className="flex items-start gap-3 p-2 hover:bg-slate-50 dark:hover:bg-slate-800/50 rounded-lg transition-colors">
-                      <div className="w-2 h-2 mt-2 bg-blue-500 rounded-full"></div>
-                      <div className="flex-1">
-                        <p className="text-sm font-medium text-slate-900 dark:text-white">System Update</p>
-                        <p className="text-xs text-slate-500 dark:text-slate-400">System maintenance scheduled for next week</p>
-                        <p className="text-xs text-slate-400 dark:text-slate-500 mt-1">1 hour ago</p>
-                      </div>
-                    </div>
-                  </div>
+                <div className="absolute right-0 top-full mt-2 transition-all duration-200 ease-out z-[60]">
+                  <AdminNotificationCenter />
                 </div>
               )}
             </div>

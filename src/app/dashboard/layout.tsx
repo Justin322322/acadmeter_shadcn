@@ -16,8 +16,8 @@ export default function DashboardLayout({
       <AdminNavigation onToggleSidebar={() => setSidebarOpen(!sidebarOpen)} />
       <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
       
-      <div className="p-4 md:ml-64 pt-20 min-h-screen">
-        <div className="p-4 bg-white dark:bg-slate-950 rounded-lg shadow-sm border border-slate-200 dark:border-slate-800 min-h-[calc(100vh-7rem)]">
+      <div className="p-3 md:p-4 md:ml-64 pt-16 md:pt-20 min-h-screen">
+        <div className="p-3 md:p-4 bg-white dark:bg-slate-950 rounded-lg shadow-sm border border-slate-200 dark:border-slate-800 min-h-[calc(100vh-6rem)]">
           {children}
         </div>
       </div>

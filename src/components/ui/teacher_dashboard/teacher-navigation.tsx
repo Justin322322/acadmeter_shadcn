@@ -7,6 +7,7 @@
  * - Quick access to notifications and profile settings
  * - Theme switching capability
  * - Logout functionality with loading state
+ * - Accessibility-focused icon usage
  * 
  * @param {Object} props - Component props
  * @param {Function} props.onToggleSidebar - Function to toggle sidebar visibility
@@ -70,28 +71,31 @@ export function TeacherNavigation({ onToggleSidebar }: TeacherNavigationProps) {
               size="icon"
               onClick={onToggleSidebar}
               className="inline-flex items-center p-2 text-sm text-slate-500 rounded-lg md:hidden hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-slate-200 dark:text-slate-400 dark:hover:bg-slate-800/50 dark:focus:ring-slate-600"
+              aria-label="Toggle sidebar menu"
             >
               <Bars3Icon className="w-6 h-6" />
             </Button>
             <Link href="/teacher-dashboard" className="flex ms-2 md:me-24 gap-2 items-center">
               <div className="w-8 h-8 rounded-lg bg-gradient-to-r from-blue-500 to-violet-500 flex items-center justify-center">
-                <AcademicCapIcon className="w-5 h-5 text-white" />
+                <AcademicCapIcon className="w-5 h-5 text-white" aria-hidden="true" />
               </div>
-              <span className="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">
+              <span className="self-center text-xl font-semibold sm:text-xl whitespace-nowrap dark:text-white">
                 AcadMeter
               </span>
             </Link>
           </div>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3">
             <div className="relative" ref={notificationsRef}>
               <Button
                 variant="ghost"
                 size="icon"
                 className="relative text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
                 onClick={() => setIsNotificationsOpen(!isNotificationsOpen)}
+                aria-label="Notifications"
               >
-                <BellIcon className="w-5 h-5" />
-                <span className="absolute top-0 right-0 w-2.5 h-2.5 bg-red-500 border-2 border-white dark:border-slate-900 rounded-full"></span>
+                <BellIcon className="w-5 h-5" aria-hidden="true" />
+                <span className="absolute top-0 right-0 w-2 h-2 bg-red-500 border border-white dark:border-slate-900 rounded-full"></span>
+                <span className="sr-only">Notifications</span>
               </Button>
               {isNotificationsOpen && (
                 <div className="absolute right-0 top-full mt-2 w-80 max-w-[90vw] bg-white dark:bg-slate-900 rounded-lg shadow-lg border border-slate-200 dark:border-slate-700 transition-all duration-200 ease-out z-[60] max-h-[calc(100vh-200px)] overflow-y-auto">
@@ -102,23 +106,24 @@ export function TeacherNavigation({ onToggleSidebar }: TeacherNavigationProps) {
                     <div className="flex items-start gap-3 p-2 hover:bg-slate-50 dark:hover:bg-slate-800/50 rounded-lg transition-colors">
                       <div className="w-2 h-2 mt-2 bg-blue-500 rounded-full"></div>
                       <div className="flex-1">
-                        <p className="text-sm font-medium text-slate-900 dark:text-white">New Assignment Submissions</p>
-                        <p className="text-xs text-slate-500 dark:text-slate-400">5 students submitted their assignments</p>
-                        <p className="text-xs text-slate-400 dark:text-slate-500 mt-1">2 minutes ago</p>
+                        <p className="text-sm font-medium text-slate-900 dark:text-white">New Submissions</p>
+                        <p className="text-xs text-slate-500 dark:text-slate-400">5 students submitted assignments</p>
+                        <p className="text-xs text-slate-400 dark:text-slate-500 mt-1">2 min ago</p>
                       </div>
                     </div>
                     <div className="flex items-start gap-3 p-2 hover:bg-slate-50 dark:hover:bg-slate-800/50 rounded-lg transition-colors">
                       <div className="w-2 h-2 mt-2 bg-yellow-500 rounded-full"></div>
                       <div className="flex-1">
-                        <p className="text-sm font-medium text-slate-900 dark:text-white">Assignment Due Soon</p>
-                        <p className="text-xs text-slate-500 dark:text-slate-400">Physics Assignment due in 24 hours</p>
-                        <p className="text-xs text-slate-400 dark:text-slate-500 mt-1">1 hour ago</p>
+                        <p className="text-sm font-medium text-slate-900 dark:text-white">Due Soon</p>
+                        <p className="text-xs text-slate-500 dark:text-slate-400">Physics Assignment due in 24h</p>
+                        <p className="text-xs text-slate-400 dark:text-slate-500 mt-1">1h ago</p>
                       </div>
                     </div>
                   </div>
                 </div>
               )}
             </div>
+            <ThemeToggle />
             <div className="relative" ref={profileRef}>
               <Button 
                 variant="ghost" 
@@ -126,18 +131,15 @@ export function TeacherNavigation({ onToggleSidebar }: TeacherNavigationProps) {
                 aria-label="Open user menu"
                 onClick={() => setIsProfileOpen(!isProfileOpen)}
               >
-                <div className="w-8 h-8 shrink-0 rounded-full bg-gradient-to-r from-blue-500 to-violet-500 flex items-center justify-center text-white font-medium text-sm">
+                <div className="w-8 h-8 shrink-0 rounded-full bg-gradient-to-r from-blue-500 to-violet-500 flex items-center justify-center text-white font-medium text-sm" aria-hidden="true">
                   T
                 </div>
                 <span className="hidden md:inline-flex text-sm font-medium">Mr. Thompson</span>
               </Button>
               {isProfileOpen && (
                 <div className="absolute right-0 top-full mt-2 w-64 max-w-[90vw] bg-white dark:bg-slate-900 rounded-lg shadow-lg border border-slate-200 dark:border-slate-700 transition-all duration-200 ease-out z-[60]">
-                  <div className="p-4 border-b border-slate-200 dark:border-slate-700">
+                  <div className="p-3 border-b border-slate-200 dark:border-slate-700">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 shrink-0 rounded-full bg-gradient-to-r from-blue-500 to-violet-500 flex items-center justify-center text-white font-medium text-base">
-                        T
-                      </div>
                       <div className="flex flex-col min-w-0">
                         <span className="text-sm font-semibold text-slate-900 dark:text-white truncate">Mr. Thompson</span>
                         <span className="text-xs text-slate-500 dark:text-slate-400">Mathematics Teacher</span>
@@ -185,7 +187,6 @@ export function TeacherNavigation({ onToggleSidebar }: TeacherNavigationProps) {
                 </div>
               )}
             </div>
-            <ThemeToggle />
           </div>
         </div>
       </div>

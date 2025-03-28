@@ -3,15 +3,12 @@
 import { useState } from "react"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { StudentRankings } from "@/components/ui/teacher_dashboard/student-rankings"
-import {
-  PlusIcon,
-  PencilIcon,
-  TrashIcon,
-  UserGroupIcon,
-  FunnelIcon,
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { StudentRankings } from "@/components/ui/teacher_dashboard"
+import { 
   MagnifyingGlassIcon,
-  ChartBarIcon,
+  UserPlusIcon,
+  ArrowsUpDownIcon
 } from "@heroicons/react/24/outline"
 
 interface Class {
@@ -100,144 +97,205 @@ const mockStudents = [
 ]
 
 export default function ClassesPage() {
-  const [classes] = useState<Class[]>(mockClasses)
+  const [classes, setClasses] = useState<Class[]>(mockClasses)
   const [searchQuery, setSearchQuery] = useState("")
   const [selectedSection, setSelectedSection] = useState<string | null>(null)
+  const [selectedClass, setSelectedClass] = useState<Class | null>(null)
+  const [activeTab, setActiveTab] = useState("students")
 
-  const filteredClasses = classes.filter(cls => 
-    cls.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    cls.section.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    cls.subject.toLowerCase().includes(searchQuery.toLowerCase())
-  )
+  // Filter classes based on search and section filter
+  const filteredClasses = classes.filter(cls => {
+    // Check if matches search query
+    const matchesSearch = searchQuery === "" ||
+      cls.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      cls.subject.toLowerCase().includes(searchQuery.toLowerCase())
+    
+    // Check if matches section filter
+    const matchesSection = selectedSection === null || cls.section === selectedSection
+    
+    return matchesSearch && matchesSection
+  })
 
-  const filteredStudents = selectedSection
-    ? mockStudents.filter(student => student.section === selectedSection)
-    : mockStudents
+  // Get unique sections for filter
+  const uniqueSections = Array.from(new Set(classes.map(cls => cls.section)))
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
           <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-100">My Classes</h1>
-          <p className="mt-2 text-slate-500 dark:text-slate-400">Manage your class sections and students</p>
+          <p className="mt-2 text-slate-500 dark:text-slate-400">Manage your class rosters and student information</p>
         </div>
         <Button className="gap-2">
-          <PlusIcon className="w-4 h-4" />
-          Create New Class
+          <UserPlusIcon className="w-4 h-4" />
+          <span>Create Class</span>
         </Button>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2">
-          <Card>
-            <CardHeader className="border-b border-slate-200 dark:border-slate-700">
-              <div className="flex flex-col space-y-4 sm:space-y-0 sm:flex-row sm:items-center sm:justify-between">
-                <div>
-                  <CardTitle>Active Classes</CardTitle>
-                  <CardDescription>View and manage your current classes</CardDescription>
-                </div>
-                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
-                  <Button 
-                    variant="outline" 
-                    className="gap-2"
-                    onClick={() => setSelectedSection(current => current ? null : 'A')}
-                  >
-                    <FunnelIcon className="w-4 h-4" />
-                    {selectedSection ? `Section ${selectedSection}` : 'All Sections'}
-                  </Button>
-                  <div className="relative flex-1">
-                    <MagnifyingGlassIcon className="absolute left-2.5 top-2.5 h-4 w-4 text-slate-500" />
-                    <input
-                      type="search"
-                      placeholder="Search classes..."
-                      className="w-full rounded-md border border-slate-200 bg-white pl-8 pr-4 py-2 text-sm outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 dark:border-slate-700 dark:bg-slate-800"
-                      value={searchQuery}
-                      onChange={(e) => setSearchQuery(e.target.value)}
-                    />
-                  </div>
-                </div>
-              </div>
-            </CardHeader>
-            <CardContent>
-              <div className="mt-6">
-                <div className="overflow-x-auto">
-                  <table className="w-full text-left">
+      {/* Search and Filters */}
+      <Card className="border-slate-200 dark:border-slate-800">
+        <CardContent className="p-4 sm:p-6">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div className="relative">
+              <MagnifyingGlassIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-slate-400" />
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search classes..."
+                className="w-full pl-9 pr-4 py-2 border rounded-lg bg-white dark:bg-slate-900 border-slate-300 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-600 text-sm"
+              />
+            </div>
+            <div>
+              <select
+                value={selectedSection || ""}
+                onChange={(e) => setSelectedSection(e.target.value === "" ? null : e.target.value)}
+                className="w-full px-3 py-2 border rounded-lg bg-white dark:bg-slate-900 border-slate-300 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-600 text-sm"
+              >
+                <option value="">All Sections</option>
+                {uniqueSections.map((section) => (
+                  <option key={section} value={section}>Section {section}</option>
+                ))}
+              </select>
+            </div>
+            <div className="flex justify-end">
+              <Button variant="outline" size="sm" className="gap-2">
+                <ArrowsUpDownIcon className="w-4 h-4" />
+                <span>Sort by</span>
+              </Button>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      {selectedClass ? (
+        <div className="space-y-6">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                onClick={() => setSelectedClass(null)}
+              >
+                ← Back to Classes
+              </Button>
+              <h2 className="text-xl font-semibold text-slate-900 dark:text-slate-100">
+                {selectedClass.name} - Section {selectedClass.section}
+              </h2>
+            </div>
+          </div>
+
+          <Tabs defaultValue="students" onValueChange={setActiveTab}>
+            <TabsList className="grid grid-cols-3 w-full max-w-md mb-6">
+              <TabsTrigger value="students">Students</TabsTrigger>
+              <TabsTrigger value="assignments">Assignments</TabsTrigger>
+              <TabsTrigger value="analytics">Analytics</TabsTrigger>
+            </TabsList>
+            
+            <TabsContent value="students" className="mt-0">
+              <Card className="border-slate-200 dark:border-slate-800">
+                <CardHeader>
+                  <CardTitle>Student Roster</CardTitle>
+                  <CardDescription>Students enrolled in {selectedClass.name}</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <table className="w-full">
                     <thead>
                       <tr className="border-b border-slate-200 dark:border-slate-700">
-                        <th className="px-4 py-3 text-left text-sm font-medium text-slate-500 dark:text-slate-400">Class Name</th>
-                        <th className="px-4 py-3 text-left text-sm font-medium text-slate-500 dark:text-slate-400">Section</th>
-                        <th className="px-4 py-3 text-left text-sm font-medium text-slate-500 dark:text-slate-400">Subject</th>
-                        <th className="px-4 py-3 text-left text-sm font-medium text-slate-500 dark:text-slate-400">Schedule</th>
-                        <th className="px-4 py-3 text-center text-sm font-medium text-slate-500 dark:text-slate-400">Students</th>
-                        <th className="px-4 py-3 text-center text-sm font-medium text-slate-500 dark:text-slate-400">Average Grade</th>
-                        <th className="px-4 py-3 text-right text-sm font-medium text-slate-500 dark:text-slate-400">Actions</th>
+                        <th className="text-left py-3 px-4 text-sm font-medium text-slate-500 dark:text-slate-400">Name</th>
+                        <th className="text-left py-3 px-4 text-sm font-medium text-slate-500 dark:text-slate-400">ID</th>
+                        <th className="text-right py-3 px-4 text-sm font-medium text-slate-500 dark:text-slate-400">Grade</th>
+                        <th className="text-center py-3 px-4 text-sm font-medium text-slate-500 dark:text-slate-400">Status</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {filteredClasses.map((cls) => (
-                        <tr
-                          key={cls.id}
-                          className="border-b border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800/50"
-                        >
-                          <td className="px-4 py-3">
-                            <div className="font-medium text-slate-900 dark:text-slate-100">{cls.name}</div>
-                          </td>
-                          <td className="px-4 py-3 text-slate-500 dark:text-slate-400">{cls.section}</td>
-                          <td className="px-4 py-3 text-slate-500 dark:text-slate-400">{cls.subject}</td>
-                          <td className="px-4 py-3 text-slate-500 dark:text-slate-400">{cls.schedule}</td>
-                          <td className="px-4 py-3 text-center">
-                            <div className="inline-flex items-center gap-1 text-slate-500 dark:text-slate-400">
-                              <UserGroupIcon className="w-4 h-4" />
-                              <span>{cls.students}</span>
-                            </div>
-                          </td>
-                          <td className="px-4 py-3">
-                            <div className="flex justify-center items-center gap-1 text-emerald-600 dark:text-emerald-500">
-                              <ChartBarIcon className="w-4 h-4" />
-                              <span>{cls.averageGrade}</span>
-                            </div>
-                          </td>
-                          <td className="px-4 py-3">
-                            <div className="flex justify-end gap-2">
-                              <Button
-                                size="sm"
-                                variant="ghost"
-                                className="h-8 w-8 p-0 text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-100"
-                              >
-                                <PencilIcon className="w-4 h-4" />
-                              </Button>
-                              <Button
-                                size="sm"
-                                variant="ghost"
-                                className="h-8 w-8 p-0 text-red-500 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300"
-                              >
-                                <TrashIcon className="w-4 h-4" />
-                              </Button>
-                            </div>
+                      {mockStudents.slice(0, 5).map((student) => (
+                        <tr key={student.id} className="border-b border-slate-200 dark:border-slate-700">
+                          <td className="py-3 px-4 text-sm text-slate-900 dark:text-slate-100">{student.name}</td>
+                          <td className="py-3 px-4 text-sm text-slate-500 dark:text-slate-400">{student.id}</td>
+                          <td className="py-3 px-4 text-sm text-right font-medium text-slate-900 dark:text-slate-100">{student.grade}%</td>
+                          <td className="py-3 px-4 text-sm text-center">
+                            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400">
+                              Active
+                            </span>
                           </td>
                         </tr>
                       ))}
                     </tbody>
                   </table>
-                </div>
-
-                {filteredClasses.length === 0 && (
-                  <div className="text-center py-6 text-slate-500 dark:text-slate-400">
-                    No classes found
+                </CardContent>
+              </Card>
+            </TabsContent>
+            
+            <TabsContent value="assignments" className="mt-0">
+              <Card className="border-slate-200 dark:border-slate-800">
+                <CardHeader>
+                  <CardTitle>Assignments</CardTitle>
+                  <CardDescription>Class assignments and grades</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="text-center py-8">
+                    <p className="text-slate-500 dark:text-slate-400">
+                      No assignments created yet. Create an assignment from the assignments page.
+                    </p>
+                    <Button variant="outline" className="mt-4">
+                      Go to Assignments
+                    </Button>
                   </div>
-                )}
-              </div>
-            </CardContent>
-          </Card>
+                </CardContent>
+              </Card>
+            </TabsContent>
+            
+            <TabsContent value="analytics" className="mt-0">
+              <StudentRankings 
+                students={mockStudents} 
+                classSection={selectedClass.section} 
+              />
+            </TabsContent>
+          </Tabs>
         </div>
-
-        <div className="lg:col-span-1">
-          <StudentRankings 
-            students={filteredStudents}
-            classSection={selectedSection || undefined}
-          />
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {filteredClasses.map((cls) => (
+            <Card 
+              key={cls.id}
+              className="border-slate-200 dark:border-slate-800 hover:border-indigo-300 dark:hover:border-indigo-700 transition-colors cursor-pointer"
+              onClick={() => setSelectedClass(cls)}
+            >
+              <CardContent className="p-6">
+                <div className="flex items-center justify-between mb-4">
+                  <div className="bg-indigo-50 dark:bg-indigo-950/50 text-indigo-600 dark:text-indigo-400 p-2 rounded-lg">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" viewBox="0 0 20 20" fill="currentColor">
+                      <path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.35 2.524 1 1 0 01-1.4 0zM6 18a1 1 0 001-1v-2.065a8.935 8.935 0 00-2-.712V17a1 1 0 001 1z" />
+                    </svg>
+                  </div>
+                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400">
+                    Section {cls.section}
+                  </span>
+                </div>
+                <h3 className="text-lg font-medium text-slate-900 dark:text-slate-100 mb-1">{cls.name}</h3>
+                <p className="text-sm text-slate-500 dark:text-slate-400 mb-4">{cls.subject}</p>
+                <div className="border-t border-slate-200 dark:border-slate-700 pt-4 mt-4">
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <p className="text-xs text-slate-500 dark:text-slate-400">Schedule</p>
+                      <p className="text-sm font-medium text-slate-900 dark:text-slate-100">{cls.schedule}</p>
+                    </div>
+                    <div>
+                      <p className="text-xs text-slate-500 dark:text-slate-400">Students</p>
+                      <p className="text-sm font-medium text-slate-900 dark:text-slate-100">{cls.students}</p>
+                    </div>
+                    <div>
+                      <p className="text-xs text-slate-500 dark:text-slate-400">Average Grade</p>
+                      <p className="text-sm font-medium text-slate-900 dark:text-slate-100">{cls.averageGrade}</p>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
         </div>
-      </div>
+      )}
     </div>
   )
 }
