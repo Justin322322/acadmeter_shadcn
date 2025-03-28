@@ -313,13 +313,13 @@ export default function TeacherSettingsPage() {
       </div>
 
       {/* Mobile Settings List */}
-      <div className="md:hidden divide-y divide-slate-200 dark:divide-slate-700">
+      <div className="md:hidden divide-y divide-slate-200 dark:divide-slate-700 bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/50 rounded-lg shadow-sm">
         {settingsSections.map((section) => {
           const IconComponent = section.icon
           return (
             <button
               key={section.id}
-              className="w-full flex items-center justify-between p-4 hover:bg-slate-50 dark:hover:bg-slate-800/50"
+              className="w-full flex items-center justify-between p-4 hover:bg-slate-50 dark:hover:bg-slate-700/50"
               onClick={() => {
                 setActiveTab(section.id)
                 setIsMobileModalOpen(true)
@@ -331,7 +331,7 @@ export default function TeacherSettingsPage() {
                 </div>
                 <div>
                   <p className="text-sm font-medium text-slate-900 dark:text-slate-100">{section.title}</p>
-                  <p className="text-sm text-slate-500">{section.description}</p>
+                  <p className="text-sm text-slate-500 dark:text-slate-400">{section.description}</p>
                 </div>
               </div>
               <ChevronRightIcon className="w-5 h-5 text-slate-400" />
@@ -342,7 +342,7 @@ export default function TeacherSettingsPage() {
 
       {/* Mobile Settings Modal */}
       <Dialog open={isMobileModalOpen} onOpenChange={setIsMobileModalOpen}>
-        <DialogContent className="sm:max-w-lg">
+        <DialogContent className="sm:max-w-lg bg-white dark:bg-slate-800/50">
           <DialogHeader>
             <div className="flex items-center gap-2">
               <div className={`p-2 rounded-lg ${settingsSections.find(s => s.id === activeTab)?.bgColor}`}>
@@ -372,12 +372,12 @@ export default function TeacherSettingsPage() {
 
       {/* Desktop Layout */}
       <div className="hidden md:grid md:grid-cols-4 gap-6">
-        <Card className="md:col-span-1 border-slate-200 dark:border-slate-800">
+        <Card className="md:col-span-1">
           <CardHeader className="pb-3">
             <CardTitle className="text-lg">Settings Menu</CardTitle>
           </CardHeader>
           <CardContent className="p-0">
-            <div className="divide-y divide-slate-200 dark:divide-slate-700">
+            <div className="divide-y divide-slate-200 dark:divide-slate-700/50">
               {settingsSections.map((section) => {
                 const IconComponent = section.icon
                 return (
@@ -385,8 +385,8 @@ export default function TeacherSettingsPage() {
                     key={section.id}
                     className={`w-full flex items-center gap-3 p-4 text-left transition-colors ${
                       activeTab === section.id
-                        ? "bg-indigo-50 dark:bg-indigo-950/30"
-                        : "hover:bg-slate-50 dark:hover:bg-slate-800/50"
+                        ? "bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-300"
+                        : "hover:bg-slate-50 dark:hover:bg-slate-700/50"
                     }`}
                     onClick={() => setActiveTab(section.id)}
                   >
@@ -396,7 +396,7 @@ export default function TeacherSettingsPage() {
                     <div>
                       <p className={`text-sm font-medium ${
                         activeTab === section.id
-                          ? "text-indigo-600 dark:text-indigo-400"
+                          ? "text-indigo-600 dark:text-indigo-300"
                           : "text-slate-900 dark:text-slate-100"
                       }`}>
                         {section.title}
@@ -410,7 +410,7 @@ export default function TeacherSettingsPage() {
         </Card>
 
         <div className="md:col-span-3">
-          <Card className="border-slate-200 dark:border-slate-800">
+          <Card>
             <CardHeader>
               <div className="flex items-center gap-2">
                 <div className={`p-2 rounded-lg ${settingsSections.find(s => s.id === activeTab)?.bgColor}`}>
@@ -428,7 +428,7 @@ export default function TeacherSettingsPage() {
             </CardHeader>
             <CardContent>
               <SettingsContent />
-              <div className="mt-6 flex justify-end gap-3 border-t border-slate-200 dark:border-slate-700 pt-6">
+              <div className="mt-6 flex justify-end gap-3 border-t border-slate-200 dark:border-slate-700/50 pt-6">
                 <Button variant="outline">Cancel</Button>
                 <Button>Save Changes</Button>
               </div>

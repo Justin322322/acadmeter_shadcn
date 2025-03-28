@@ -89,14 +89,14 @@ export function TeacherSidebar({ isOpen, onClose }: TeacherSidebarProps) {
 
       {/* Sidebar */}
       <aside
-        className={`fixed top-0 left-0 z-40 w-64 h-screen pt-14 transition-transform md:translate-x-0 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 ${
+        className={`fixed top-0 left-0 z-40 w-64 h-screen pt-14 transition-transform md:translate-x-0 bg-white dark:bg-slate-900/95 border-r border-slate-200 dark:border-slate-800 ${
           isOpen ? "translate-x-0" : "-translate-x-full"
         }`}
         aria-label="Teacher sidebar navigation"
       >
         <div className="h-full px-3 py-4 overflow-y-auto">
           {/* Profile Summary */}
-          <div className="mb-6 p-4 rounded-lg bg-gradient-to-r from-indigo-50 to-blue-50 dark:from-indigo-950/30 dark:to-blue-950/30">
+          <div className="mb-6 p-4 rounded-lg bg-gradient-to-r from-indigo-50 to-blue-50 dark:from-indigo-950/80 dark:to-blue-950/80">
             <div className="flex items-center gap-3">
               <div className="flex-shrink-0">
                 <div className="relative">
@@ -144,10 +144,10 @@ export function TeacherSidebar({ isOpen, onClose }: TeacherSidebarProps) {
                     aria-hidden="true" 
                   />
                   <div className="flex-1 min-w-0">
-                    <span className={`text-sm break-normal whitespace-normal ${isActive ? 'font-semibold' : 'font-medium'}`}>
+                    <span className={`text-sm ${isActive ? 'font-semibold' : 'font-medium'}`}>
                       {item.name}
                     </span>
-                    <p className="text-xs text-slate-500 dark:text-slate-400 break-normal whitespace-normal">
+                    <p className="text-xs text-slate-500 dark:text-slate-400 truncate">
                       {item.description}
                     </p>
                   </div>

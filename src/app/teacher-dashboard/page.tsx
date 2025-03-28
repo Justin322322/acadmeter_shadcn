@@ -153,7 +153,7 @@ export default function TeacherDashboardPage() {
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-100">Teacher Dashboard</h1>
           <p className="mt-2 text-slate-500 dark:text-slate-400">Welcome back! Here's an overview of your teaching activities</p>
@@ -181,9 +181,9 @@ export default function TeacherDashboardPage() {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {quickStats.map((stat, index) => (
           <Card key={index} className="border-slate-200 dark:border-slate-800">
-            <CardContent className="p-4 sm:p-6">
-              <div className="flex items-start justify-between">
-                <div className={`p-2.5 rounded-lg ${stat.background}`}>
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between">
+                <div className={`p-3 rounded-lg ${stat.background}`}>
                   <stat.icon className={`w-5 h-5 ${stat.color}`} aria-hidden="true" />
                 </div>
                 <div className={`flex items-center gap-1 ${
@@ -193,13 +193,14 @@ export default function TeacherDashboardPage() {
                     ? 'text-red-600 dark:text-red-500'
                     : 'text-slate-600 dark:text-slate-400'
                 }`}>
-                  {stat.trend === 'up' && <ArrowTrendingUpIcon className="w-4 h-4" aria-hidden="true" />}
+                  {stat.trend === 'up' && <ArrowTrendingUpIcon className="w-4 h-4" />}
+                  {stat.trend === 'down' && <ArrowTrendingUpIcon className="w-4 h-4 rotate-180" />}
                   <span className="text-sm font-medium">{stat.change}</span>
                 </div>
               </div>
               <div className="mt-3">
                 <h3 className="text-sm font-medium text-slate-600 dark:text-slate-400">{stat.title}</h3>
-                <p className="mt-1 text-2xl font-bold text-slate-900 dark:text-white">{stat.value}</p>
+                <p className="mt-1 text-2xl font-bold text-slate-900 dark:text-slate-100">{stat.value}</p>
               </div>
             </CardContent>
           </Card>
@@ -263,7 +264,7 @@ export default function TeacherDashboardPage() {
         />
       </div>
 
-      {/* Features Grid */}
+      {/* Teaching Features */}
       <Card className="border-slate-200 dark:border-slate-800">
         <CardHeader>
           <CardTitle>Teaching Features</CardTitle>

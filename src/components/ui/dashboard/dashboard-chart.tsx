@@ -24,11 +24,11 @@ const trendData = [
 ]
 
 const subjects = {
-  Mathematics: '#3b82f6', // blue-500
+  Mathematics: '#6366f1', // indigo-500
   Science: '#10b981', // emerald-500
   English: '#8b5cf6', // violet-500
   History: '#f59e0b', // amber-500
-  Physics: '#ef4444' // red-500
+  Physics: '#ec4899'  // pink-500
 }
 
 export function DashboardChart() {
@@ -93,7 +93,7 @@ export function DashboardChart() {
       </div>
 
       {/* Chart Container */}
-      <div className="bg-slate-50 dark:bg-slate-800/50 p-4 rounded-lg">
+      <div className="bg-white dark:bg-slate-900 p-4 rounded-lg border border-slate-200 dark:border-slate-800">
         <div className="h-[300px] sm:h-[400px]">
           <ResponsiveContainer width="100%" height="100%">
             <LineChart
@@ -102,7 +102,7 @@ export function DashboardChart() {
             >
               <CartesianGrid 
                 strokeDasharray="3 3" 
-                stroke={isDark ? '#334155' : '#e2e8f0'}
+                stroke={isDark ? 'rgba(51, 65, 85, 0.3)' : 'rgba(226, 232, 240, 0.6)'}
                 horizontal={true}
                 vertical={true}
               />
@@ -111,6 +111,8 @@ export function DashboardChart() {
                 stroke={isDark ? '#94a3b8' : '#64748b'}
                 fontSize={12}
                 tickMargin={10}
+                axisLine={false}
+                tickLine={false}
               />
               <YAxis
                 stroke={isDark ? '#94a3b8' : '#64748b'}
@@ -119,13 +121,17 @@ export function DashboardChart() {
                 tickMargin={10}
                 width={40}
                 domain={[0, 100]}
+                axisLine={false}
+                tickLine={false}
               />
               <Tooltip
                 contentStyle={{
                   backgroundColor: isDark ? '#1e293b' : '#ffffff',
                   border: `1px solid ${isDark ? '#334155' : '#e2e8f0'}`,
-                  borderRadius: '6px',
-                  fontSize: '12px'
+                  borderRadius: '8px',
+                  fontSize: '12px',
+                  padding: '8px 12px',
+                  boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
                 }}
               />
               {selectedSubjects.map((subject) => (
@@ -139,7 +145,8 @@ export function DashboardChart() {
                   dot={{ 
                     fill: subjects[subject as keyof typeof subjects], 
                     r: 4,
-                    strokeWidth: 0
+                    strokeWidth: 2,
+                    stroke: isDark ? '#1e293b' : '#ffffff'
                   }}
                   activeDot={{ 
                     r: 6,

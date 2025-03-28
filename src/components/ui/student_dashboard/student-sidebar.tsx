@@ -45,7 +45,7 @@ export function StudentSidebar({ isOpen, onClose }: StudentSidebarProps) {
 
       {/* Sidebar */}
       <aside
-        className={`fixed top-0 left-0 z-40 w-64 h-screen pt-14 transition-transform md:translate-x-0 bg-white border-r border-slate-200 dark:bg-slate-950 dark:border-slate-800 ${
+        className={`fixed top-0 left-0 z-40 w-64 h-screen pt-14 transition-transform md:translate-x-0 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 ${
           isOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >

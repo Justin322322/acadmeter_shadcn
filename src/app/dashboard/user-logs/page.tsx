@@ -256,79 +256,76 @@ export default function UserLogsPage() {
 
       {/* Filters */}
       <Card>
-        <CardContent className="p-4">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-            {/* Search */}
-            <div className="relative">
-              <MagnifyingGlassIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-500" />
-              <input
-                type="search"
-                placeholder="Search by user or action..."
-                className="w-full rounded-md border border-slate-200 bg-white pl-9 pr-4 py-2 text-sm outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 dark:border-slate-700 dark:bg-slate-800"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
+        <CardContent className="p-6">
+          <div className="flex flex-col lg:flex-row gap-6">
+            {/* Search and Date Range Group */}
+            <div className="flex-1 grid grid-cols-1 md:grid-cols-3 gap-4">
+              {/* Search */}
+              <div className="relative md:col-span-3 lg:col-span-1">
+                <MagnifyingGlassIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-500" />
+                <input
+                  type="search"
+                  placeholder="Search by user or action..."
+                  className="w-full h-10 rounded-md border border-slate-200 bg-white pl-9 pr-4 py-2 text-sm outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 dark:border-slate-700 dark:bg-slate-800"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
+              </div>
+
+              {/* Date Range - Start Date */}
+              <div>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant="outline"
+                      className="w-full justify-start text-left font-normal h-10"
+                    >
+                      <CalendarIcon className="mr-2 h-4 w-4 text-slate-500 dark:text-slate-400" />
+                      {startDate ? format(startDate, "MMM d, yyyy") : "Start Date"}
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0" align="start">
+                    <Calendar
+                      mode="single"
+                      selected={startDate}
+                      onSelect={setStartDate}
+                      initialFocus
+                    />
+                  </PopoverContent>
+                </Popover>
+              </div>
+
+              {/* Date Range - End Date */}
+              <div>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant="outline"
+                      className="w-full justify-start text-left font-normal h-10"
+                    >
+                      <CalendarIcon className="mr-2 h-4 w-4 text-slate-500 dark:text-slate-400" />
+                      {endDate ? format(endDate, "MMM d, yyyy") : "End Date"}
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0" align="start">
+                    <Calendar
+                      mode="single"
+                      selected={endDate}
+                      onSelect={setEndDate}
+                      initialFocus
+                      disabled={date => startDate ? date < startDate : false}
+                    />
+                  </PopoverContent>
+                </Popover>
+              </div>
             </div>
 
-            {/* Date Range - Start Date with Shadcn Calendar */}
-            <div>
-              <label className="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">
-                Start Date
-              </label>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <Button
-                    variant="outline"
-                    className="w-full justify-start text-left font-normal h-9"
-                  >
-                    <CalendarIcon className="mr-2 h-4 w-4 text-slate-500 dark:text-slate-400" />
-                    {startDate ? format(startDate, "PPP") : "Select date"}
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0" align="start">
-                  <Calendar
-                    mode="single"
-                    selected={startDate}
-                    onSelect={setStartDate}
-                    initialFocus
-                  />
-                </PopoverContent>
-              </Popover>
-            </div>
-
-            {/* Date Range - End Date with Shadcn Calendar */}
-            <div>
-              <label className="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">
-                End Date
-              </label>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <Button
-                    variant="outline"
-                    className="w-full justify-start text-left font-normal h-9"
-                  >
-                    <CalendarIcon className="mr-2 h-4 w-4 text-slate-500 dark:text-slate-400" />
-                    {endDate ? format(endDate, "PPP") : "Select date"}
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0" align="start">
-                  <Calendar
-                    mode="single"
-                    selected={endDate}
-                    onSelect={setEndDate}
-                    initialFocus
-                    disabled={date => startDate ? date < startDate : false}
-                  />
-                </PopoverContent>
-              </Popover>
-            </div>
-
-            {/* Clear Filters */}
-            <div className="flex items-end">
+            {/* Clear Filters Button */}
+            <div className="flex-shrink-0">
               <Button 
                 variant="outline" 
                 size="default" 
-                className="w-full"
+                className="w-full h-10"
                 onClick={clearFilters}
               >
                 Clear Filters
@@ -337,12 +334,13 @@ export default function UserLogsPage() {
           </div>
 
           {/* Log Type Filters */}
-          <div className="mt-4 flex flex-wrap gap-2">
+          <div className="mt-4 flex flex-wrap items-center gap-2 pt-4 border-t border-slate-200 dark:border-slate-700">
+            <span className="text-sm font-medium text-slate-700 dark:text-slate-300 mr-2">Filter by type:</span>
             {Object.entries(logTypes).map(([type, { bg, text }]) => (
               <Badge 
                 key={type}
                 variant={selectedLogTypes.includes(type) ? "default" : "outline"} 
-                className={`cursor-pointer ${selectedLogTypes.includes(type) ? "" : text}`}
+                className={`cursor-pointer ${selectedLogTypes.includes(type) ? "" : text} h-7 px-3`}
                 onClick={() => toggleLogType(type)}
               >
                 {type.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}

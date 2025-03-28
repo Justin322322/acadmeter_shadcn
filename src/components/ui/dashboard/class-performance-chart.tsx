@@ -77,9 +77,9 @@ const performanceData = [
 ]
 
 const performanceTypes = {
-  Assignments: '#2563eb', // blue
-  Exams: '#dc2626', // red
-  Participation: '#16a34a' // green
+  Assignments: '#6366f1', // indigo-500
+  Exams: '#ec4899', // pink-500
+  Participation: '#10b981' // emerald-500
 }
 
 export function ClassPerformanceChart() {
@@ -112,43 +112,55 @@ export function ClassPerformanceChart() {
         ))}
       </div>
 
-      <div className="h-[350px]">
-        <ResponsiveContainer width="100%" height="100%">
-          <BarChart
-            data={performanceData}
-            margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
-          >
-            <CartesianGrid strokeDasharray="3 3" stroke={isDark ? '#334155' : '#e2e8f0'} />
-            <XAxis
-              dataKey="subject"
-              stroke={isDark ? '#94a3b8' : '#64748b'}
-              fontSize={12}
-              tickFormatter={(value) => value.split(' ')[0]}
-            />
-            <YAxis
-              stroke={isDark ? '#94a3b8' : '#64748b'}
-              fontSize={12}
-              tickFormatter={(value) => `${value}%`}
-            />
-            <Tooltip
-              contentStyle={{
-                backgroundColor: isDark ? '#1e293b' : '#ffffff',
-                border: `1px solid ${isDark ? '#334155' : '#e2e8f0'}`,
-                borderRadius: '6px',
-                fontSize: '12px'
-              }}
-            />
-            {selectedTypes.map((type) => (
-              <Bar
-                key={type}
-                dataKey={type}
-                name={type}
-                fill={performanceTypes[type as keyof typeof performanceTypes]}
-                radius={[4, 4, 0, 0]}
+      <div className="bg-white dark:bg-slate-900 p-4 rounded-lg border border-slate-200 dark:border-slate-800">
+        <div className="h-[350px]">
+          <ResponsiveContainer width="100%" height="100%">
+            <BarChart
+              data={performanceData}
+              margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+            >
+              <CartesianGrid 
+                strokeDasharray="3 3" 
+                stroke={isDark ? 'rgba(51, 65, 85, 0.3)' : 'rgba(226, 232, 240, 0.6)'}
+                vertical={false}
               />
-            ))}
-          </BarChart>
-        </ResponsiveContainer>
+              <XAxis
+                dataKey="subject"
+                stroke={isDark ? '#94a3b8' : '#64748b'}
+                fontSize={12}
+                axisLine={false}
+                tickLine={false}
+                tickFormatter={(value) => value.split(' ')[0]}
+              />
+              <YAxis
+                stroke={isDark ? '#94a3b8' : '#64748b'}
+                fontSize={12}
+                tickFormatter={(value) => `${value}%`}
+                axisLine={false}
+                tickLine={false}
+              />
+              <Tooltip
+                contentStyle={{
+                  backgroundColor: isDark ? '#1e293b' : '#ffffff',
+                  border: `1px solid ${isDark ? '#334155' : '#e2e8f0'}`,
+                  borderRadius: '8px',
+                  fontSize: '12px',
+                  padding: '8px 12px',
+                  boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
+                }}
+              />
+              {selectedTypes.map((type) => (
+                <Bar
+                  key={type}
+                  dataKey={type}
+                  name={type}
+                  fill={performanceTypes[type as keyof typeof performanceTypes]}
+                  radius={[4, 4, 0, 0]}
+                />
+              ))}
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
       </div>
     </div>
   )

@@ -68,14 +68,16 @@ interface RiskAnalysisProps {
 export function RiskAnalysis({ student, onGeneratePlan }: RiskAnalysisProps) {
   const [expandedFactor, setExpandedFactor] = useState<string | null>(null)
 
-  const getRiskColor = (level: string) => {
+  const getRiskColor = (level: string): string => {
     switch (level) {
       case 'high':
-        return 'text-red-600 dark:text-red-500 bg-red-50 dark:bg-red-950/50'
+        return 'text-red-600 dark:text-red-500 bg-red-50 dark:bg-red-950'
       case 'medium':
-        return 'text-yellow-600 dark:text-yellow-500 bg-yellow-50 dark:bg-yellow-950/50'
+        return 'text-yellow-600 dark:text-yellow-500 bg-yellow-50 dark:bg-yellow-950'
       case 'low':
-        return 'text-green-600 dark:text-green-500 bg-green-50 dark:bg-green-950/50'
+        return 'text-green-600 dark:text-green-500 bg-green-50 dark:bg-green-950'
+      default:
+        return 'text-slate-600 dark:text-slate-500 bg-slate-50 dark:bg-slate-950'
     }
   }
 
@@ -122,7 +124,7 @@ export function RiskAnalysis({ student, onGeneratePlan }: RiskAnalysisProps) {
                 className="border border-slate-200 dark:border-slate-700 rounded-lg overflow-hidden"
               >
                 <div
-                  className="p-4 cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800/50"
+                  className="p-4 cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800"
                   onClick={() => setExpandedFactor(expandedFactor === factor.factor ? null : factor.factor)}
                 >
                   <div className="flex items-center justify-between">

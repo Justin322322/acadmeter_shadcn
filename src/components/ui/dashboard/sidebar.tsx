@@ -81,7 +81,7 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
       >
         <div className="h-full px-3 py-4 overflow-y-auto">
           {/* Profile Summary */}
-          <div className="mb-6 p-4 rounded-lg bg-gradient-to-r from-indigo-50 to-blue-50 dark:from-indigo-950/30 dark:to-blue-950/30">
+          <div className="mb-6 p-4 rounded-lg bg-gradient-to-r from-indigo-50 to-blue-50 dark:from-indigo-950 dark:to-blue-950">
             <div className="flex items-center gap-3">
               <div className="flex-shrink-0">
                 <div className="relative">

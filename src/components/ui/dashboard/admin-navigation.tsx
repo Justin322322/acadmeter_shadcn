@@ -9,31 +9,6 @@
  * - Quick action shortcuts
  * - Global search integration
  * - Notification center
- * 
- * Navigation Areas:
- * 1. System Management
- *    - User administration
- *    - Role management
- *    - System settings
- * 
- * 2. Academic Controls
- *    - Term management
- *    - Course configuration
- *    - Grade system setup
- * 
- * 3. Monitoring
- *    - System health
- *    - User activity
- *    - Performance metrics
- * 
- * Security Features:
- * - Session management
- * - Access logging
- * - Action auditing
- * 
- * @param props
- * @param {Function} props.onToggleSidebar - Sidebar toggle callback
- * @param {Function} [props.onSystemAlert] - System alert handler
  */
 "use client"
 
@@ -80,7 +55,7 @@ export function AdminNavigation({ onToggleSidebar }: AdminNavigationProps) {
   }, [])
 
   return (
-    <nav className="fixed top-0 z-50 w-full bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800">
+    <nav className="fixed top-0 z-50 w-full bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-b border-slate-200 dark:border-slate-800">
       <div className="px-3 py-3 lg:px-5 lg:pl-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center">
@@ -95,14 +70,14 @@ export function AdminNavigation({ onToggleSidebar }: AdminNavigationProps) {
             </Button>
             <Link href="/dashboard" className="flex ms-2 md:me-24 gap-2 items-center">
               <div className="w-8 h-8 rounded-lg bg-gradient-to-r from-blue-500 to-violet-500 flex items-center justify-center">
-                <AcademicCapIcon className="w-5 h-5 text-white" />
+                <AcademicCapIcon className="w-5 h-5 text-white" aria-hidden="true" />
               </div>
-              <span className="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">
+              <span className="self-center text-xl font-semibold sm:text-xl whitespace-nowrap dark:text-white">
                 AcadMeter
               </span>
             </Link>
           </div>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3">
             <div className="relative" ref={notificationsRef}>
               <Button
                 variant="ghost"
@@ -111,37 +86,56 @@ export function AdminNavigation({ onToggleSidebar }: AdminNavigationProps) {
                 onClick={() => setIsNotificationsOpen(!isNotificationsOpen)}
                 aria-label="Notifications"
               >
-                <BellIcon className="w-5 h-5" />
-                <span className="absolute top-0 right-0 w-2.5 h-2.5 bg-red-500 border-2 border-white dark:border-slate-900 rounded-full"></span>
+                <BellIcon className="w-5 h-5" aria-hidden="true" />
+                <span className="absolute top-0 right-0 w-2 h-2 bg-red-500 border border-white dark:border-slate-900 rounded-full"></span>
+                <span className="sr-only">Notifications</span>
               </Button>
-              {isNotificationsOpen && <AdminNotificationCenter />}
+              {isNotificationsOpen && (
+                <div className="fixed sm:absolute left-4 right-4 sm:left-auto sm:right-0 top-[calc(100%+0.5rem)] sm:w-80 max-h-[80vh] bg-white dark:bg-slate-900 rounded-lg shadow-lg border border-slate-200 dark:border-slate-800 overflow-y-auto">
+                  <div className="sticky top-0 p-3 border-b border-slate-200 dark:border-slate-800 bg-inherit backdrop-blur-md">
+                    <h3 className="text-base font-semibold text-slate-900 dark:text-white">System Notifications</h3>
+                  </div>
+                  <div className="p-3 space-y-4">
+                    <div className="flex items-start gap-3 p-2 hover:bg-slate-50 dark:hover:bg-slate-800/50 rounded-lg transition-colors">
+                      <div className="w-2 h-2 mt-2 bg-blue-500 rounded-full"></div>
+                      <div className="flex-1">
+                        <p className="text-sm font-medium text-slate-900 dark:text-white">System Update</p>
+                        <p className="text-xs text-slate-500 dark:text-slate-400">New security patch available</p>
+                        <p className="text-xs text-slate-400 dark:text-slate-500 mt-1">5 min ago</p>
+                      </div>
+                    </div>
+                    <div className="flex items-start gap-3 p-2 hover:bg-slate-50 dark:hover:bg-slate-800/50 rounded-lg transition-colors">
+                      <div className="w-2 h-2 mt-2 bg-yellow-500 rounded-full"></div>
+                      <div className="flex-1">
+                        <p className="text-sm font-medium text-slate-900 dark:text-white">User Activity Alert</p>
+                        <p className="text-xs text-slate-500 dark:text-slate-400">Unusual login pattern detected</p>
+                        <p className="text-xs text-slate-400 dark:text-slate-500 mt-1">1h ago</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
             <ThemeToggle />
             <div className="relative" ref={profileRef}>
               <Button 
                 variant="ghost" 
                 className="relative h-9 px-2 flex items-center gap-2 text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800/50 rounded-full transition-colors"
+                aria-label="Open user menu"
                 onClick={() => setIsProfileOpen(!isProfileOpen)}
               >
-                <div className="w-8 h-8 rounded-full bg-gradient-to-r from-indigo-500 to-blue-500 flex items-center justify-center text-white font-medium text-sm">
+                <div className="w-8 h-8 shrink-0 rounded-full bg-gradient-to-r from-indigo-500 to-blue-500 flex items-center justify-center text-white font-medium text-sm" aria-hidden="true">
                   A
                 </div>
                 <span className="hidden md:inline-flex text-sm font-medium">Admin</span>
               </Button>
               {isProfileOpen && (
-                <div className="absolute right-0 top-full mt-2 w-64 max-w-[90vw] bg-white dark:bg-slate-900 rounded-lg shadow-lg border border-slate-200 dark:border-slate-700 transition-all duration-200 ease-out z-[60]">
-                  <div className="p-4 border-b border-slate-200 dark:border-slate-700">
+                <div className="absolute right-0 top-full mt-2 w-64 max-w-[90vw] bg-white dark:bg-slate-900 rounded-lg shadow-lg border border-slate-200 dark:border-slate-800 transition-all duration-200 ease-out z-[60]">
+                  <div className="p-3 border-b border-slate-200 dark:border-slate-700">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-full bg-gradient-to-r from-indigo-500 to-blue-500 flex items-center justify-center text-white font-medium">
-                        A
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <p className="text-sm font-semibold text-slate-900 dark:text-white truncate">
-                          Admin Portal
-                        </p>
-                        <p className="text-xs text-slate-500 dark:text-slate-400">
-                          System Administrator
-                        </p>
+                      <div className="flex flex-col min-w-0">
+                        <span className="text-sm font-semibold text-slate-900 dark:text-white truncate">System Admin</span>
+                        <span className="text-xs text-slate-500 dark:text-slate-400">Administrator</span>
                       </div>
                     </div>
                   </div>
