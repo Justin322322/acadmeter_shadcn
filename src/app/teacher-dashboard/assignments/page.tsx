@@ -138,22 +138,22 @@ export default function AssignmentsPage() {
       </Card>
 
       <Tabs defaultValue="active" className="w-full" onValueChange={(value) => setActiveTab(value)}>
-        <TabsList className="bg-slate-100 dark:bg-slate-800/80 p-1 rounded-lg w-full max-w-md mb-6 grid grid-cols-3">
+        <TabsList className="flex space-x-2 bg-slate-100 dark:bg-slate-800/80 p-1 rounded-lg w-fit">
           <TabsTrigger 
             value="active"
-            className="rounded-md data-[state=active]:bg-white dark:data-[state=active]:bg-slate-700 data-[state=active]:shadow-sm"
+            className="rounded-md data-[state=active]:bg-white dark:data-[state=active]:bg-slate-700 data-[state=active]:shadow-sm px-4 py-2"
           >
             Active
           </TabsTrigger>
           <TabsTrigger 
             value="completed"
-            className="rounded-md data-[state=active]:bg-white dark:data-[state=active]:bg-slate-700 data-[state=active]:shadow-sm"
+            className="rounded-md data-[state=active]:bg-white dark:data-[state=active]:bg-slate-700 data-[state=active]:shadow-sm px-4 py-2"
           >
             Completed
           </TabsTrigger>
           <TabsTrigger 
             value="draft"
-            className="rounded-md data-[state=active]:bg-white dark:data-[state=active]:bg-slate-700 data-[state=active]:shadow-sm"
+            className="rounded-md data-[state=active]:bg-white dark:data-[state=active]:bg-slate-700 data-[state=active]:shadow-sm px-4 py-2"
           >
             Drafts
           </TabsTrigger>

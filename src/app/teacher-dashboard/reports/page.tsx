@@ -84,16 +84,18 @@ export default function StudentReportsPage() {
         <div className="md:col-span-2 space-y-6">
           {!selectedStudent ? (
             <Card className="border-slate-200 dark:border-slate-800 shadow-sm bg-white dark:bg-slate-900">
-              <CardContent className="flex flex-col items-center justify-center p-8 sm:p-12">
-                <div className="p-4 rounded-full bg-slate-100 dark:bg-slate-800 mb-6">
+              <CardContent className="flex flex-col items-center justify-center text-center p-8 sm:p-12 space-y-6">
+                <div className="p-4 rounded-full bg-slate-100 dark:bg-slate-800">
                   <DocumentDuplicateIcon className="w-10 h-10 text-slate-500 dark:text-slate-400" />
                 </div>
-                <h3 className="text-xl font-medium text-slate-900 dark:text-slate-100 mb-4 text-center whitespace-normal">
-                  Select a Student
-                </h3>
-                <p className="text-center text-sm text-slate-500 dark:text-slate-400 max-w-md mx-auto whitespace-normal break-normal">
+                <div className="space-y-3">
+                  <h3 className="text-xl font-semibold text-slate-900 dark:text-slate-100">
+                    Select a Student
+                  </h3>
+                  <p className="text-sm leading-relaxed text-slate-500 dark:text-slate-400 max-w-[280px] mx-auto">
                     Choose a student from the list to view their detailed performance reports, attendance records, and behavior analysis
-                </p>
+                  </p>
+                </div>
               </CardContent>
             </Card>
           ) : (

@@ -44,16 +44,16 @@ export default function FeedbackPage() {
       </Card>
 
       <Tabs defaultValue="individual" className="w-full" onValueChange={setActiveTab}>
-        <TabsList className="bg-slate-100 dark:bg-slate-800/80 p-1 rounded-lg w-full max-w-md mb-6 grid grid-cols-2">
+        <TabsList className="flex space-x-2 bg-slate-100 dark:bg-slate-800/80 p-1 rounded-lg w-fit mb-6">
           <TabsTrigger 
             value="individual"
-            className="rounded-md data-[state=active]:bg-white dark:data-[state=active]:bg-slate-700 data-[state=active]:shadow-sm"
+            className="rounded-md data-[state=active]:bg-white dark:data-[state=active]:bg-slate-700 data-[state=active]:shadow-sm px-4 py-2"
           >
             Individual Feedback
           </TabsTrigger>
           <TabsTrigger 
             value="batch"
-            className="rounded-md data-[state=active]:bg-white dark:data-[state=active]:bg-slate-700 data-[state=active]:shadow-sm"
+            className="rounded-md data-[state=active]:bg-white dark:data-[state=active]:bg-slate-700 data-[state=active]:shadow-sm px-4 py-2"
           >
             Batch Feedback
           </TabsTrigger>
