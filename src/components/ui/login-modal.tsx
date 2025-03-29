@@ -29,11 +29,14 @@ export function LoginModal({
   const [showSignup, setShowSignup] = useState(false)
   const [showForgotPassword, setShowForgotPassword] = useState(false)
   const [loadingMessage, setLoadingMessage] = useState('')
+  const [error, setError] = useState('')
+  const [rememberMe, setRememberMe] = useState(false)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsLoading(true)
     setLoadingMessage('Signing in...')
+    setError('')
     
     try {
       const response = await fetch('/api/auth/login', {
@@ -41,12 +44,13 @@ export function LoginModal({
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ email, password, rememberMe }),
       });
 
       const data = await response.json();
 
       if (!response.ok) {
+        setPassword(''); // Clear password on error
         throw new Error(data.error || 'Login failed');
       }
 
@@ -63,7 +67,7 @@ export function LoginModal({
     } catch (error) {
       console.error('Login error:', error);
       setLoadingMessage('')
-      // You might want to show an error message to the user here
+      setError(error instanceof Error ? error.message : 'An error occurred during login')
     } finally {
       setIsLoading(false);
     }
@@ -144,7 +148,11 @@ export function LoginModal({
                 </p>
               </DialogHeader>
 
-              <form onSubmit={handleSubmit} className="mt-10 space-y-8">
+              <form 
+                onSubmit={handleSubmit} 
+                className="mt-10 space-y-8"
+                autoComplete={error ? "off" : "on"}
+              >
                 <div className="space-y-6">
                   <div className="space-y-2">
                     <label htmlFor="email" className="text-sm font-medium text-slate-700 dark:text-slate-300">
@@ -154,7 +162,9 @@ export function LoginModal({
                       <EnvelopeIcon className="absolute left-3 top-2.5 h-5 w-5 text-slate-400 dark:text-slate-500" />
                       <input
                         id="email"
+                        name="email"
                         type="email"
+                        autoComplete={error ? "off" : "email"}
                         placeholder="Enter your email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
@@ -172,7 +182,9 @@ export function LoginModal({
                       <KeyIcon className="absolute left-3 top-2.5 h-5 w-5 text-slate-400 dark:text-slate-500" />
                       <input
                         id="password"
+                        name="password"
                         type={showPassword ? "text" : "password"}
+                        autoComplete={error ? "off" : "current-password"}
                         placeholder="Enter your password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
@@ -194,11 +206,19 @@ export function LoginModal({
                   </div>
                 </div>
 
+                {error && (
+                  <div className="p-3 text-sm text-red-600 dark:text-red-500 bg-red-50 dark:bg-red-950/50 border border-red-200 dark:border-red-800/50 rounded-lg text-center">
+                    {error}
+                  </div>
+                )}
+
                 <div className="flex items-center justify-between">
                   <div className="flex items-center">
                     <input
                       type="checkbox"
                       id="remember"
+                      checked={rememberMe}
+                      onChange={(e) => setRememberMe(e.target.checked)}
                       className="h-4 w-4 rounded border-slate-300 text-blue-600 focus:ring-blue-600 dark:border-slate-600 dark:bg-slate-900 dark:ring-offset-slate-950 dark:checked:bg-blue-500 dark:focus:ring-blue-500 dark:text-blue-500"
                     />
                     <label htmlFor="remember" className="ml-2 text-sm text-slate-600 dark:text-slate-400">

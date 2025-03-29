@@ -8,7 +8,7 @@ const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key'
 
 export async function POST(request: Request) {
   try {
-    const { email, password } = await request.json()
+    const { email, password, rememberMe } = await request.json()
 
     // Validate input
     if (!email || !password) {
@@ -26,14 +26,14 @@ export async function POST(request: Request) {
     )
 
     const user = (users as any[])[0]
-    if (!user) {
-      return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 })
-    }
 
-    // Verify password
-    const isValidPassword = await bcrypt.compare(password, user.password)
-    if (!isValidPassword) {
-      return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 })
+    // Check if user exists and verify password in a way that doesn't reveal which was incorrect
+    if (!user || !(await bcrypt.compare(password, user.password))) {
+      return NextResponse.json({ 
+        error: 'Invalid email or password' 
+      }, { 
+        status: 401 
+      })
     }
 
     // Determine user type based on which profile exists
@@ -48,6 +48,10 @@ export async function POST(request: Request) {
       profileId = user.teacher_id
     }
 
+    // Calculate token expiration based on remember me
+    const expiresIn = rememberMe ? '30d' : '24h'
+    const maxAge = rememberMe ? 30 * 24 * 60 * 60 : 24 * 60 * 60 // 30 days or 24 hours in seconds
+
     // Create session token
     const token = jwt.sign(
       { 
@@ -56,13 +60,13 @@ export async function POST(request: Request) {
         profileId
       },
       JWT_SECRET,
-      { expiresIn: '24h' }
+      { expiresIn }
     )
 
-    // Save session to database
+    // Save session to database with appropriate expiration
     await db.execute(
-      'INSERT INTO sessions (id, user_id, token, expires_at) VALUES (UUID(), ?, ?, DATE_ADD(NOW(), INTERVAL 24 HOUR))',
-      [user.id, token]
+      'INSERT INTO sessions (id, user_id, token, expires_at) VALUES (UUID(), ?, ?, DATE_ADD(NOW(), INTERVAL ? HOUR))',
+      [user.id, token, rememberMe ? 720 : 24] // 720 hours = 30 days
     )
 
     // Create response with cookie
@@ -77,17 +81,21 @@ export async function POST(request: Request) {
       }
     })
 
-    // Set cookie
+    // Set cookie with appropriate maxAge
     response.cookies.set('token', token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'lax',
-      maxAge: 60 * 60 * 24 // 24 hours
+      maxAge: maxAge
     })
 
     return response
   } catch (error) {
     console.error('Login error:', error)
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+    return NextResponse.json({ 
+      error: 'An error occurred during login. Please try again.' 
+    }, { 
+      status: 500 
+    })
   }
 }

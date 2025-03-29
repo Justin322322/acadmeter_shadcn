@@ -24,15 +24,41 @@ export function ForgotPasswordModal({
   const [email, setEmail] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
+  const [isWarning, setIsWarning] = useState(false)
+  const [error, setError] = useState('')
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsLoading(true)
-    // Add password reset logic here
-    setTimeout(() => {
-      setIsLoading(false)
-      setIsSuccess(true)
-    }, 1000)
+    setError('')
+    setIsSuccess(false)
+    setIsWarning(false)
+    
+    try {
+      const response = await fetch('/api/auth/reset/request', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || 'Failed to send reset instructions');
+      }
+
+      if (data.status === 'warning') {
+        setIsWarning(true);
+      } else {
+        setIsSuccess(true);
+      }
+    } catch (error) {
+      setError(error instanceof Error ? error.message : 'Failed to send reset instructions');
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   return (
@@ -49,7 +75,7 @@ export function ForgotPasswordModal({
                 <AcademicCapIcon className="w-8 h-8 text-white" />
                 <span className="text-xl font-semibold text-white">AcadMeter</span>
               </div>
-              
+
               <div className="flex-1 flex flex-col justify-center">
                 <div className="space-y-6">
                   <div className="space-y-3">
@@ -78,28 +104,43 @@ export function ForgotPasswordModal({
                   <ArrowLeftIcon className="h-5 w-5" />
                 </Button>
                 <DialogTitle className="text-3xl font-bold text-center bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-violet-600 dark:from-blue-400 dark:to-violet-400">
-                  {isSuccess ? 'Check Your Email' : 'Forgot Password'}
+                  {isSuccess || isWarning ? 'Check Your Email' : 'Forgot Password'}
                 </DialogTitle>
                 <p className="text-center text-base text-slate-600 dark:text-slate-400 mt-2">
-                  {isSuccess 
-                    ? "We've sent you instructions to reset your password"
+                  {isSuccess || isWarning
+                    ? "We've processed your request"
                     : "Enter your email address to receive reset instructions"}
                 </p>
               </DialogHeader>
 
               <div className="mt-10">
-                {isSuccess ? (
+                {(isSuccess || isWarning) ? (
                   <motion.div 
                     className="text-center"
                     initial={{ opacity: 0, scale: 0.95 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 0.2 }}
                   >
-                    <div className="mx-auto w-20 h-20 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center mb-6 shadow-md shadow-green-500/10">
-                      <CheckCircleIcon className="w-10 h-10 text-green-600 dark:text-green-400" />
+                    <div className={`mx-auto w-20 h-20 rounded-full ${
+                      isSuccess 
+                        ? 'bg-green-100 dark:bg-green-900/30' 
+                        : 'bg-yellow-100 dark:bg-yellow-900/30'
+                    } flex items-center justify-center mb-6 shadow-md ${
+                      isSuccess 
+                        ? 'shadow-green-500/10' 
+                        : 'shadow-yellow-500/10'
+                    }`}>
+                      <CheckCircleIcon className={`w-10 h-10 ${
+                        isSuccess 
+                          ? 'text-green-600 dark:text-green-400' 
+                          : 'text-yellow-600 dark:text-yellow-400'
+                      }`} />
                     </div>
                     <p className="text-slate-600 dark:text-slate-400 mb-6">
-                      If an account exists for <span className="font-medium">{email}</span>, you will receive password reset instructions at this email address.
+                      {isSuccess 
+                        ? "Password reset instructions have been sent to your email."
+                        : `If an account exists for ${email}, you will receive password reset instructions at this email address.`
+                      }
                     </p>
                     <Button
                       onClick={onBackToLogin}
@@ -127,6 +168,12 @@ export function ForgotPasswordModal({
                           />
                         </div>
                       </div>
+
+                      {error && (
+                        <div className="p-3 text-sm text-red-600 dark:text-red-500 bg-red-50 dark:bg-red-950/50 border border-red-200 dark:border-red-800/50 rounded-lg">
+                          {error}
+                        </div>
+                      )}
                     </div>
 
                     <Button
