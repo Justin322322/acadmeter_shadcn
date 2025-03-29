@@ -1,5 +1,4 @@
-import { NextResponse } from 'next/server'
-import type { NextRequest } from 'next/server'
+import { NextResponse, type NextRequest } from 'next/server'
 
 export async function middleware(request: NextRequest) {
   const token = request.cookies.get('token')?.value
@@ -44,7 +43,7 @@ export async function middleware(request: NextRequest) {
     }
 
     return NextResponse.next()
-  } catch (error) {
+  } catch (_error) {
     // Clear invalid session
     const response = NextResponse.redirect(new URL('/', request.url))
     response.cookies.delete('token')
