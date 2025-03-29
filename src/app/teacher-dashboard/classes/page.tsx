@@ -186,10 +186,25 @@ export default function ClassesPage() {
           </div>
 
           <Tabs defaultValue="students" onValueChange={setActiveTab}>
-            <TabsList className="grid grid-cols-3 w-full max-w-md mb-6">
-              <TabsTrigger value="students">Students</TabsTrigger>
-              <TabsTrigger value="assignments">Assignments</TabsTrigger>
-              <TabsTrigger value="analytics">Analytics</TabsTrigger>
+            <TabsList className="flex space-x-2 bg-slate-100 dark:bg-slate-800/80 p-1 rounded-lg w-fit mb-6">
+              <TabsTrigger
+                value="students"
+                className="rounded-md data-[state=active]:bg-white dark:data-[state=active]:bg-slate-700 data-[state=active]:shadow-sm px-4 py-2"
+              >
+                Students
+              </TabsTrigger>
+              <TabsTrigger
+                value="assignments"
+                className="rounded-md data-[state=active]:bg-white dark:data-[state=active]:bg-slate-700 data-[state=active]:shadow-sm px-4 py-2"
+              >
+                Assignments
+              </TabsTrigger>
+              <TabsTrigger
+                value="analytics"
+                className="rounded-md data-[state=active]:bg-white dark:data-[state=active]:bg-slate-700 data-[state=active]:shadow-sm px-4 py-2"
+              >
+                Analytics
+              </TabsTrigger>
             </TabsList>
             
             <TabsContent value="students" className="mt-0">

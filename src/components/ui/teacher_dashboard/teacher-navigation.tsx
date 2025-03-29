@@ -20,6 +20,7 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { ThemeToggle } from "@/components/ui/theme-toggle"
 import { UserIcon, ArrowLeftOnRectangleIcon, BellIcon, Bars3Icon, AcademicCapIcon } from "@heroicons/react/24/outline"
+import { useAuth } from "@/contexts/auth-context"
 
 interface TeacherNavigationProps {
   onToggleSidebar: () => void
@@ -29,22 +30,19 @@ export function TeacherNavigation({ onToggleSidebar }: TeacherNavigationProps) {
   const [isProfileOpen, setIsProfileOpen] = useState(false)
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false)
   const [isLoggingOut, setIsLoggingOut] = useState(false)
+  const { user, logout } = useAuth()
   const profileRef = useRef<HTMLDivElement>(null)
   const notificationsRef = useRef<HTMLDivElement>(null)
   const router = useRouter()
 
   const handleLogout = async () => {
     setIsLoggingOut(true)
-    
-    // Clear session data
-    localStorage.removeItem('token')
-    localStorage.removeItem('user')
-    
-    // Add a small delay to show the loading state
-    await new Promise(resolve => setTimeout(resolve, 1000))
-    
-    // Redirect to home page
-    router.push('/')
+    try {
+      await logout()
+    } catch (err) {
+      console.error('Logout failed:', err)
+    }
+    setIsLoggingOut(false)
   }
 
   useEffect(() => {
@@ -70,8 +68,7 @@ export function TeacherNavigation({ onToggleSidebar }: TeacherNavigationProps) {
               variant="ghost"
               size="icon"
               onClick={onToggleSidebar}
-              className="inline-flex items-center p-2 text-sm text-slate-500 rounded-lg md:hidden hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-slate-200 dark:text-slate-400 dark:hover:bg-slate-800/50 dark:focus:ring-slate-600"
-              aria-label="Toggle sidebar menu"
+              className="inline-flex items-center p-2 text-sm text-slate-500 rounded-lg md:hidden hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-blue-200 dark:text-slate-400 dark:hover:bg-slate-800/50 dark:focus:ring-blue-800"
             >
               <Bars3Icon className="w-6 h-6" />
             </Button>
@@ -95,7 +92,6 @@ export function TeacherNavigation({ onToggleSidebar }: TeacherNavigationProps) {
               >
                 <BellIcon className="w-5 h-5" aria-hidden="true" />
                 <span className="absolute top-0 right-0 w-2 h-2 bg-red-500 border border-white dark:border-slate-900 rounded-full"></span>
-                <span className="sr-only">Notifications</span>
               </Button>
               {isNotificationsOpen && (
                 <div className="fixed sm:absolute left-4 right-4 sm:left-auto sm:right-0 top-[calc(100%+0.5rem)] sm:w-80 max-h-[80vh] bg-white dark:bg-slate-900 rounded-lg shadow-lg border border-slate-200 dark:border-slate-800 overflow-y-auto">
@@ -114,8 +110,8 @@ export function TeacherNavigation({ onToggleSidebar }: TeacherNavigationProps) {
                     <div className="flex items-start gap-3 p-2 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors">
                       <div className="w-2 h-2 mt-2 bg-yellow-500 rounded-full"></div>
                       <div className="flex-1">
-                        <p className="text-sm font-medium text-slate-900 dark:text-white">Due Soon</p>
-                        <p className="text-xs text-slate-500 dark:text-slate-400">Physics Assignment due in 24h</p>
+                        <p className="text-sm font-medium text-slate-900 dark:text-white">Grade Reviews</p>
+                        <p className="text-xs text-slate-500 dark:text-slate-400">2 grade review requests pending</p>
                         <p className="text-xs text-slate-400 dark:text-slate-500 mt-1">1h ago</p>
                       </div>
                     </div>
@@ -128,21 +124,23 @@ export function TeacherNavigation({ onToggleSidebar }: TeacherNavigationProps) {
               <Button 
                 variant="ghost" 
                 className="relative h-9 px-2 flex items-center gap-2 text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800/50 rounded-full transition-colors"
-                aria-label="Open user menu"
                 onClick={() => setIsProfileOpen(!isProfileOpen)}
+                aria-label="Open user menu"
               >
-                <div className="w-8 h-8 shrink-0 rounded-full bg-gradient-to-r from-blue-500 to-violet-500 flex items-center justify-center text-white font-medium text-sm" aria-hidden="true">
-                  T
+                <div className="w-8 h-8 shrink-0 rounded-full bg-gradient-to-r from-indigo-500 to-blue-500 flex items-center justify-center text-white font-medium text-sm" aria-hidden="true">
+                  {user?.firstName?.[0]}
                 </div>
-                <span className="hidden md:inline-flex text-sm font-medium">Mr. Thompson</span>
+                <span className="hidden md:inline-flex text-sm font-medium text-slate-700 dark:text-slate-200">
+                  {user ? `${user.firstName} ${user.lastName}` : 'Loading...'}
+                </span>
               </Button>
               {isProfileOpen && (
-                <div className="absolute right-0 top-full mt-2 w-64 max-w-[90vw] bg-white dark:bg-slate-900 rounded-lg shadow-lg border border-slate-200 dark:border-slate-800 transition-all duration-200 ease-out z-[60]">
+                <div className="absolute right-0 top-full mt-2 w-64 max-w-[90vw] bg-white dark:bg-slate-900 rounded-lg shadow-lg border border-slate-200 dark:border-slate-800 z-[60]">
                   <div className="p-3 border-b border-slate-200 dark:border-slate-800">
                     <div className="flex items-center gap-3">
-                      <div className="flex flex-col min-w-0">
-                        <span className="text-sm font-semibold text-slate-900 dark:text-white truncate">Mr. Thompson</span>
-                        <span className="text-xs text-slate-500 dark:text-slate-400">Mathematics Teacher</span>
+                      <div className="flex-1 min-w-0">
+                        <span className="text-sm font-semibold text-slate-900 dark:text-white truncate">{user?.firstName} {user?.lastName}</span>
+                        <span className="text-xs text-slate-500 dark:text-slate-400">Teacher</span>
                       </div>
                     </div>
                   </div>

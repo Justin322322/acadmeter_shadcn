@@ -1,17 +1,13 @@
 /**
  * Student Dashboard Layout Component
  * Provides the main layout structure for the student portal
- * 
- * Features:
- * - Responsive sidebar navigation with toggle functionality
- * - Dark mode compatible container structure
- * - Content area with consistent padding and styling
  */
 "use client"
 
 import { useState } from "react"
 import { StudentNavigation } from "@/components/ui/student_dashboard/student-navigation"
 import { StudentSidebar } from "@/components/ui/student_dashboard/student-sidebar"
+import { AuthProvider } from "@/contexts/auth-context"
 
 export default function StudentDashboardLayout({
   children,
@@ -21,15 +17,22 @@ export default function StudentDashboardLayout({
   const [sidebarOpen, setSidebarOpen] = useState(false)
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-900">
-      <StudentNavigation onToggleSidebar={() => setSidebarOpen(!sidebarOpen)} />
-      <StudentSidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
-      
-      <div className="p-4 md:ml-64 pt-20 min-h-screen">
-        <div className="p-4 bg-white dark:bg-slate-950 rounded-lg shadow-sm border border-slate-200 dark:border-slate-800 min-h-[calc(100vh-7rem)]">
-          {children}
-        </div>
+    <AuthProvider>
+      <div className="min-h-screen bg-slate-50 dark:bg-slate-900">
+        <StudentNavigation onToggleSidebar={() => setSidebarOpen(!sidebarOpen)} />
+        <StudentSidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
+        
+        <main 
+          className="transition-all duration-200 ease-in-out p-3 sm:p-4 md:ml-64 pt-16 sm:pt-20 min-h-screen"
+          id="main-content"
+          role="main"
+          aria-label="Student dashboard main content"
+        >
+          <div className="max-w-7xl mx-auto">
+            {children}
+          </div>
+        </main>
       </div>
-    </div>
+    </AuthProvider>
   )
 }

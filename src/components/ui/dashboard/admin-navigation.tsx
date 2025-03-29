@@ -19,6 +19,7 @@ import { Button } from "@/components/ui/button"
 import { ThemeToggle } from "@/components/ui/theme-toggle"
 import { AdminNotificationCenter } from "@/components/ui/dashboard"
 import { UserIcon, ArrowLeftOnRectangleIcon, BellIcon, Bars3Icon, AcademicCapIcon } from "@heroicons/react/24/outline"
+import { useAuth } from "@/contexts/auth-context"
 
 interface AdminNavigationProps {
   onToggleSidebar: () => void
@@ -28,16 +29,19 @@ export function AdminNavigation({ onToggleSidebar }: AdminNavigationProps) {
   const [isProfileOpen, setIsProfileOpen] = useState(false)
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false)
   const [isLoggingOut, setIsLoggingOut] = useState(false)
+  const { user, logout } = useAuth()
   const profileRef = useRef<HTMLDivElement>(null)
   const notificationsRef = useRef<HTMLDivElement>(null)
   const router = useRouter()
 
   const handleLogout = async () => {
     setIsLoggingOut(true)
-    localStorage.removeItem('token')
-    localStorage.removeItem('user')
-    await new Promise(resolve => setTimeout(resolve, 1000))
-    router.push('/')
+    try {
+      await logout()
+    } catch (err) {
+      console.error('Logout failed:', err)
+    }
+    setIsLoggingOut(false)
   }
 
   useEffect(() => {
@@ -91,28 +95,8 @@ export function AdminNavigation({ onToggleSidebar }: AdminNavigationProps) {
                 <span className="sr-only">Notifications</span>
               </Button>
               {isNotificationsOpen && (
-                <div className="fixed sm:absolute left-4 right-4 sm:left-auto sm:right-0 top-[calc(100%+0.5rem)] sm:w-80 max-h-[80vh] bg-white dark:bg-slate-900 rounded-lg shadow-lg border border-slate-200 dark:border-slate-800 overflow-y-auto">
-                  <div className="sticky top-0 p-3 border-b border-slate-200 dark:border-slate-800 bg-inherit backdrop-blur-md">
-                    <h3 className="text-base font-semibold text-slate-900 dark:text-white">System Notifications</h3>
-                  </div>
-                  <div className="p-3 space-y-4">
-                    <div className="flex items-start gap-3 p-2 hover:bg-slate-50 dark:hover:bg-slate-800/50 rounded-lg transition-colors">
-                      <div className="w-2 h-2 mt-2 bg-blue-500 rounded-full"></div>
-                      <div className="flex-1">
-                        <p className="text-sm font-medium text-slate-900 dark:text-white">System Update</p>
-                        <p className="text-xs text-slate-500 dark:text-slate-400">New security patch available</p>
-                        <p className="text-xs text-slate-400 dark:text-slate-500 mt-1">5 min ago</p>
-                      </div>
-                    </div>
-                    <div className="flex items-start gap-3 p-2 hover:bg-slate-50 dark:hover:bg-slate-800/50 rounded-lg transition-colors">
-                      <div className="w-2 h-2 mt-2 bg-yellow-500 rounded-full"></div>
-                      <div className="flex-1">
-                        <p className="text-sm font-medium text-slate-900 dark:text-white">User Activity Alert</p>
-                        <p className="text-xs text-slate-500 dark:text-slate-400">Unusual login pattern detected</p>
-                        <p className="text-xs text-slate-400 dark:text-slate-500 mt-1">1h ago</p>
-                      </div>
-                    </div>
-                  </div>
+                <div className="absolute right-0 top-full mt-2">
+                  <AdminNotificationCenter />
                 </div>
               )}
             </div>
@@ -121,20 +105,24 @@ export function AdminNavigation({ onToggleSidebar }: AdminNavigationProps) {
               <Button 
                 variant="ghost" 
                 className="relative h-9 px-2 flex items-center gap-2 text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800/50 rounded-full transition-colors"
-                aria-label="Open user menu"
                 onClick={() => setIsProfileOpen(!isProfileOpen)}
+                aria-label="Open user menu"
               >
                 <div className="w-8 h-8 shrink-0 rounded-full bg-gradient-to-r from-indigo-500 to-blue-500 flex items-center justify-center text-white font-medium text-sm" aria-hidden="true">
-                  A
+                  {user?.firstName?.[0]}
                 </div>
-                <span className="hidden md:inline-flex text-sm font-medium">Admin</span>
+                <span className="hidden md:inline-flex text-sm font-medium">
+                  {user ? `${user.firstName} ${user.lastName}` : 'Loading...'}
+                </span>
               </Button>
               {isProfileOpen && (
                 <div className="absolute right-0 top-full mt-2 w-64 max-w-[90vw] bg-white dark:bg-slate-900 rounded-lg shadow-lg border border-slate-200 dark:border-slate-800 transition-all duration-200 ease-out z-[60]">
                   <div className="p-3 border-b border-slate-200 dark:border-slate-700">
                     <div className="flex items-center gap-3">
                       <div className="flex flex-col min-w-0">
-                        <span className="text-sm font-semibold text-slate-900 dark:text-white truncate">System Admin</span>
+                        <span className="text-sm font-semibold text-slate-900 dark:text-white truncate">
+                          {user ? `${user.firstName} ${user.lastName}` : 'Loading...'}
+                        </span>
                         <span className="text-xs text-slate-500 dark:text-slate-400">Administrator</span>
                       </div>
                     </div>
@@ -142,7 +130,7 @@ export function AdminNavigation({ onToggleSidebar }: AdminNavigationProps) {
                   <div className="p-2">
                     <Button
                       variant="ghost"
-                      className="w-full justify-start h-9 px-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800/50 rounded-md transition-colors"
+                      className="w-full justify-start h-9 px-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-md transition-colors"
                       onClick={() => {
                         setIsProfileOpen(false)
                         router.push('/dashboard/settings')
@@ -155,7 +143,7 @@ export function AdminNavigation({ onToggleSidebar }: AdminNavigationProps) {
                     </Button>
                     <Button
                       variant="ghost"
-                      className="w-full justify-start h-9 px-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800/50 rounded-md transition-colors"
+                      className="w-full justify-start h-9 px-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-md transition-colors"
                       onClick={() => {
                         setIsProfileOpen(false)
                         handleLogout()

@@ -56,7 +56,7 @@ export function LoginModal({
       localStorage.setItem('user', JSON.stringify(data.user));
 
       // Redirect based on user type
-      const userType = data.user.user_type;
+      const userType = data.user.userType;
       window.location.href = `/${userType}-dashboard`;
       
       onClose();

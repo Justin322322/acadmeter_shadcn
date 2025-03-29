@@ -3,6 +3,7 @@
 import { usePathname } from "next/navigation"
 import Link from "next/link"
 import { motion } from "framer-motion"
+import { useAuth } from "@/contexts/auth-context"
 import {
   HomeIcon,
   UsersIcon,
@@ -58,6 +59,7 @@ interface SidebarProps {
 
 export function Sidebar({ isOpen, onClose }: SidebarProps) {
   const pathname = usePathname()
+  const { user } = useAuth()
 
   return (
     <>
@@ -86,17 +88,17 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
               <div className="flex-shrink-0">
                 <div className="relative">
                   <div className="w-10 h-10 rounded-full bg-gradient-to-r from-indigo-500 to-blue-500 flex items-center justify-center text-white font-medium text-sm">
-                    A
+                    {user?.firstName?.[0]}
                   </div>
                   <span className="absolute bottom-0 right-0 w-3 h-3 bg-emerald-500 border-2 border-white dark:border-slate-900 rounded-full"></span>
                 </div>
               </div>
               <div className="flex-1 min-w-0">
                 <p className="text-sm font-semibold text-slate-900 dark:text-white truncate">
-                  Admin Portal
+                  {user ? `${user.firstName} ${user.lastName}` : 'Loading...'}
                 </p>
                 <p className="text-xs text-slate-500 dark:text-slate-400 truncate">
-                  System Administrator
+                  Administrator
                 </p>
               </div>
             </div>

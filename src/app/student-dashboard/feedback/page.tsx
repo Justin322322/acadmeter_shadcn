@@ -35,7 +35,7 @@ export default function FeedbackPage() {
     {
       id: "1",
       subject: "Mathematics",
-      teacher: "Mr. Thompson",
+      teacher: user?.name || "Teacher",
       date: "2024-03-20",
       status: "unread",
       grade: 92,

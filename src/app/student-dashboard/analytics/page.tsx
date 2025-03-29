@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
@@ -11,10 +11,35 @@ import {
   RocketLaunchIcon,
   BookOpenIcon,
 } from "@heroicons/react/24/outline"
+import { useAuth } from "@/contexts/auth-context"
 
 export default function AnalyticsPage() {
   const [timeFilter, setTimeFilter] = useState("weekly")
+  const [teacherName, setTeacherName] = useState("")
+  const { user } = useAuth()
   
+  // Fetch teacher name and student performance data when component mounts
+  useEffect(() => {
+    const fetchTeacherAndPerformanceData = async () => {
+      try {
+        const response = await fetch('/api/student/analytics')
+        if (response.ok) {
+          const data = await response.json()
+          // Set teacher name from API response
+          if (data.teacherName) {
+            setTeacherName(data.teacherName)
+          }
+          // Additional data could be set here
+        }
+      } catch (error) {
+        console.error('Error fetching analytics data:', error)
+      }
+    }
+    
+    fetchTeacherAndPerformanceData()
+  }, [])
+
+  // Mock data - would be replaced with real API data
   const performanceData = [
     { subject: "Mathematics", score: 85 },
     { subject: "Science", score: 92 },
@@ -45,7 +70,9 @@ export default function AnalyticsPage() {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-100">Analytics</h1>
-          <p className="text-slate-500 dark:text-slate-400">Track your academic performance and progress</p>
+          <p className="text-slate-500 dark:text-slate-400">
+            {user ? `Hello, ${user.firstName}! Track your academic performance and progress` : 'Track your academic performance and progress'}
+          </p>
         </div>
         <Select value={timeFilter} onValueChange={setTimeFilter}>
           <SelectTrigger className="w-[180px]">
@@ -169,7 +196,9 @@ export default function AnalyticsPage() {
           </Table>
           
           <div className="mt-4 p-4 bg-slate-50 dark:bg-slate-800/50 rounded-lg">
-            <h4 className="font-semibold mb-2 text-slate-900 dark:text-slate-100">Teacher Comments</h4>
+            <h4 className="font-semibold mb-2 text-slate-900 dark:text-slate-100">
+              Teacher Comments {teacherName && `(${teacherName})`}
+            </h4>
             <p className="text-slate-600 dark:text-slate-400">The student shows excellent teamwork skills and respectful behavior. Could improve on organization and completing assignments on time. Participates actively in class discussions.</p>
           </div>
         </CardContent>
