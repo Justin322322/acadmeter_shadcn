@@ -147,22 +147,22 @@
   * {
     @apply border-border;
   }
-  
+
   body {
     @apply bg-background text-foreground font-sans antialiased;
   }
-  
+
   /* Only show focus styles when using keyboard navigation */
   *:focus-visible {
     outline: 2px solid var(--ring);
     outline-offset: 2px;
   }
-  
+
   /* Hide focus outline when clicking with mouse */
   *:focus:not(:focus-visible) {
     outline: none;
   }
-  
+
   /* Style focus for form elements while preserving accessibility */
   input:focus, button:focus, textarea:focus, select:focus {
     @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring;
@@ -281,7 +281,7 @@
 /* Neon text effect */
 .neon-text {
   color: #fff;
-  text-shadow: 
+  text-shadow:
     0 0 5px #fff,
     0 0 10px #fff,
     0 0 20px #0066ff,
@@ -304,7 +304,7 @@
 @keyframes neonPulse {
   from {
     filter: brightness(100%);
-    text-shadow: 
+    text-shadow:
       0 0 5px #fff,
       0 0 10px #fff,
       0 0 20px #0066ff,
@@ -317,7 +317,7 @@
   }
   to {
     filter: brightness(120%);
-    text-shadow: 
+    text-shadow:
       0 0 5px #fff,
       0 0 10px #fff,
       0 0 20px #0066ff,
@@ -342,14 +342,14 @@
   padding: 1rem;
   background: linear-gradient(145deg, #ffffff, #e6e6e6);
   border-radius: 1rem;
-  box-shadow: 
+  box-shadow:
     6px 6px 12px #d1d1d1,
     -6px -6px 12px #ffffff;
 }
 
 .dark .icon-emboss {
   background: linear-gradient(145deg, #1e293b, #1a2334);
-  box-shadow: 
+  box-shadow:
     6px 6px 12px #151b29,
     -6px -6px 12px #23314d;
 }
@@ -401,4 +401,53 @@
             drop-shadow(0 0 24px rgba(96, 165, 250, 0.4));
     transform: scale(1.05);
   }
+}
+
+/* 3D Flip Card Styles */
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.preserve-3d {
+  transform-style: preserve-3d;
+}
+
+.backface-hidden {
+  backface-visibility: hidden;
+}
+
+.rotate-y-180 {
+  transform: rotateY(180deg);
+}
+
+/* Custom scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Dark mode scrollbar */
+.dark .custom-scrollbar::-webkit-scrollbar-track {
+  background: #1e293b;
+}
+
+.dark .custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #475569;
+}
+
+.dark .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #64748b;
 }
