@@ -483,9 +483,6 @@ type FeatureCardProps = {
 }
 
 function FeatureCard({ feature, index, isFlipped, onFlip }: FeatureCardProps) {
-  const Icon = feature.icon;
-
-  // Get the appropriate animation component based on the feature's animationKey
   const AnimationComponent = FeatureAnimations[feature.animationKey as keyof typeof FeatureAnimations];
 
   return (
@@ -494,20 +491,21 @@ function FeatureCard({ feature, index, isFlipped, onFlip }: FeatureCardProps) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ delay: index * 0.1 }}
-      className="h-full"
+      className="h-full min-h-[600px] md:min-h-[650px]"
     >
-      <div className="h-full perspective-1000">
+      <div className="relative h-full w-full perspective-1000">
         <motion.div
-          className="h-full w-full transition-all duration-500 preserve-3d shadow-sm hover:shadow-md"
+          className="h-full w-full transition-all duration-500 preserve-3d"
           animate={{ rotateY: isFlipped ? 180 : 0 }}
           transition={{ duration: 0.5, ease: "easeInOut" }}
           style={{ transformStyle: "preserve-3d" }}
         >
           {/* Front of card */}
-          <div className="h-full w-full backface-hidden bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 overflow-hidden group"
-               style={{ backfaceVisibility: "hidden" }}
+          <div 
+            className="absolute inset-0 h-full w-full backface-hidden bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 overflow-y-auto group"
+            style={{ backfaceVisibility: "hidden" }}
           >
-            <div className="flex flex-col h-full p-6">
+            <div className="flex flex-col h-full p-4 sm:p-6">
               {/* Title */}
               <h3 className="text-lg font-bold text-slate-900 dark:text-slate-100 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
                 {feature.title}
@@ -546,10 +544,11 @@ function FeatureCard({ feature, index, isFlipped, onFlip }: FeatureCardProps) {
           </div>
 
           {/* Back of card */}
-          <div className="absolute inset-0 h-full w-full backface-hidden bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 overflow-hidden"
-               style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}
+          <div 
+            className="absolute inset-0 h-full w-full backface-hidden bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 overflow-y-auto"
+            style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}
           >
-            <div className="flex flex-col h-full p-6">
+            <div className="flex flex-col h-full p-4 sm:p-6">
               {/* Back Title */}
               <h3 className="text-lg font-bold text-slate-900 dark:text-slate-100 mb-4">
                 {feature.title}
