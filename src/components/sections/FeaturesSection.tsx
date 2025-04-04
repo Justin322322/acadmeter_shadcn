@@ -491,7 +491,7 @@ function FeatureCard({ feature, index, isFlipped, onFlip }: FeatureCardProps) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ delay: index * 0.1 }}
-      className="h-full min-h-[600px] md:min-h-[650px]"
+      className="h-full min-h-[450px] md:min-h-[450px]" // Reduced height from 600px/650px to 480px/520px
     >
       <div className="relative h-full w-full perspective-1000">
         <motion.div
