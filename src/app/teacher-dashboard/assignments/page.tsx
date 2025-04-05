@@ -1,16 +1,16 @@
 "use client"
 
 import { useState } from "react"
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Badge } from "@/components/ui/badge"
 import { ClassRosterSelect } from "@/components/ui/teacher_dashboard"
-import { 
-  PlusIcon, 
-  DocumentTextIcon, 
+import {
+  PlusIcon,
+  DocumentTextIcon,
   ClockIcon,
-  CheckCircleIcon, 
+  CheckCircleIcon,
   CalendarIcon,
   EyeIcon
 } from "@heroicons/react/24/outline"
@@ -82,10 +82,10 @@ export default function AssignmentsPage() {
 
   // Format date for display
   const formatDate = (dateString: string) => {
-    const options: Intl.DateTimeFormatOptions = { 
-      year: 'numeric', 
-      month: 'short', 
-      day: 'numeric' 
+    const options: Intl.DateTimeFormatOptions = {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric'
     }
     return new Date(dateString).toLocaleDateString(undefined, options)
   }
@@ -116,7 +116,7 @@ export default function AssignmentsPage() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
           <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-100">Assignments</h1>
@@ -128,9 +128,9 @@ export default function AssignmentsPage() {
         </Button>
       </div>
 
-      <Card className="border-slate-200 dark:border-slate-800">
+      <Card className="border-slate-200 dark:border-slate-800 shadow-sm">
         <CardContent className="pt-6">
-          <ClassRosterSelect 
+          <ClassRosterSelect
             onClassSelect={setSelectedClass}
             selectedClass={selectedClass}
           />
@@ -139,29 +139,29 @@ export default function AssignmentsPage() {
 
       <Tabs defaultValue="active" className="w-full" onValueChange={(value) => setActiveTab(value)}>
         <TabsList className="flex space-x-2 bg-slate-100 dark:bg-slate-800/80 p-1 rounded-lg w-fit">
-          <TabsTrigger 
+          <TabsTrigger
             value="active"
             className="rounded-md data-[state=active]:bg-white dark:data-[state=active]:bg-slate-700 data-[state=active]:shadow-sm px-4 py-2"
           >
             Active
           </TabsTrigger>
-          <TabsTrigger 
+          <TabsTrigger
             value="completed"
             className="rounded-md data-[state=active]:bg-white dark:data-[state=active]:bg-slate-700 data-[state=active]:shadow-sm px-4 py-2"
           >
             Completed
           </TabsTrigger>
-          <TabsTrigger 
+          <TabsTrigger
             value="draft"
             className="rounded-md data-[state=active]:bg-white dark:data-[state=active]:bg-slate-700 data-[state=active]:shadow-sm px-4 py-2"
           >
             Drafts
           </TabsTrigger>
         </TabsList>
-        
+
         <TabsContent value={activeTab} className="mt-0">
           {filteredAssignments.length === 0 ? (
-            <Card className="border-slate-200 dark:border-slate-800">
+            <Card className="border-slate-200 dark:border-slate-800 shadow-sm">
               <CardContent className="flex flex-col items-center justify-center py-12">
                 <div className="p-3 rounded-full bg-slate-100 dark:bg-slate-800 mb-4">
                   <DocumentTextIcon className="w-8 h-8 text-slate-500" />
@@ -170,7 +170,7 @@ export default function AssignmentsPage() {
                   No {activeTab} assignments
                 </h3>
                 <p className="text-center text-sm text-slate-500 dark:text-slate-400 max-w-md">
-                  {activeTab === "active" 
+                  {activeTab === "active"
                     ? "You don't have any active assignments. Create a new assignment to get started."
                     : activeTab === "completed"
                     ? "You don't have any completed assignments yet."
@@ -185,9 +185,9 @@ export default function AssignmentsPage() {
               </CardContent>
             </Card>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
               {filteredAssignments.map((assignment) => (
-                <Card key={assignment.id} className="border-slate-200 dark:border-slate-800 overflow-hidden">
+                <Card key={assignment.id} className="border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
                   <div className="flex flex-col h-full">
                     <CardHeader className="pb-3">
                       <div className="flex justify-between items-start">
@@ -218,13 +218,13 @@ export default function AssignmentsPage() {
                             </span>
                           </div>
                         </div>
-                        
+
                         {assignment.status === "active" && (
                           <div className="flex items-center justify-between">
                             <div className="flex items-center gap-2">
                               <span className="text-sm text-slate-500 dark:text-slate-400">
-                                {getDaysRemaining(assignment.dueDate) > 0 
-                                  ? `${getDaysRemaining(assignment.dueDate)} day${getDaysRemaining(assignment.dueDate) !== 1 ? 's' : ''} remaining` 
+                                {getDaysRemaining(assignment.dueDate) > 0
+                                  ? `${getDaysRemaining(assignment.dueDate)} day${getDaysRemaining(assignment.dueDate) !== 1 ? 's' : ''} remaining`
                                   : "Due today"}
                               </span>
                             </div>
@@ -236,7 +236,7 @@ export default function AssignmentsPage() {
                             </div>
                           </div>
                         )}
-                        
+
                         {assignment.status === "completed" && (
                           <div className="flex items-center justify-between">
                             <div className="flex items-center gap-2">
@@ -252,7 +252,7 @@ export default function AssignmentsPage() {
                             </div>
                           </div>
                         )}
-                        
+
                         {assignment.status === "draft" && (
                           <div className="flex items-center justify-between">
                             <div className="flex items-center gap-2">

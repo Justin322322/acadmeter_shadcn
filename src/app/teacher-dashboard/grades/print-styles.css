@@ -1,0 +1,52 @@
+/* Print styles for grade export */
+@media print {
+  /* Hide everything except the print template */
+  body * {
+    visibility: hidden;
+  }
+
+  /* Show only the print template */
+  #print-template,
+  #print-template * {
+    visibility: visible !important;
+  }
+
+  /* Position the content at the top of the page */
+  #print-template {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+  }
+
+  /* Remove header and footer from browser print */
+  @page {
+    size: portrait;
+    margin: 0.5in;
+  }
+
+  /* Force single page */
+  html, body {
+    height: 99%;
+    overflow: hidden;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Hide page numbers */
+  #print-template::after {
+    content: "";
+    display: none !important;
+  }
+
+  /* Ensure merged cells display correctly */
+  #print-template table td[colspan="2"] {
+    border-collapse: collapse !important;
+    table-layout: fixed !important;
+  }
+
+  /* Force table layout to respect colspan */
+  #print-template table {
+    table-layout: fixed !important;
+  }
+}
