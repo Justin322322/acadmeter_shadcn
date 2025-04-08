@@ -1,6 +1,26 @@
 @import "tailwindcss";
 @plugin "tailwindcss-animate";
 
+/* Print styles - only applied during actual printing */
+@media print {
+  /* Hide everything except the print content */
+  .print\:hidden {
+    display: none !important;
+  }
+
+  /* Show print-only content */
+  .print\:block {
+    display: block !important;
+  }
+
+  /* Remove background colors and shadows for better printing */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    box-shadow: none !important;
+  }
+}
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
