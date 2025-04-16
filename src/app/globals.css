@@ -1,6 +1,15 @@
 @import "tailwindcss";
 @plugin "tailwindcss-animate";
 
+/* Print mode class to prevent transitions during printing process */
+.print-mode * {
+  transition: none !important;
+  animation: none !important;
+  transform: none !important;
+  font-size: inherit !important;
+  line-height: inherit !important;
+}
+
 /* Print styles - only applied during actual printing */
 @media print {
   /* Hide everything except the print content */

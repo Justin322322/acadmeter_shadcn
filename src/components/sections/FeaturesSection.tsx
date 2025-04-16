@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { motion, AnimatePresence, useAnimation } from "framer-motion"
+import { motion, AnimatePresence } from "framer-motion"
 import { ArrowRightIcon, CheckCircleIcon, AdjustmentsHorizontalIcon, DocumentDuplicateIcon } from "@heroicons/react/24/outline"
 import { TypeAnimation } from "react-type-animation"
 
@@ -297,7 +297,7 @@ const FeatureAnimations = {
                 <motion.div
                   className={`w-1.5 h-1.5 rounded-full mr-1.5 ${
                     file.status === 'complete' ? 'bg-emerald-500 dark:bg-emerald-400' :
-                    file.status === 'processing' ? 'bg-blue-500 dark:bg-blue-400' : 
+                    file.status === 'processing' ? 'bg-blue-500 dark:bg-blue-400' :
                     'bg-slate-300 dark:bg-slate-600'
                   }`}
                   animate={{
@@ -317,7 +317,7 @@ const FeatureAnimations = {
                   ({file.items} items)
                 </span>
                 {file.status === 'complete' && (
-                  <motion.span 
+                  <motion.span
                     initial={{ opacity: 0, x: -10 }}
                     animate={{ opacity: 1, x: 0 }}
                     className="text-red-500 dark:text-red-400 font-medium"
@@ -332,7 +332,7 @@ const FeatureAnimations = {
 
         {/* Total at risk summary */}
         {totalAtRisk > 0 && (
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             className="mt-3 pt-3 border-t border-slate-200 dark:border-slate-700"
@@ -490,18 +490,22 @@ function FeatureCard({ feature, index, isFlipped, onFlip }: FeatureCardProps) {
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      transition={{ delay: index * 0.1 }}
+      transition={{ delay: index * 0.1, duration: 0.5 }}
       className="h-full min-h-[450px] md:min-h-[450px]" // Reduced height from 600px/650px to 480px/520px
     >
-      <div className="relative h-full w-full perspective-1000">
+      <div className="relative h-full w-full" style={{ perspective: "2000px" }}>
         <motion.div
-          className="h-full w-full transition-all duration-500 preserve-3d"
+          className="h-full w-full preserve-3d"
           animate={{ rotateY: isFlipped ? 180 : 0 }}
-          transition={{ duration: 0.5, ease: "easeInOut" }}
+          transition={{
+            duration: 0.8,
+            ease: [0.4, 0.0, 0.2, 1], // Material Design standard easing
+            type: "tween"
+          }}
           style={{ transformStyle: "preserve-3d" }}
         >
           {/* Front of card */}
-          <div 
+          <div
             className="absolute inset-0 h-full w-full backface-hidden bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 overflow-y-auto group"
             style={{ backfaceVisibility: "hidden" }}
           >
@@ -517,8 +521,18 @@ function FeatureCard({ feature, index, isFlipped, onFlip }: FeatureCardProps) {
               </p>
 
               {/* Feature Animation */}
-              <AnimatePresence mode="wait">
-                {!isFlipped && <AnimationComponent />}
+              <AnimatePresence mode="wait" initial={false}>
+                {!isFlipped && (
+                  <motion.div
+                    key="animation"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <AnimationComponent />
+                  </motion.div>
+                )}
               </AnimatePresence>
 
               {/* Bullet Points */}
@@ -533,18 +547,20 @@ function FeatureCard({ feature, index, isFlipped, onFlip }: FeatureCardProps) {
 
               {/* Learn More */}
               <div className="mt-auto pt-2">
-                <button
+                <motion.button
                   onClick={onFlip}
                   className="inline-flex items-center text-sm text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 group-hover:underline transition-all"
+                  whileHover={{ x: 3 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 10 }}
                 >
                   Learn more <ArrowRightIcon className="w-3.5 h-3.5 ml-1 group-hover:translate-x-1 transition-transform" />
-                </button>
+                </motion.button>
               </div>
             </div>
           </div>
 
           {/* Back of card */}
-          <div 
+          <div
             className="absolute inset-0 h-full w-full backface-hidden bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 overflow-y-auto"
             style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}
           >
@@ -555,7 +571,12 @@ function FeatureCard({ feature, index, isFlipped, onFlip }: FeatureCardProps) {
               </h3>
 
               {/* How It Works */}
-              <div className="mb-4">
+              <motion.div
+                className="mb-4"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2, duration: 0.5 }}
+              >
                 <h4 className="text-sm font-semibold text-slate-900 dark:text-slate-100 mb-2 flex items-center">
                   <span className="inline-block w-6 h-0.5 bg-blue-500 dark:bg-blue-400 mr-2"></span>
                   How It Works
@@ -563,46 +584,68 @@ function FeatureCard({ feature, index, isFlipped, onFlip }: FeatureCardProps) {
                 <p className="text-sm text-slate-600 dark:text-slate-300">
                   {feature.description}
                 </p>
-              </div>
+              </motion.div>
 
               {/* Stats */}
               <div className="grid grid-cols-2 gap-3 mb-4">
                 {feature.stats.map((stat, i) => (
-                  <div key={i} className="bg-slate-50 dark:bg-slate-700/50 p-2 rounded-lg">
+                  <motion.div
+                    key={i}
+                    className="bg-slate-50 dark:bg-slate-700/50 p-2 rounded-lg"
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ delay: 0.4 + (i * 0.1), duration: 0.5 }}
+                  >
                     <div className="text-base font-bold text-slate-900 dark:text-slate-100">
                       {stat.value}
                     </div>
                     <div className="text-xs text-slate-600 dark:text-slate-300">
                       {stat.label}
                     </div>
-                  </div>
+                  </motion.div>
                 ))}
               </div>
 
               {/* Key Benefits */}
-              <div className="mb-4">
+              <motion.div
+                className="mb-4"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.6, duration: 0.5 }}
+              >
                 <h4 className="text-sm font-semibold text-slate-900 dark:text-slate-100 mb-2 flex items-center">
                   <span className="inline-block w-6 h-0.5 bg-blue-500 dark:bg-blue-400 mr-2"></span>
                   Key Benefits
                 </h4>
                 <div className="space-y-2">
                   {feature.bulletPoints.map((point, i) => (
-                    <div key={i} className="flex items-start">
+                    <motion.div
+                      key={i}
+                      className="flex items-start"
+                      initial={{ opacity: 0, x: -10 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 0.7 + (i * 0.1), duration: 0.4 }}
+                    >
                       <CheckCircleIcon className="w-4 h-4 text-blue-500 dark:text-blue-400 mr-1.5 flex-shrink-0 mt-0.5" />
                       <span className="text-sm text-slate-600 dark:text-slate-300">{point}</span>
-                    </div>
+                    </motion.div>
                   ))}
                 </div>
-              </div>
+              </motion.div>
 
               {/* Back button */}
               <div className="mt-auto pt-2">
-                <button
+                <motion.button
                   onClick={onFlip}
                   className="inline-flex items-center text-sm text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 hover:underline transition-all"
+                  whileHover={{ x: -3 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 10 }}
                 >
+                  <svg xmlns="http://www.w3.org/2000/svg" className="w-3.5 h-3.5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                  </svg>
                   Back to overview
-                </button>
+                </motion.button>
               </div>
             </div>
           </div>

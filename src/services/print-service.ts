@@ -16,11 +16,13 @@ export function printContent(content: string, styles: string, title: string = 'P
   // Create a hidden iframe
   const iframe = document.createElement('iframe');
   iframe.style.position = 'fixed';
-  iframe.style.right = '0';
-  iframe.style.bottom = '0';
+  iframe.style.right = '-9999px';
+  iframe.style.bottom = '-9999px';
   iframe.style.width = '0';
   iframe.style.height = '0';
   iframe.style.border = 'none';
+  iframe.style.opacity = '0';
+  iframe.style.pointerEvents = 'none';
 
   // Add the iframe to the page
   document.body.appendChild(iframe);
@@ -50,11 +52,16 @@ export function printContent(content: string, styles: string, title: string = 'P
             -webkit-print-color-adjust: exact !important;
             print-color-adjust: exact !important;
             color-adjust: exact !important;
+            font-size: 12px !important;
+            line-height: 1.3 !important;
+            transition: none !important;
           }
           * {
             transform: none !important;
             -webkit-transform: none !important;
             -ms-transform: none !important;
+            transition: none !important;
+            animation: none !important;
           }
         </style>
       </head>
@@ -64,10 +71,14 @@ export function printContent(content: string, styles: string, title: string = 'P
           window.onbeforeprint = function() {
             document.body.style.width = '210mm';
             document.body.style.height = '297mm';
+            document.body.style.fontSize = '12px';
+            document.body.style.lineHeight = '1.3';
           };
           window.onafterprint = function() {
             document.body.style.width = '210mm';
             document.body.style.height = '297mm';
+            document.body.style.fontSize = '12px';
+            document.body.style.lineHeight = '1.3';
           };
         </script>
       </body>
@@ -96,8 +107,12 @@ export function printContent(content: string, styles: string, title: string = 'P
           const doc = iframe.contentWindow.document;
           doc.documentElement.style.width = '210mm';
           doc.documentElement.style.height = '297mm';
+          doc.documentElement.style.fontSize = '12px';
+          doc.documentElement.style.lineHeight = '1.3';
           doc.body.style.width = '210mm';
           doc.body.style.height = '297mm';
+          doc.body.style.fontSize = '12px';
+          doc.body.style.lineHeight = '1.3';
 
           // Focus and print
           iframe.contentWindow.focus();

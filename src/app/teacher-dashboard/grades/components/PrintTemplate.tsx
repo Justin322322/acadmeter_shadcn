@@ -31,7 +31,7 @@ export function PrintTemplate({ studentInfo, grades, generalAverage, hideButton 
   return (
     <>
       {/* Hidden div containing the print content */}
-      <div ref={printContentRef} style={{ display: 'none' }}>
+      <div ref={printContentRef} style={{ display: 'none', position: 'absolute', left: '-9999px', top: '-9999px' }}>
         <style type="text/css">
           {`
           body {
@@ -194,6 +194,13 @@ export function PrintTemplate({ studentInfo, grades, generalAverage, hideButton 
               -webkit-print-color-adjust: exact !important;
               print-color-adjust: exact !important;
               color-adjust: exact !important;
+              font-size: 12px !important;
+              line-height: 1.3 !important;
+              transition: none !important;
+            }
+            * {
+              transition: none !important;
+              animation: none !important;
             }
             .report-card {
               width: 210mm;

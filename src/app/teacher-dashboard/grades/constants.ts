@@ -14,21 +14,21 @@ export const GRADE_DESCRIPTORS = {
 
 // Default student information
 export const DEFAULT_STUDENT_INFO = {
-  name: "Maria Santos",
-  section: "Grade 8 - Section A",
-  schoolYear: "2024-2025"
+  name: "",
+  section: "",
+  schoolYear: ""
 };
 
-// Default grades data
+// Default grades data - empty for manual input
 export const DEFAULT_GRADES = [
-  { subject: "Filipino", q1: 80, q2: 89, q3: 86, q4: 84, final: 85 },
-  { subject: "English", q1: 89, q2: 90, q3: 92, q4: 87, final: 90 },
-  { subject: "Mathematics", q1: 82, q2: 85, q3: 83, q4: 83, final: 83 },
-  { subject: "Science", q1: 86, q2: 87, q3: 85, q4: 84, final: 86 },
-  { subject: "Araling Panlipunan", q1: 90, q2: 92, q3: 91, q4: 89, final: 91 },
-  { subject: "Edukasyon sa Pagpapakatao", q1: 89, q2: 93, q3: 90, q4: 88, final: 90 },
-  { subject: "Edukasyong Pantahanan at Pangkabuhayan", q1: 80, q2: 81, q3: 84, q4: 79, final: 81 },
-  { subject: "MAPEH", q1: 85, q2: 86, q3: 85, q4: 84, final: 85 }
+  { subject: "", q1: 0, q2: 0, q3: 0, q4: 0, final: 0 },
+  { subject: "", q1: 0, q2: 0, q3: 0, q4: 0, final: 0 },
+  { subject: "", q1: 0, q2: 0, q3: 0, q4: 0, final: 0 },
+  { subject: "", q1: 0, q2: 0, q3: 0, q4: 0, final: 0 },
+  { subject: "", q1: 0, q2: 0, q3: 0, q4: 0, final: 0 },
+  { subject: "", q1: 0, q2: 0, q3: 0, q4: 0, final: 0 },
+  { subject: "", q1: 0, q2: 0, q3: 0, q4: 0, final: 0 },
+  { subject: "", q1: 0, q2: 0, q3: 0, q4: 0, final: 0 }
 ];
 
 // Status color classes
