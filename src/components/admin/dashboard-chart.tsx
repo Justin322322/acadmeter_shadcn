@@ -52,16 +52,18 @@ const pieData = [
   { name: 'Group D', value: 200 }
 ]
 
-const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884d8']
+const COLORS = ['#6366f1', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6']
 
 interface DashboardChartProps {
   type?: 'line' | 'bar' | 'pie'
+  chartType?: 'line' | 'bar' | 'pie'
   dataType?: 'revenue' | 'users' | 'contentViews' | 'userRoles' | 'revenueSources' | 'contentTypes'
   dateRange?: '7d' | '30d' | '90d' | '12m'
 }
 
 export function DashboardChart({ 
   type = 'line',
+  chartType = 'line',
   dataType = 'revenue',
   dateRange = '30d'
 }: DashboardChartProps) {
@@ -69,6 +71,9 @@ export function DashboardChart({
   const isDark = theme === "dark"
   const [selectedDataset, setSelectedDataset] = useState<string>("all")
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
+
+  // Use the chartType prop if provided, otherwise use type
+  const actualChartType = chartType || type
 
   // Get data based on dataType
   const getData = () => {
@@ -117,10 +122,10 @@ export function DashboardChart({
 
   // Render appropriate chart type
   const renderChart = () => {
-    switch (type) {
+    switch (actualChartType) {
       case 'line':
         return (
-          <ResponsiveContainer width="100%\" height={300}>
+          <ResponsiveContainer width="100%" height={300}>
             <LineChart
               data={data}
               margin={{ top: 20, right: 30, left: 20, bottom: 10 }}
@@ -160,10 +165,10 @@ export function DashboardChart({
               <Line
                 type="monotone"
                 dataKey="value"
-                stroke={isDark ? '#818cf8' : '#4f46e5'}
+                stroke={isDark ? '#818cf8' : '#6366f1'}
                 strokeWidth={2}
                 dot={{ 
-                  fill: isDark ? '#818cf8' : '#4f46e5', 
+                  fill: isDark ? '#818cf8' : '#6366f1', 
                   r: 4,
                   strokeWidth: 2,
                   stroke: isDark ? '#1e293b' : '#ffffff'
@@ -218,7 +223,7 @@ export function DashboardChart({
               />
               <Bar
                 dataKey="value"
-                fill={isDark ? '#818cf8' : '#4f46e5'}
+                fill={isDark ? '#818cf8' : '#6366f1'}
                 radius={[4, 4, 0, 0]}
               />
             </BarChart>

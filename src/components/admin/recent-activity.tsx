@@ -160,6 +160,7 @@ export function RecentActivity() {
               size="sm"
               variant={filter === type ? 'default' : 'outline'}
               onClick={() => setFilter(type as Activity['type'] | 'all')}
+              className={filter === type ? '' : 'border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800'}
             >
               {type === 'all' ? 'All' : type.charAt(0).toUpperCase() + type.slice(1)}
             </Button>
@@ -171,7 +172,7 @@ export function RecentActivity() {
       <div className="md:hidden space-y-2">
         <Button
           variant="outline"
-          className="w-full justify-between"
+          className="w-full justify-between border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800"
           onClick={() => setMobileFiltersOpen(!mobileFiltersOpen)}
         >
           <span>Filter by: {filter === 'all' ? 'All' : filter.charAt(0).toUpperCase() + filter.slice(1)}</span>
@@ -179,13 +180,13 @@ export function RecentActivity() {
         </Button>
         
         {mobileFiltersOpen && (
-          <div className="space-y-1 p-2 border rounded-lg bg-slate-50 dark:bg-slate-800/50">
+          <div className="space-y-1 p-2 border rounded-lg bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 shadow-sm">
             {['all', 'user', 'content', 'system', 'security'].map((type) => (
               <Button
                 key={type}
                 size="sm"
                 variant={filter === type ? 'default' : 'outline'}
-                className="w-full justify-start"
+                className={`w-full justify-start ${filter === type ? '' : 'border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800'}`}
                 onClick={() => {
                   setFilter(type as Activity['type'] | 'all')
                   setMobileFiltersOpen(false)
@@ -206,7 +207,7 @@ export function RecentActivity() {
           return (
             <div
               key={activity.id}
-              className="flex items-start gap-3 p-3 sm:p-4 rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700"
+              className="flex items-start gap-3 p-3 sm:p-4 rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-md transition-shadow"
             >
               <div className="p-2 rounded-lg bg-slate-100 dark:bg-slate-700">
                 <Icon className="w-5 h-5 text-slate-600 dark:text-slate-400" />

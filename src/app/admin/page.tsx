@@ -120,7 +120,7 @@ export default function AdminDashboardPage() {
         </div>
         <div className="flex items-center gap-2">
           <select
-            className="w-full sm:w-auto bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5"
+            className="w-full sm:w-auto bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5"
             value={selectedTimeframe}
             onChange={(e) => setSelectedTimeframe(e.target.value)}
             aria-label="Select timeframe"
@@ -140,7 +140,7 @@ export default function AdminDashboardPage() {
       {/* Quick Stats */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {quickStats.map((stat, index) => (
-          <Card key={index} className="border-slate-200 dark:border-slate-800">
+          <Card key={index} className="border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-md transition-shadow">
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div className={`p-3 rounded-lg ${stat.background}`}>
@@ -169,7 +169,7 @@ export default function AdminDashboardPage() {
 
       {/* Performance Charts */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <Card className="border-slate-200 dark:border-slate-800">
+        <Card className="border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-md transition-shadow">
           <CardHeader>
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
               <div className="flex items-center gap-2">
@@ -191,7 +191,7 @@ export default function AdminDashboardPage() {
           </CardContent>
         </Card>
 
-        <Card className="border-slate-200 dark:border-slate-800">
+        <Card className="border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-md transition-shadow">
           <CardHeader>
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
               <div className="flex items-center gap-2">
@@ -216,7 +216,7 @@ export default function AdminDashboardPage() {
 
       {/* Recent Activity and Notifications */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <Card className="lg:col-span-2 border-slate-200 dark:border-slate-800">
+        <Card className="lg:col-span-2 border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-md transition-shadow">
           <CardHeader>
             <div className="flex items-center gap-2">
               <div className="p-2 rounded-lg bg-blue-50 dark:bg-blue-950/50">
@@ -234,7 +234,7 @@ export default function AdminDashboardPage() {
         </Card>
 
         <div className="lg:col-span-1">
-          <Card className="border-slate-200 dark:border-slate-800">
+          <Card className="border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-md transition-shadow">
             <CardHeader>
               <div className="flex items-center gap-2">
                 <div className="p-2 rounded-lg bg-amber-50 dark:bg-amber-950/50">
@@ -251,7 +251,7 @@ export default function AdminDashboardPage() {
       </div>
 
       {/* Quick Access Features */}
-      <Card className="border-slate-200 dark:border-slate-800">
+      <Card className="border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-md transition-shadow">
         <CardHeader>
           <CardTitle>Quick Access</CardTitle>
           <CardDescription>Access and manage key system features</CardDescription>
@@ -262,7 +262,7 @@ export default function AdminDashboardPage() {
               <a
                 key={index}
                 href={feature.href}
-                className="flex items-start p-4 rounded-lg border border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors"
+                className="flex items-start p-4 rounded-lg border border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors shadow-sm hover:shadow-md"
                 aria-label={`Access ${feature.title}`}
               >
                 <div className={`p-2 mr-3 rounded-lg ${feature.background}`}>

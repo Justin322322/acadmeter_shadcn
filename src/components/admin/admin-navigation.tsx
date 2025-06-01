@@ -74,7 +74,7 @@ export function AdminNavigation({ onToggleSidebar }: AdminNavigationProps) {
               <Button
                 variant="ghost"
                 size="icon"
-                className="relative text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
+                className="relative text-slate-700 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800/50 rounded-full"
                 onClick={() => setIsNotificationsOpen(!isNotificationsOpen)}
                 aria-label="Notifications"
               >
@@ -92,7 +92,7 @@ export function AdminNavigation({ onToggleSidebar }: AdminNavigationProps) {
             <div className="relative" ref={profileRef}>
               <Button 
                 variant="ghost" 
-                className="relative h-9 px-2 flex items-center gap-2 text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800/50 rounded-full transition-colors"
+                className="relative h-9 px-2 flex items-center gap-2 text-slate-700 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800/50 rounded-full transition-colors"
                 onClick={() => setIsProfileOpen(!isProfileOpen)}
                 aria-label="Open user menu"
               >
