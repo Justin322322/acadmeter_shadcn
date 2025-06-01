@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
+import Link from "next/link"
 
 export function CTASection() {
   return (
@@ -32,19 +33,42 @@ export function CTASection() {
             Join thousands of educators who are already revolutionizing their academic processes with AcadMeter.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6">
-            <Button
-              size="lg"
-              className="bg-white text-blue-600 hover:bg-blue-50 px-8 py-3 rounded-lg min-w-0 transition-all duration-300 hover:shadow-lg hover:shadow-white/20 font-semibold"
-            >
-              Get Started Now
-            </Button>
-            <Button
-              size="lg"
-              variant="outline"
-              className="bg-transparent border-2 border-white/70 text-white hover:bg-white/10 hover:border-white hover:text-white px-8 py-3 rounded-lg min-w-0 transition-all duration-300 backdrop-blur-sm font-medium"
-            >
-              Contact Sales
-            </Button>
+            <Link href="/signup">
+              <Button
+                size="lg"
+                className="bg-white text-blue-600 hover:bg-blue-50 px-8 py-3 rounded-lg min-w-0 transition-all duration-300 hover:shadow-lg hover:shadow-white/20 font-semibold"
+              >
+                Get Started Now
+              </Button>
+            </Link>
+            <Link href="/contact">
+              <Button
+                size="lg"
+                variant="outline"
+                className="bg-transparent border-2 border-white/70 text-white hover:bg-white/10 hover:border-white hover:text-white px-8 py-3 rounded-lg min-w-0 transition-all duration-300 backdrop-blur-sm font-medium"
+              >
+                Contact Sales
+              </Button>
+            </Link>
+          </div>
+
+          {/* Additional CTA Links */}
+          <div className="mt-12 flex flex-wrap justify-center gap-4 text-sm">
+            <Link href="/demo" className="text-blue-100 hover:text-white transition-colors">
+              Schedule a Demo
+            </Link>
+            <span className="text-blue-300/50">•</span>
+            <Link href="/webinar" className="text-blue-100 hover:text-white transition-colors">
+              Join Our Webinar
+            </Link>
+            <span className="text-blue-300/50">•</span>
+            <Link href="/case-studies" className="text-blue-100 hover:text-white transition-colors">
+              View Case Studies
+            </Link>
+            <span className="text-blue-300/50">•</span>
+            <Link href="/faq" className="text-blue-100 hover:text-white transition-colors">
+              FAQ
+            </Link>
           </div>
         </motion.div>
       </div>
