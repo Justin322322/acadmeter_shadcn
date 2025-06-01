@@ -1,7 +1,0 @@
-export { AdminNavigation } from "./admin-navigation"
-export { Sidebar } from "./sidebar"
-export { PerformanceBreakdown } from "./performance-breakdown"
-export { PerformanceAnalysis } from "./performance-analysis"
-export { DashboardChart } from "./dashboard-chart"
-export { ClassPerformanceChart } from "./class-performance-chart"
-export { AdminNotificationCenter } from "./admin-notification-center"
