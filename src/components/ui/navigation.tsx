@@ -119,7 +119,7 @@ export function Navigation() {
               size="icon"
               onClick={toggleMenu}
               aria-label="Toggle menu"
-              className="p-1.5"
+              className="p-1.5 text-slate-700 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800/50 rounded-md"
             >
               {isMenuOpen ? (
                 <XMarkIcon className="h-5 w-5" />
