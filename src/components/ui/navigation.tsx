@@ -66,37 +66,13 @@ export function Navigation() {
               >
                 Testimonials
               </button>
-              <Link 
-                href="/pricing"
-                className="text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white transition-colors px-2.5 lg:px-3 py-1.5 rounded-full text-sm font-medium hover:bg-slate-50 dark:hover:bg-slate-800/50"
-              >
-                Pricing
-              </Link>
-              <Link 
-                href="/about"
-                className="text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white transition-colors px-2.5 lg:px-3 py-1.5 rounded-full text-sm font-medium hover:bg-slate-50 dark:hover:bg-slate-800/50"
-              >
-                About Us
-              </Link>
-              <Link 
-                href="/blog"
-                className="text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white transition-colors px-2.5 lg:px-3 py-1.5 rounded-full text-sm font-medium hover:bg-slate-50 dark:hover:bg-slate-800/50"
-              >
-                Blog
-              </Link>
-              <Link 
-                href="/contact"
-                className="text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white transition-colors px-2.5 lg:px-3 py-1.5 rounded-full text-sm font-medium hover:bg-slate-50 dark:hover:bg-slate-800/50"
-              >
-                Contact
-              </Link>
             </div>
             <div className="flex items-center gap-3 pl-3 lg:pl-5 border-l border-slate-200 dark:border-slate-700">
               <ThemeToggle />
               <Button 
                 variant="outline" 
                 size="sm" 
-                className="px-3 lg:px-4 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800" 
+                className="px-3 lg:px-4 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800"
                 onClick={handleOpenLogin}
               >
                 Sign In
@@ -157,30 +133,6 @@ export function Navigation() {
             >
               Testimonials
             </button>
-            <Link 
-              href="/pricing"
-              className="block px-4 py-2.5 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/50 rounded-lg text-sm font-medium"
-            >
-              Pricing
-            </Link>
-            <Link 
-              href="/about"
-              className="block px-4 py-2.5 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/50 rounded-lg text-sm font-medium"
-            >
-              About Us
-            </Link>
-            <Link 
-              href="/blog"
-              className="block px-4 py-2.5 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/50 rounded-lg text-sm font-medium"
-            >
-              Blog
-            </Link>
-            <Link 
-              href="/contact"
-              className="block px-4 py-2.5 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/50 rounded-lg text-sm font-medium"
-            >
-              Contact
-            </Link>
             <div className="flex flex-col gap-2 pt-2 mt-2 border-t border-slate-200 dark:border-slate-700">
               <Button 
                 variant="outline" 
