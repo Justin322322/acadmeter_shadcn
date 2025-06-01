@@ -69,7 +69,14 @@ export function Navigation() {
             </div>
             <div className="flex items-center gap-3 pl-3 lg:pl-5 border-l border-slate-200 dark:border-slate-700">
               <ThemeToggle />
-              <Button variant="outline" size="sm" className="px-3 lg:px-4" onClick={handleOpenLogin}>Sign In</Button>
+              <Button 
+                variant="outline" 
+                size="sm" 
+                className="px-3 lg:px-4 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800" 
+                onClick={handleOpenLogin}
+              >
+                Sign In
+              </Button>
               <Button 
                 size="sm" 
                 className="px-3 lg:px-4 bg-gradient-to-r from-blue-600 to-violet-600 hover:from-blue-700 hover:to-violet-700 dark:from-blue-500 dark:to-violet-500 text-white"
@@ -127,7 +134,12 @@ export function Navigation() {
               Testimonials
             </button>
             <div className="flex flex-col gap-2 pt-2 mt-2 border-t border-slate-200 dark:border-slate-700">
-              <Button variant="outline" size="sm" onClick={handleOpenLogin} className="w-full justify-center py-2.5">
+              <Button 
+                variant="outline" 
+                size="sm" 
+                onClick={handleOpenLogin} 
+                className="w-full justify-center py-2.5 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800"
+              >
                 Sign In
               </Button>
               <Button 
